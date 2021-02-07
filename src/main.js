@@ -4,8 +4,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { firestorePlugin } from 'vuefire'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
 import App from './App'
 import router from './router'
 
@@ -24,10 +22,7 @@ new Vue({
   template: '<App/>'
 })
 
-firebase.initializeApp({
-  projectId: 'YOUR_PROJECT_ID',
-  databaseURL: 'YOUR_DB_URL'
-})
+
 
 router.beforeEach((to, from, next) => {
 
@@ -40,7 +35,7 @@ router.beforeEach((to, from, next) => {
         next();
 
       } else {
-        next({ path: '/login', });
+        next({ path: '/login' });
       }
     });
   }else{
@@ -50,5 +45,3 @@ router.beforeEach((to, from, next) => {
   }
 
 })
-
-export const db = firebase.firestore()

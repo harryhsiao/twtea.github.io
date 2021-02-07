@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-fixed-top fixed-top navbar-light bg-white p-5">      
+    <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-white p-5">      
       <button
         class="navbar-toggler"
         type="button"
@@ -17,7 +17,7 @@
           <a class="nav-item nav-link" href="#/">品牌介紹</a>
           <a class="nav-item nav-link" href="#">嚴選好茶</a>
           <a class="nav-item nav-link" href="#">門市據點</a>
-          <a class="nav-item nav-link" href="#/dashboard" v-show="memberin == 'yes'">客戶中心</a>
+          <a class="nav-item nav-link" href="#/admin/products" v-show="memberin == 'yes'">客戶中心</a>
           <a class="nav-item nav-link" href="#/login" v-show="memberin == 'no'">登入</a>
           <a class="nav-item nav-link" href="#" @click.prevent="logout()" v-show="memberin == 'yes'"
             >登出</a
@@ -32,20 +32,20 @@
 export default {
   data() {
     return {
-      memberin: '',
+      memberin: 'no',
     };
   },
   created() {
-    let hash = '';
-    let api = `${process.env.APIPATH}/api/user/check`;       
-    this.$http.post(api).then((response) => {
+    let api = `${process.env.APIPATH}/api/user/check`;
+    let vm = this;     
+    vm.$http.get(api).then((response) => {
       console.log(response.data);
       if (response.data.success) {
 
-        this.memberin = 'yes';
+        vm.memberin = 'yes';
 
       } else {
-        this.memberin = 'no';
+        vm.memberin = 'no';
       }
     });
   },

@@ -1,9 +1,9 @@
 @import '~bootstrap/scss/functions';
 @import './helper/_variables';
-@import './helper/_dashboard';
+@import './_dashboard';
 @import './helper/_login';
 @import '~bootstrap/scss/bootstrap';
 
-.mt-20 {
-    margin-top: 20rem;
+.mt-5 {
+    margin-top: 5rem;
 }

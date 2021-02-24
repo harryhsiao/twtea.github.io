@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <navbar/>
+    <navbar />
     <div class="text-center mt-5">
       <form class="form-signin" @submit.prevent="login">
         <h1 class="h3 mb-3 font-weight-normal">登入</h1>
@@ -24,9 +24,7 @@
           required
         />
         <div class="checkbox mb-3 text-right">
-          <label>
-            <input type="checkbox" value="remember-me" /> 記住我
-          </label>
+          <label> <input type="checkbox" value="remember-me" /> 記住我 </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">
           登入
@@ -38,39 +36,39 @@
 </template>
 
 <script>
-import navbar from '../navbar'
+import navbar from "../navbar";
 
 export default {
-  name: 'login',
+  name: "login",
   data() {
     return {
       user: {
-
-      username: "",
-      password: "",
-
-    },
-    }
+        username: "",
+        password: "",
+      },
+    };
   },
   methods: {
-    login(){
+    login() {
       let api = `${process.env.APIPATH}/admin/signin`;
       const vm = this;
       vm.$http.post(api, vm.user).then((response) => {
         console.log(response.data);
-        if(response.data.success){
-          vm.$router.push('/dashboard/products');
+        if (response.data.success) {
+          const token = response.data.token;
+          const expired = response.data.expired;
+          console.log(token, expired);
+          document.cookie = `custToken=${token};expires=${new Date(expired)};`;
+          vm.$router.push("/dashboard/products");
         }
-        });
-        }
-  },
-  
-  components: {
-    navbar
-    
+      });
     },
-  
-}
+  },
+
+  components: {
+    navbar,
+  },
+};
 </script>
 
 <style scoped>

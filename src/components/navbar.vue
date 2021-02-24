@@ -14,10 +14,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link" href="#/">品牌介紹</a>
+          <a class="nav-item nav-link" href="#/homepage">品牌介紹</a>
           <a class="nav-item nav-link" href="#">嚴選好茶</a>
           <a class="nav-item nav-link" href="#">門市據點</a>
-          <a class="nav-item nav-link" href="#/admin/products" v-show="memberin == 'yes'">客戶中心</a>
+          <a class="nav-item nav-link" href="#/dashboard/products" v-show="memberin == 'yes'">客戶中心</a>
           <a class="nav-item nav-link" href="#/login" v-show="memberin == 'no'">登入</a>
           <a class="nav-item nav-link" href="#" @click.prevent="logout()" v-show="memberin == 'yes'"
             >登出</a
@@ -37,8 +37,8 @@ export default {
   },
   created() {
     let api = `${process.env.APIPATH}/api/user/check`;
-    let vm = this;     
-    vm.$http.get(api).then((response) => {
+    let vm = this; 
+    vm.$http.post(api).then((response) => {
       console.log(response.data);
       if (response.data.success) {
 
@@ -58,7 +58,7 @@ export default {
       this.$http.post(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
-          vm.$router.push("/");
+          vm.$router.push("/homepage");
         }
       });
     },

@@ -3,12 +3,23 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
+import 'bootstrap'
+//import { library } from '@fortawesome/fontawesome-svg-core'
+//import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import { firestorePlugin } from 'vuefire'
 import App from './App'
 import router from './router'
+import './bus'
 
-
+Vue.component('Loading', Loading)
+//Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(firestorePlugin)
+//library.add(faUserSecret)
+
 
 axios.defaults.withCredentials = true;
 Vue.config.productionTip = false;
@@ -28,7 +39,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth) {
     let api = `${process.env.APIPATH}/api/user/check`;
-    axios.get(api).then((response) => {
+    axios.post(api).then((response) => {
       console.log(response.data);
       if (response.data.success) {
 
@@ -38,10 +49,10 @@ router.beforeEach((to, from, next) => {
         next({ path: '/login' });
       }
     });
-  }else{
+  } else {
 
     next();
-    
+
   }
 
 })

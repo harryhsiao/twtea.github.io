@@ -14,6 +14,7 @@ import { firestorePlugin } from 'vuefire'
 import App from './App'
 import router from './router'
 import './bus'
+import currencyFilter from './filters/currency'
 
 Vue.component('Loading', Loading)
 //Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -24,6 +25,7 @@ Vue.use(firestorePlugin)
 axios.defaults.withCredentials = true;
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+Vue.filter('currency', currencyFilter);
 
 /* eslint-disable no-new */
 new Vue({

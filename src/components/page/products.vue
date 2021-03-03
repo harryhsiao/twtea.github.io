@@ -10,12 +10,47 @@
     <table class="table mb-4 text-center">
       <thead>
         <tr>
-          <th width="80">流水號</th>
+          <th width="80" class="click" @click="(isReverse = !isReverse), (rankwith = 'num')">
+            編號
+             <span
+              class="icon"
+              :class="{ inverse: isReverse }"
+              v-if="rankwith === 'num'"
+            >
+              <i class="fas fa-angle-up text-success"></i>
+            </span>
+          </th>
           <th width="120">上架狀態</th>
           <th width="80">預覽圖</th>
           <th width="360">產品名稱</th>
-          <th width="80">原價</th>
-          <th width="80">售價</th>
+          <th
+            class="click"
+            width="80"
+            @click="(isReverse = !isReverse), (rankwith = 'origin_price')"
+          >
+            原價
+            <span
+              class="icon"
+              :class="{ inverse: isReverse }"
+              v-if="rankwith === 'origin_price'"
+            >
+              <i class="fas fa-angle-up text-success"></i>
+            </span>
+          </th>
+          <th
+            class="click"
+            width="80"
+            @click="(isReverse = !isReverse), (rankwith = 'price')"
+          >
+            售價
+            <span
+              class="icon"
+              :class="{ inverse: isReverse }"
+              v-if="rankwith === 'price'"
+            >
+              <i class="fas fa-angle-up text-success"></i>
+            </span>
+          </th>
           <th width="80">單位</th>
           <th width="80"></th>
         </tr>
@@ -25,15 +60,19 @@
         <tr v-for="item in products" :key="item.id">
           <td>{{ item.num }}</td>
           <td>
-            <span v-if="item.is_enabled === 1 " class="text-success">啟用</span
+            <span v-if="item.is_enabled === 1" class="text-success">啟用</span
             ><span v-else class="text-black-50">尚未啟用</span>
           </td>
           <td>
-            <img v-bind:src="item.imageUrl" alt="產品圖" class="img-fluid w-50" />
+            <img
+              v-bind:src="item.imageUrl"
+              alt="產品圖"
+              class="img-fluid w-50"
+            />
           </td>
           <td>{{ item.title }}</td>
-          <td class="text-right">{{ item.origin_price}}</td>
-          <td>{{ item.price}}</td>
+          <td class="text-right">{{ item.origin_price | currency }}</td>
+          <td>{{ item.price | currency }}</td>
           <td>{{ item.unit }}</td>
           <td>
             <span
@@ -76,9 +115,6 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content border-0">
           <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title" id="exampleModalLabel">
-              <span>新增產品</span>
-            </h5>
             <button
               type="button"
               class="close"
@@ -170,6 +206,7 @@
                       placeholder="請輸入原價"
                     />
                   </div>
+
                   <div class="form-group col-md-6">
                     <label for="price">售價</label>
                     <input
@@ -181,6 +218,7 @@
                     />
                   </div>
                 </div>
+
                 <hr />
 
                 <div class="form-group">
@@ -193,6 +231,7 @@
                     placeholder="請輸入產品描述"
                   ></textarea>
                 </div>
+
                 <div class="form-group">
                   <label for="content">說明內容</label>
                   <textarea
@@ -203,6 +242,7 @@
                     placeholder="請輸入產品說明內容"
                   ></textarea>
                 </div>
+
                 <div class="form-group">
                   <div class="form-check">
                     <input
@@ -288,32 +328,63 @@
         </div>
       </div>
     </div>
+    <pages :pgnum="pagination" @getpgnum="getproducts" />
   </div>
 </template>
 
+<style scoped>
+.table th.click {
+  cursor: pointer;
+}
+
+.table th.click {
+  cursor: pointer;
+}
+
+.icon {
+  display: inline-block;
+}
+.icon.inverse {
+  transform: rotate(180deg)
+}
+</style>
+
+
 <script>
 import $ from "jquery";
-//import pagination from '../pagination';
+import pages from "../pagination";
 
 export default {
   data() {
     return {
       products: [],
       tempProduct: {},
-      //pagination: {},
+      pagination: {},
       newdatas: false,
       isLoading: false,
+      isReverse: false,      
       status: { uploading: false },
+      rankwith: '',
     };
   },
-  
+  components: {
+    pages,
+  },
   created() {
     this.getproducts();
-    
   },
-  // components: {
-  //       pagination,
-  //   },
+  computed: {
+    rankmethod() {
+      const vm = this;
+      return vm.products.sort((a, b) => {
+        if (vm.isReverse == true) {
+          return a[vm.rankwith] - b[vm.rankwith];
+        } else {
+          return b[vm.rankwith] - a[vm.rankwith];
+        }
+      });      
+    },
+  },
   methods: {
     getproducts(page = 1) {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products?page=${page}`;
@@ -324,7 +395,7 @@ export default {
         console.log(response.data);
         vm.isLoading = false;
         vm.products = response.data.products;
-        //vm.pagination = response.data.pagination;
+        vm.pagination = response.data.pagination;
       });
     },
     uploadfile() {
@@ -403,8 +474,7 @@ export default {
           console.log("刪除失敗");
         }
       });
-    },
+    },   
   },
-
 };
 </script>

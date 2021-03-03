@@ -15,13 +15,13 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item border">            
-            <router-link class="nav-link h4" to="{ name:product }"><i class="fas fa-box-open fa-fw"></i>&nbsp;&nbsp;產品列表</router-link>
+            <router-link class="nav-link h4" to="/dashboard/products"><i class="fas fa-box-open fa-fw"></i>&nbsp;&nbsp;產品列表</router-link>
           </li>
           <li class="nav-item border">            
-            <router-link class="nav-link h4" to="{ name:orders }"><i class="fas fa-clipboard-list fa-fw"></i>&nbsp;&nbsp;訂單列表</router-link>
+            <router-link class="nav-link h4" to="/dashboard/orders"><i class="fas fa-clipboard-list fa-fw"></i>&nbsp;&nbsp;訂單列表</router-link>
           </li>
           <li class="nav-item border">
-            <router-link class="nav-link h4" to="{ name:'coupon }"><i class="fas fa-ticket-alt fa-fw"></i>&nbsp;&nbsp;優惠券</router-link>
+            <router-link class="nav-link h4" to="/dashboard/coupon"><i class="fas fa-ticket-alt fa-fw"></i>&nbsp;&nbsp;優惠券</router-link>
           </li>
         </ul>        
       </div>

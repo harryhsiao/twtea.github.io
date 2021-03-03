@@ -2,16 +2,16 @@
   <div class="">
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item" :class="{'disabled': !pagination.has_pre}">
-          <a class="page-link" href="#" aria-label="Previous" @click.prevent="getproducts(pagination.current_page - 1)">
+        <li class="page-item" :class="{'disabled': !pgnum.has_pre}">
+          <a class="page-link" href="#" aria-label="Previous" @click.prevent="getpgnums('pre')">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li class="page-item" v-for="page in pagination.total_pages" :key="page" :class="{'active':pagination.current_page === page}">
-          <a class="page-link" href="#" @click.prevent="getproducts(page)">{{ page }}</a>
+        <li class="page-item" v-for="page in pgnum.total_pages" :key="page" :class="{'active':pgnum.current_page === page}">
+          <a class="page-link" href="#" @click.prevent="getpgnums('cur',page)">{{ page }}</a>
           </li>
-        <li class="page-item" :class="{'disabled': !pagination.has_next}">
-          <a class="page-link" href="#" aria-label="Next" @click.prevent="getproducts(pagination.current_page + 1)">
+        <li class="page-item" :class="{'disabled': !pgnum.has_next}">
+          <a class="page-link" href="#" aria-label="Next" @click.prevent="getpgnums('next')">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
@@ -22,24 +22,18 @@
 
 <script>
 export default {
-  data() {
-    return {
-      pagination: {},
-    };
-  },
-  created() {
-    this.getproducts();
-    
-  },
+  name: 'pages',
+  props: ['pgnum'],  
   methods: {
-    getproducts(page = 1) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products?page=${page}`;
-      const vm = this;
-      this.$http.get(api).then((response) => {
-        vm.pagination = response.data.pagination;
-      });
-    },    
-    
+    getpgnums (page, curpage) {
+      if (page === 'pre') {
+        this.$emit('getpgnum', this.pgnum.current_page - 1)
+      } else if (page === 'next') {
+        this.$emit('getpgnum', this.pgnum.current_page + 1)
+      } else {
+        this.$emit('getpgnum', curpage)
+      }
+    }
   },
 };
 </script>

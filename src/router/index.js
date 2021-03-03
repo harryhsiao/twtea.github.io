@@ -4,6 +4,8 @@ import login from '@/components/page/login'
 import HelloWorld from '@/components/HelloWorld'
 import dashboard from '@/components/page/dashboard'
 import products from '@/components/page/products'
+import orders from '@/components/page/orders'
+import coupon from '@/components/page/coupon'
 import homepage from '@/components/page/homepage'
 
 Vue.use(Router)
@@ -41,6 +43,16 @@ export default new Router({
           path: 'products',
           name: 'products',
           component: products,          
+        },        
+        {
+          path: 'orders',
+          name: 'orders',
+          component: orders,
+        },
+        {
+          path: 'coupon',
+          name: 'coupon',
+          component: coupon,
         },
       ],
     }

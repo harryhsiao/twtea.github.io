@@ -1,17 +1,13 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <div class="text-right">
-      <button class="btn btn-primary my-4" @click="openmodel(true)">
-        新增產品
-      </button>
-    </div>
+
     <table class="table">
       <thead>
         <tr>
           <th scope="col">流水號</th>
           <th scope="col">買家名稱</th>
-          <th scope="col">買家資訊</th>          
+          <th scope="col">買家資訊</th>
           <th scope="col">訂單資訊</th>
           <th scope="col">收件地址</th>
           <th scope="col">買家備註</th>
@@ -26,8 +22,27 @@
             <p>電子郵件: {{ item.user.email }}</p>
             <p>連絡電話: {{ item.user.tel }}</p>
           </td>
-          <td>{{ item.products }}</td>
-          <td>{{ item.message }}</td>          
+          <td>
+            {{ item.products }}
+            <p>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-toggle="collapse"
+                data-target="#multiCollapseExample2"
+                aria-expanded="false"
+                aria-controls="multiCollapseExample2"
+              >
+                查看更多
+              </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                {{ item.products }}
+              </div>
+            </div>
+          </td>
+          <td>{{ item.message }}</td>
           <td>
             <span
               ><button
@@ -47,7 +62,7 @@
         </tr>
       </tbody>
     </table>
-    <pages :pgnum="pagination" @getpgnum="getorders"/>
+    <pages :pgnum="pagination" @getpgnum="getorders" />
   </div>
 </template>
 
@@ -70,7 +85,7 @@ export default {
     pages,
   },
   methods: {
-    getorders( page = 1 ) {
+    getorders(page = 1) {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/orders?page=${page}`;
       const vm = this;
       vm.isLoading = true;

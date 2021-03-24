@@ -387,7 +387,7 @@ export default {
   },
   methods: {
     getproducts(page = 1) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products?page=${page}`;
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products?page=${page}`;
       const vm = this;
       vm.isLoading = true;
       //console.log(process.env.APIPATH)

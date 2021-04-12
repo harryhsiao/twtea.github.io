@@ -11,6 +11,8 @@
       </div>
     </div>
     <div class="container">
+      <a href="#" @click.prevent="postcart">123</a>
+      <!--前往購物車頁面按鈕-->
       <router-link
         tag="button"
         to="/addcart"
@@ -22,6 +24,8 @@
         }}</span>
         <br />購物車
       </router-link>
+      <!--前往購物車頁面按鈕-->
+      <!--RWD商品過濾選項-->
       <select
         name=""
         id=""
@@ -32,7 +36,9 @@
           {{ item }}
         </option>
       </select>
+      <!--RWD商品過濾選項-->
       <div class="row">
+        <!--商品過濾選項-->
         <div class="col-sm-4">
           <div
             class="list-group d-none d-sm-block"
@@ -47,6 +53,8 @@
             >
           </div>
         </div>
+        <!--商品過濾選項-->
+        <!--商品-->
         <div class="col-sm-8">
           <div class="container">
             <div class="row">
@@ -78,13 +86,14 @@
                       <button
                         type="button"
                         class="btn btn-outline-secondary"
-                        @click="addcart(item.id)"
+                        @click="addcart(item)"
                       >
                         <i class="fas fa-cart-plus fa-lg"></i>
                       </button>
                     </div>
                   </div>
                 </div>
+                <!--商品-->
               </div>
               <div class="container">
                 <div class="row">
@@ -191,11 +200,13 @@ export default {
     return {
       custproducts: [],
       filtersproducts: [],
+      incart: JSON.parse(localStorage.getItem("mycart")) || [],
+      cartnum: [],
+      cartid: [],
+      cartlong: [],
       categorys: ["全部商品"],
       selected: 0,
       currentpage: 0,
-      cartlong: 0,
-      windowTop: 0,
       optiontext: "",
       searchtext: "",
       isLoading: false,
@@ -215,46 +226,94 @@ export default {
     getproducts() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
       const vm = this;
-      let newdata = [];
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
         console.log(resp.data);
         vm.isLoading = false;
         vm.custproducts = resp.data.products;
-        /*vm.custproducts =Object.keys(resp.data.products || {}).map(
-          (key) => resp.data.products[key]
-        );*/
         vm.getoption(vm.custproducts);
-      });
-    },
-    addcart(id, qty = 1) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
-      const vm = this;
-      const cart = {
-        product_id: id,
-        qty,
-      };
-      vm.isLoading = true;
-      //console.log(process.env.APIPATH)
-      this.$http.post(api, { data: cart }).then((resp) => {
-        console.log(resp.data);
-        vm.isLoading = false;
-        vm.getcart();
       });
     },
     getcart() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
-      let cartnum = [];
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
         console.log(resp.data);
         vm.isLoading = false;
-        cartnum = resp.data.data.carts;
-        vm.cartlong = cartnum.length;
+        vm.cartnum = resp.data.data.carts;
+        vm.cartlong = vm.cartnum.length;
+        vm.cartnum.forEach((item) => {
+          vm.cartid.push(item.product_id);
+        });
       });
+    },
+    addcart(data) {
+      const vm = this;
+      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
+      vm.incart.forEach((item) => {
+        cacheCarID.push(item.product_id);
+        console.log(cacheCarID);
+      });
+      if (cacheCarID.indexOf(data.id) === -1) { //利用indexOf來判斷id是否存在,若不存在(===-1)就直接把資料送出
+        const cartContent = {
+          product_id: data.id,
+          qty: 1,
+        };
+        vm.incart.push(cartContent);
+        localStorage.setItem("mycart", JSON.stringify(vm.incart));
+        vm.postcart();
+      } else {
+        let cache = {};
+        vm.incart.forEach((item, keys) => {
+          if (item.product_id === data.id) {
+            let { qty } = item;
+            cache = {
+              product_id: data.id,
+              qty: qty+=1,
+            };
+            vm.incart.splice(keys, 1);
+          }
+        });
+        vm.incart.push(cache);
+        localStorage.setItem("mycart", JSON.stringify(vm.incart));
+        vm.postcart();
+      }
+    },
+    postcart() {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+      const cacheID = [];
+      const vm = this;
+      vm.isLoading = true;
+      vm.$http
+        .get(api)
+        .then((res) => {
+          const cacheData = res.data.data.carts;
+          cacheData.forEach((item) => {
+            cacheID.push(item.id);
+          });
+        })
+        .then(() => {
+          cacheID.forEach((item) => {
+            vm.$http.delete(`${api}/${item}`).then(() => {
+              console.log("購物車已經清空");
+            });
+          });
+        })
+        .then(() => {
+          vm.incart.forEach((item) => {
+            const cache = {
+              product_id: item.product_id,
+              qty: item.qty,
+            };
+            vm.$http.post(api, { data: cache }).then(() => {
+              vm.incart = [];
+              localStorage.removeItem("mycart");
+              vm.isLoading = false;
+              vm.getcart();
+            });
+          });
+        });
     },
     getoption(element) {
       const vm = this;

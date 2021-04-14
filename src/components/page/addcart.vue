@@ -16,11 +16,7 @@
                     購物車 (共<span>{{ cartlong }}</span> 筆購物內容)
                   </h5>
 
-                  <div
-                    class="row mb-4"
-                    v-for="item in custcart.carts"
-                    :key="item.product.id"
-                  >
+                  <div class="row mb-4" v-for="item in incart" :key="item.id">
                     <div class="col-md-5 col-lg-3 col-xl-3">
                       <div
                         class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0"
@@ -28,8 +24,8 @@
                         <a href="#!">
                           <img
                             class="img-fluid w-100"
-                            :src="item.product.imageUrl"
-                            :alt="item.product.category"
+                            :src="item.imageUrl"
+                            :alt="item.category"
                           />
                         </a>
                       </div>
@@ -38,32 +34,26 @@
                       <div>
                         <div class="d-flex justify-content-between">
                           <div>
-                            <h5>{{ item.product.title }}</h5>
+                            <h5>{{ item.title }}</h5>
                             <p class="mb-3 text-muted text-uppercase small">
-                              {{ item.product.category }}
+                              {{ item.category }}
                             </p>
                           </div>
                           <div>
                             <div
                               class="def-number-input number-input safari_only mb-0 w-100"
                             >
-                              <button
-                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                class="minus"
-                              >
+                              <button @click="minercart(item)" class="minus">
                                 <i class="fas fa-minus"></i>
                               </button>
                               <input
                                 class="quantity"
-                                min="0"
+                                min="1"
                                 name="quantity"
-                                value="1"
+                                :value="item.qty"
                                 type="number"
                               />
-                              <button
-                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                class="plus"
-                              >
+                              <button @click="pluscart(item)" class="plus">
                                 <i class="fas fa-plus"></i>
                               </button>
                             </div>
@@ -71,7 +61,7 @@
                               id="passwordHelpBlock"
                               class="form-text text-muted text-center"
                             >
-                              {{ item.product.unit }}
+                              {{ item.unit }}
                             </small>
                           </div>
                         </div>
@@ -82,22 +72,24 @@
                             <a
                               href="#!"
                               type="button"
-                              class="card-link-secondary small text-uppercase mr-3"
-                              @click.prevent="deletedcart(item.product.id)"
+                              class="card-link-secondary small text-uppercase mr-3 text-danger"
+                              @click.prevent="deletedcart(item.id)"
                               ><i class="fas fa-trash-alt mr-1"></i> 刪除商品
                             </a>
-                            <a
-                              href="#!"
-                              type="button"
-                              class="card-link-secondary small text-uppercase"
-                              ><i class="fas fa-heart mr-1"></i> 下次再買
-                            </a>
                           </div>
-                          <p class="mb-0">
+                          <p class="mb-0" v-if="!item.price">
                             <span
-                              ><strong>{{
-                                item.product.origin_price
-                              }}</strong></span
+                              ><strong
+                                >價格
+                                {{ item.origin_price | currency }} 元</strong
+                              ></span
+                            >
+                          </p>
+                          <p class="mb-0" v-else>
+                            <span
+                              ><strong
+                                >價格 {{ item.price | currency }} 元</strong
+                              ></span
                             >
                           </p>
                         </div>
@@ -106,11 +98,16 @@
                   </div>
                   <hr class="mb-4" />
 
-                  <p class="text-primary mb-0">
-                    <i class="fas fa-info-circle mr-1"></i> Do not delay the
-                    purchase, adding items to your cart does not mean booking
-                    them.
-                  </p>
+                  <div class="card wish-list mb-4">
+                    <div class="card-body">
+                      <h5 class="mb-4">其他人也買了...</h5>
+                      <div class="productcard d-flex">
+                        <div class="productcard">
+                          <h3>123456</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- Card -->
@@ -118,7 +115,7 @@
               <!-- Card -->
               <div class="card mb-4">
                 <div class="card-body">
-                  <h5 class="mb-4">付款方式</h5>
+                  <h5 class="mb-4">我們接受以下付款方式</h5>
 
                   <img
                     class="mr-2"
@@ -156,27 +153,40 @@
                       class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
                     >
                       金額
-                      <span>{{ custcart.total | currency }}</span>
+                      <span>{{ totalprice | currency }}</span>
                     </li>
                     <li
                       class="list-group-item d-flex justify-content-between align-items-center px-0"
+                      v-if="totalprice < 5000 && totalprice > 0"
                     >
                       運費
                       <span>{{ 60 | currency }}</span>
                     </li>
                     <li
+                      class="list-group-item d-flex justify-content-between align-items-center px-0 text-success"
+                      v-else
+                    >
+                      運費
+                      <span>{{ 0 | currency }}</span>
+                    </li>
+                    <li
                       class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3"
                     >
                       <div>
-                        <strong>總價</strong>
+                        <strong class="h3">總價</strong>
                         <strong>
-                          <p class="mb-0">(including VAT)</p>
+                          <p class="mb-0">(含稅)</p>
                         </strong>
                       </div>
                       <span
+                        class="h2"
+                        v-if="totalprice < 5000 && totalprice > 0"
                         ><strong>{{
-                          custcart.final_total | currency
+                          (totalprice + 60) | currency
                         }}</strong></span
+                      >
+                      <span class="h2" v-else
+                        ><strong>{{ totalprice | currency }}</strong></span
                       >
                     </li>
                   </ul>
@@ -184,6 +194,7 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-block waves-effect waves-light"
+                    @click="postcart()"
                   >
                     結帳去
                   </button>
@@ -204,13 +215,24 @@
 
                   <div class="collapse" id="collapseExample">
                     <div class="mt-3">
-                      <div class="md-form md-outline mb-0">
+                      <div class="md-form md-outline mb-0 input-group">
                         <input
                           type="text"
                           id="discount-code"
                           class="form-control font-weight-light"
-                          placeholder="Enter discount code"
+                          placeholder="請輸入優惠碼"
+                          v-model="couponcode"
                         />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            id="button-addon2"
+                            @click="usecoupon"
+                          >
+                            送出優惠碼
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -224,37 +246,84 @@
   </div>
 </template>
 
-<<script>
+<script>
 import $ from "jquery";
 
-export default {
-    data() {
-        return {
-            custcart: {},
-            isLoading: false,
-            cartlong: 0,
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
         }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+export default {
+  data() {
+    return {
+      custcart: {},
+      coupons: [],
+      incart: JSON.parse(localStorage.getItem("mycart")) || [],
+      couponcode: "",
+      isnext: false,
+      isLoading: false,
+      cartlong: 0,
+      totalprice: 0,
+    };
+  },
+  created() {
+    this.getcart();
+    this.getcoupon();
+    this.pricecal();
+  },
+  computed: {
+    changestyle() {
+      const vm = this;
+      switch (vm.isnext) {
+        case true:
+          return "text-info";
+          break;
+
+        default:
+          return "text-secondary";
+          break;
+      }
     },
-    created() {
-        this.getcart();
+  },
+  methods: {
+    pricecal() {
+      const vm = this;
+      const pricepack = [];
+      vm.incart.forEach((item) => {
+        if (item.price > 0 || item.price !== "") {
+          pricepack.push(item.price * item.qty);
+        } else {
+          pricepack.push(item.origin_price * item.qty);
+        }
+        console.log(pricepack)
+      });
+      if (pricepack.length > 0) {
+        vm.totalprice = pricepack.reduce((a, b) => a + b);
+      } else {
+        vm.totalprice = pricepack;
+      }
     },
-    methods: {
-        addcart(id, qty = 1) {
-          const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
-          const vm = this;
-          const cart = {
-            product_id: id,
-            qty,
-            };            
-            vm.isLoading = true;
-            //console.log(process.env.APIPATH)
-            this.$http.post(api, { data: cart }).then((resp) => {
-              console.log(resp.data);
-              vm.isLoading = false;
-              vm.getcart();
-              });
-              },
-        getcart() {
+    getcoupon() {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupons`;
+      const vm = this;
+      this.$http.get(api).then((response) => {
+        console.log(response.data);
+        vm.coupons = response.data.coupons;
+      });
+    },
+    getcart() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
@@ -265,18 +334,147 @@ export default {
         vm.isLoading = false;
         vm.custcart = resp.data.data;
         cartnum = resp.data.data.carts;
-        vm.cartlong = cartnum.length;
       });
+      vm.cartlong = vm.incart.length;
     },
-    deletedcart(id){
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;
+    postcart() {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+      const cacheID = [];
       const vm = this;
       vm.isLoading = true;
-      this.$http.delete(api).then((resp) => {
-        console.log(resp.data);
-        vm.isLoading = false; 
-      });
-    }    
+      vm.$http
+        .get(api)
+        .then((res) => {
+          const cacheData = res.data.data.carts;
+          cacheData.forEach((item) => {
+            cacheID.push(item.id);
+          });
+        })
+        .then(() => {
+          cacheID.forEach((item) => {
+            vm.$http.delete(`${api}/${item}`).then(() => {
+              console.log("購物車已經清空");
+            });
+          });
+        })
+        .then(() => {
+          vm.incart.forEach((item) => {
+            const cache = {
+              product_id: item.product_id,
+              qty: item.qty,
+            };
+            vm.$http.post(api, { data: cache }).then(() => {
+              vm.incart = [];
+              localStorage.removeItem("mycart");
+              vm.isLoading = false;
+              vm.getcart();
+              vm.pricecal();
+            });
+          });
+        });
     },
-}
+    pluscart(data) {
+      const vm = this;
+      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
+      vm.incart.forEach((item) => {
+        cacheCarID.push(item.product_id);
+      });
+      let cache = {};
+      vm.incart.forEach((item, keys) => {
+        if (item.product_id === data.id) {
+          let { qty } = item;
+          cache = {
+            category: data.category,
+            content: data.content,
+            description: data.description,
+            id: data.id,
+            imageUrl: data.imageUrl,
+            origin_price: parseInt(data.origin_price),
+            price: parseInt(data.price),
+            title: data.title,
+            unit: data.unit,
+            product_id: data.id,
+            qty: parseInt((qty += 1)),
+          };
+          vm.incart.splice(keys, 1, cache);
+        }
+      });
+      localStorage.setItem("mycart", JSON.stringify(vm.incart));
+      vm.pricecal();
+    },
+    minercart(data) {
+      const vm = this;
+      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
+      vm.incart.forEach((item) => {
+        cacheCarID.push(item.product_id);
+      });
+      let cache = {};
+      vm.incart.forEach((item, keys) => {
+        if (item.product_id === data.id && data.qty > 1) {
+          let { qty } = item;
+          cache = {
+            category: data.category,
+            content: data.content,
+            description: data.description,
+            id: data.id,
+            imageUrl: data.imageUrl,
+            origin_price: parseInt(data.origin_price),
+            price: parseInt(data.price),
+            title: data.title,
+            unit: data.unit,
+            product_id: data.id,
+            qty: parseInt((qty -= 1)),
+          };
+          vm.incart.splice(keys, 1, cache);
+        }
+      });
+      localStorage.setItem("mycart", JSON.stringify(vm.incart));
+      vm.pricecal();
+    },
+    deletedcart(id) {
+      const vm = this;
+      vm.incart.forEach((item, keys) => {
+        if (item.product_id === id) {
+          vm.incart.splice(keys, 1);
+        }
+      });
+      localStorage.setItem("mycart", JSON.stringify(vm.incart));
+      vm.pricecal();
+    },
+    usecoupon(data) {
+      const vm = this;
+      let cache = {};
+      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
+      const couponid = [];
+      vm.coupons.forEach((item)=>{
+        couponid.push(item.code)
+      })
+      vm.incart.forEach((item) => {
+        cacheCarID.push(item.product_id);
+      });
+      vm.incart.forEach((item, keys) => {
+        if (item.product_id === data.id && vm.couponid.indexOf(vm.couponcode) === 1) {
+          cache = {
+            category: data.category,
+            content: data.content,
+            description: data.description,
+            id: data.id,
+            imageUrl: data.imageUrl,
+            origin_price: data.origin_price,
+            price: data.price,
+            title: data.title,
+            unit: data.unit,
+            product_id: data.id,
+            qty: data.qty,
+            coupon: {
+              code: vm.couponcode,
+            },
+          };
+          vm.incart.splice(keys, 1, cache);
+        }
+      });
+      localStorage.setItem("mycart", JSON.stringify(vm.incart));
+    },
+  },
+};
 </script>

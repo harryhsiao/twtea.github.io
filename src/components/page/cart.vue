@@ -11,7 +11,6 @@
       </div>
     </div>
     <div class="container">
-      <a href="#" @click.prevent="postcart">123</a>
       <!--前往購物車頁面按鈕-->
       <router-link
         tag="button"
@@ -203,7 +202,7 @@ export default {
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
       cartnum: [],
       cartid: [],
-      cartlong: [],
+      cartlong: "",
       categorys: ["全部商品"],
       selected: 0,
       currentpage: 0,
@@ -242,7 +241,6 @@ export default {
         console.log(resp.data);
         vm.isLoading = false;
         vm.cartnum = resp.data.data.carts;
-        vm.cartlong = vm.cartnum.length;
         vm.cartnum.forEach((item) => {
           vm.cartid.push(item.product_id);
         });
@@ -253,67 +251,49 @@ export default {
       const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
       vm.incart.forEach((item) => {
         cacheCarID.push(item.product_id);
-        console.log(cacheCarID);
       });
-      if (cacheCarID.indexOf(data.id) === -1) { //利用indexOf來判斷id是否存在,若不存在(===-1)就直接把資料送出
+      if (cacheCarID.indexOf(data.id) === -1) {
+        //利用indexOf來判斷id是否存在,若不存在(===-1)就直接把資料送出
         const cartContent = {
+          category: data.category,
+          content: data.content,
+          description: data.description,
+          id: data.id,
+          imageUrl: data.imageUrl,
+          origin_price: parseInt(data.origin_price),
+          price: parseInt(data.price),
+          title: data.title,
+          unit: data.unit,
           product_id: data.id,
           qty: 1,
         };
         vm.incart.push(cartContent);
         localStorage.setItem("mycart", JSON.stringify(vm.incart));
-        vm.postcart();
       } else {
         let cache = {};
         vm.incart.forEach((item, keys) => {
           if (item.product_id === data.id) {
             let { qty } = item;
             cache = {
+              category: data.category,
+              content: data.content,
+              description: data.description,
+              id: data.id,
+              imageUrl: data.imageUrl,
+              origin_price: parseInt(data.origin_price),
+              price: parseInt(data.price),
+              title: data.title,
+              unit: data.unit,
               product_id: data.id,
-              qty: qty+=1,
+              qty: parseInt((qty += 1)),
             };
             vm.incart.splice(keys, 1);
           }
         });
         vm.incart.push(cache);
         localStorage.setItem("mycart", JSON.stringify(vm.incart));
-        vm.postcart();
       }
-    },
-    postcart() {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
-      const cacheID = [];
-      const vm = this;
-      vm.isLoading = true;
-      vm.$http
-        .get(api)
-        .then((res) => {
-          const cacheData = res.data.data.carts;
-          cacheData.forEach((item) => {
-            cacheID.push(item.id);
-          });
-        })
-        .then(() => {
-          cacheID.forEach((item) => {
-            vm.$http.delete(`${api}/${item}`).then(() => {
-              console.log("購物車已經清空");
-            });
-          });
-        })
-        .then(() => {
-          vm.incart.forEach((item) => {
-            const cache = {
-              product_id: item.product_id,
-              qty: item.qty,
-            };
-            vm.$http.post(api, { data: cache }).then(() => {
-              vm.incart = [];
-              localStorage.removeItem("mycart");
-              vm.isLoading = false;
-              vm.getcart();
-            });
-          });
-        });
+      vm.cartlong = vm.incart.length;
     },
     getoption(element) {
       const vm = this;

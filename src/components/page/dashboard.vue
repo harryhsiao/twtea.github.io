@@ -1,8 +1,6 @@
 <template>
-  <div class="">
-    <navbar />
+  <div class="">  
     <alert />
-
     <div class="container-fluid">
       <div class="row">
         <sidebar />
@@ -16,7 +14,6 @@
 
 
 <script>
-import navbar from "../navbar";
 import sidebar from "../sidebar";
 import alert from "../alertnote";
 
@@ -28,7 +25,6 @@ export default {
     };
   },
   components: {
-    navbar,
     sidebar,
     alert,
   },

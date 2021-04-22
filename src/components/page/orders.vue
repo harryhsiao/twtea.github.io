@@ -17,13 +17,12 @@
       <tbody>
         <tr v-for="item in orders" :key="item.id">
           <td>{{ item.num }}</td>
-          <td>{{ item.user.name }}</td>
+          <!--td>{{ item.user.name }}</td>
           <td>
             <p>電子郵件: {{ item.user.email }}</p>
             <p>連絡電話: {{ item.user.tel }}</p>
-          </td>
+          </td-->
           <td>
-            {{ item.products }}
             <p>
               <button
                 class="btn btn-primary"
@@ -62,6 +61,49 @@
         </tr>
       </tbody>
     </table>
+    <div
+      class="modal fade"
+      id="delProductModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content border-0">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <span>刪除產品</span>
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            是否刪除
+            <strong class="text-danger">{{ orders.title }}</strong>
+            商品(刪除後將無法恢復)。
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-dismiss="modal"
+            >
+              取消
+            </button>
+            <button type="button" class="btn btn-danger" @click="removedata">
+              確認刪除
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <pages :pgnum="pagination" @getpgnum="getorders" />
   </div>
 </template>
@@ -73,7 +115,9 @@ import pages from "../pagination";
 export default {
   data() {
     return {
-      orders: [],
+      orders: {
+        user: {},
+      },
       pagination: {},
       isLoading: false,
     };
@@ -95,6 +139,27 @@ export default {
         vm.isLoading = false;
         vm.orders = response.data.orders;
         vm.pagination = response.data.pagination;
+      });
+    },
+    openremovemodel(item) {
+      this.orders = Object.assign({}, item);
+      $("#delProductModal").modal("show");
+      console.log(item);
+    },
+    removedata() {
+      const vm = this;
+      let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${vm.orders.id}`;
+      console.log(api);
+      this.$http.delete(api, { data: vm.orders.id }).then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          $("#delProductModal").modal("hide");
+          vm.getorders();
+        } else {
+          $("#delProductModal").modal("hide");
+          vm.getorders();
+          console.log("刪除失敗");
+        }
       });
     },
   },

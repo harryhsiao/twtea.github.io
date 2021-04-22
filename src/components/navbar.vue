@@ -64,7 +64,7 @@
   border-radius: 50px;
 }
 
-.heightback{
+.heightback {
   transition: padding ease-in-out 0.5s;
 }
 </style>
@@ -85,24 +85,21 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
   },
   created() {
-    let api = `${process.env.APIPATH}/api/user/check`;
-    let vm = this;
-    vm.$http.post(api).then((response) => {
-      console.log(response.data);
-      if (response.data.success) {
-        vm.memberin = "yes";
-      } else {
-        vm.memberin = "no";
-      }
-    });
+    this.islogin();
   },
   computed: {
-    stylechange() {
-      console.log(this.$route.path);
+    stylechange() {      
       const vm = this;
+      console.log(vm.$route.path);
       let homePath = vm.$route.path;
       switch (homePath) {
         case "/dashboard/products":
+          return "navbar-light bg-white p-5";
+          break;
+        case "/dashboard/orders":
+          return "navbar-light bg-white p-5";
+          break;
+        case "/dashboard/coupon":
           return "navbar-light bg-white p-5";
           break;
         case "/":
@@ -113,7 +110,7 @@ export default {
           }
           break;
         default:
-          return "navbar-dark bg-dark p-5";
+          return "navbar-dark bg-dark p-2";
           break;
       }
       console.log(vm.open);
@@ -134,6 +131,18 @@ export default {
       const vm = this;
       vm.windowTop =
         window.top.scrollY; /* or: e.target.documentElement.scrollTop */
+    },
+    islogin() {
+      let api = `${process.env.APIPATH}/api/user/check`;
+      let vm = this;
+      this.$http.post(api).then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          vm.memberin = "yes";
+        } else {
+          vm.memberin = "no";
+        }
+      });
     },
   },
 };

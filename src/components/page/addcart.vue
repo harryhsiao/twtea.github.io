@@ -157,7 +157,7 @@
                     </li>
                     <li
                       class="list-group-item d-flex justify-content-between align-items-center px-0"
-                      v-if="totalprice < 5000 && totalprice > 0"
+                      v-if="totalprice < 3000 && totalprice > 0"
                     >
                       運費
                       <span>{{ 60 | currency }}</span>
@@ -189,55 +189,25 @@
                         ><strong>{{ totalprice | currency }}</strong></span
                       >
                     </li>
-                  </ul>
+                  </ul>                  
 
-                  <button
-                    type="button"
+                  <router-link
+                    to="/checkpage/custinfo"
                     class="btn btn-primary btn-block waves-effect waves-light"
-                    @click="postcart()"
+                    @click.native="postcart()"
                   >
                     結帳去
-                  </button>
-                </div>
-              </div>
-              <div class="card mb-4">
-                <div class="card-body">
-                  <a
-                    class="dark-grey-text d-flex justify-content-between"
-                    data-toggle="collapse"
-                    href="#collapseExample"
-                    aria-expanded="false"
-                    aria-controls="collapseExample"
-                  >
-                    優惠碼
-                    <span><i class="fas fa-chevron-down pt-1"></i></span>
-                  </a>
+                  </router-link>
 
-                  <div class="collapse" id="collapseExample">
-                    <div class="mt-3">
-                      <div class="md-form md-outline mb-0 input-group">
-                        <input
-                          type="text"
-                          id="discount-code"
-                          class="form-control font-weight-light"
-                          placeholder="請輸入優惠碼"
-                          v-model="couponcode"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-secondary"
-                            type="button"
-                            id="button-addon2"
-                            @click="usecoupon"
-                          >
-                            送出優惠碼
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                   <router-link
+                    to="/cart"
+                    class="btn btn-secondary btn-block waves-effect waves-light"
+                  >
+                    繼續購物
+                  </router-link>
+
                 </div>
-              </div>
+              </div>              
             </div>
           </div>
         </section>
@@ -248,22 +218,6 @@
 
 <script>
 import $ from "jquery";
-
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    var forms = document.getElementsByClassName('needs-validation');
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
 
 export default {
   data() {
@@ -342,6 +296,7 @@ export default {
       const cacheID = [];
       const vm = this;
       vm.isLoading = true;
+      if(vm.incart.length > 0 ){
       vm.$http
         .get(api)
         .then((res) => {
@@ -372,6 +327,7 @@ export default {
             });
           });
         });
+      }else{}
     },
     pluscart(data) {
       const vm = this;

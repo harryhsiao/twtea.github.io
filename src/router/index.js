@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/page/login'
 import HelloWorld from '@/components/HelloWorld'
+import checkpage from '@/components/checkpage'
 import dashboard from '@/components/page/dashboard'
 import products from '@/components/page/products'
 import product from '@/components/page/product'
@@ -9,7 +10,11 @@ import orders from '@/components/page/orders'
 import coupon from '@/components/page/coupon'
 import shop from '@/components/page/shop'
 import cart from '@/components/page/cart'
+import addcart from '@/components/page/addcart'
 import homepage from '@/components/page/homepage'
+import custinfo from '@/components/page/custinfo'
+import custcheckout from '@/components/page/custcheckout'
+import checkcomp from '@/components/page/checkcomp'
 
 Vue.use(Router)
 
@@ -35,6 +40,11 @@ export default new Router({
           component: cart
         },
         {
+          path: 'addcart',
+          name: 'addcart',
+          component: addcart
+        },
+        {
           path: 'shop',
           name: 'shop',
           component: shop
@@ -45,7 +55,7 @@ export default new Router({
           component: product,
         },
       ],      
-    },
+    },    
     {
       path: '/login',
       name: 'login',
@@ -73,6 +83,28 @@ export default new Router({
           component: coupon,
         },
       ],
-    }
+    },
+    {
+      path: '/checkpage',
+      name: 'checkpage',
+      component: checkpage,
+      children: [
+        {
+          path: 'custinfo',
+          name: 'custinfo',
+          component: custinfo
+        },
+        {
+          path: 'custcheckout',
+          name: 'custcheckout',
+          component: custcheckout
+        },
+        {
+          path: 'checkcomp/:order_id',
+          name: 'checkcomp',
+          component: checkcomp
+        },
+      ]
+    },
   ]
 })

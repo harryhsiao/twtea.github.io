@@ -2,25 +2,25 @@
   <div class="wraper">
     <loading :active.sync="isLoading"></loading>
     <div class="jumbotron jumbotron-fluid text-white s2">
-      <div class="container">
-        <h1 class="display-4">Fluid jumbotron</h1>
-        <p class="lead">
-          This is a modified jumbotron that occupies the entire horizontal space
-          of its parent.
-        </p>
+      <div class="btitle">
+        <img
+          class="img-fluid mb-2"
+          src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
+          alt=""
+          style="height: 100px"
+        />
+        <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
       </div>
     </div>
     <div class="container">
-      <!--前往購物車頁面按鈕-->
+      <!--前往購物車頁面按鈕-->      
       <router-link
         tag="button"
         to="/addcart"
         class="btn btn-outline-success btn-circle"
       >
         <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
-        <span class="badge badge-pill badge-danger" v-if="cartlong > 0">{{
-          cartlong
-        }}</span>
+        <span class="badge badge-pill badge-danger" v-if="cartlong > 0 ">{{ cartlong }}</span>
         <br />購物車
       </router-link>
       <!--前往購物車頁面按鈕-->
@@ -127,6 +127,14 @@
 <style scoped>
 .wraper {
   position: relative;
+}
+
+.btitle {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .thumbnail:hover {

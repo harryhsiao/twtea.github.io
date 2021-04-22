@@ -1,0 +1,76 @@
+<template>
+  <div>
+    <navbar />
+    <div id="v-content" class="container" :style="{ minHeight: Height + 'px' }">
+      <h2 class="text-center my-4">{{ CurrentTitle }}</h2>
+      <section class="form-row text-center">
+        <div class="col-12 col-sm-4">
+          <div class="alert alert-rounded" role="alert" :class="{'alert-primary':alertopen =='/checkpage/custinfo'}">
+            1. 確認訂單
+          </div>
+        </div>
+        <div class="col-12 col-sm-4">
+          <div class="alert alert-rounded" role="alert" :class="{'alert-primary':alertopen=='/checkpage/custcheckout'}">
+            2. 送出訂單
+          </div>
+        </div>
+        <div class="col-12 col-sm-4">
+          <div class="alert alert-light alert-rounded" role="alert" :class="{'alert-primary':alertopen =='/checkpage/checkcomp'}">
+            3. 完成
+          </div>
+        </div>
+      </section>
+      <router-view />
+    </div>
+    <footers />
+  </div>
+</template>
+
+
+<script>
+import navbar from "./navbar";
+import footers from "./footer";
+export default {
+  data() {
+    return {
+      Height: 0,
+      alertopen: '',
+      CurrentTitle: '',
+    };
+  },
+  mounted() {
+    //動態設置內容高度 讓footer始終居底   header+footer的高度是100
+    this.Height = document.documentElement.clientHeight - 100; //監聽瀏覽器窗口變化
+    window.onresize = () => {
+      this.Height = document.documentElement.clientHeight - 100;
+    };
+  },
+  computed: {
+    stylechange() {
+      const vm = this;
+      console.log(vm.$route.path);
+      let homePath = vm.$route.path;
+      vm.alertopen = homePath;
+      switch (homePath) {
+        case '/checkpage/csutinfo':
+
+          vm.CurrentTitle = '購物訂單';          
+          
+          break;
+         case '/checkpage/csutcheckout':
+
+          vm.CurrentTitle = '最終確認';          
+          
+          break;      
+        default:
+          vm.CurrentTitle = '購物成功'; 
+          break;
+      }      
+    },
+  },
+  components: {
+    navbar,
+    footers,
+  },
+};
+</script>

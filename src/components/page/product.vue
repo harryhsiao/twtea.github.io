@@ -14,14 +14,7 @@
       </router-link>
     <div class="container minHeight py-4 pt-md-5 mb-5">
       <div class="row">
-        <div class="col-lg-5 col-md-6 col-12 mb-3">
-          <div class="d-flex">
-            <ul>
-              <li>
-                <router-link to="/cart">商場首頁</router-link>
-              </li>
-            </ul>
-          </div>
+        <div class="col-lg-5 col-md-6 col-12 mb-3">          
           <img
             class="img-fluid"
             :src="product.imageUrl"
@@ -53,7 +46,7 @@
               <label for="productNum" class="proInputText mb-0 text-secondary"
                 >數量：</label
               >
-              <input type="number" value="1" min="1" :max="product.num" v-model="qty">              
+              <input type="number" value="1" min="1" :max="product.num" v-model.number="qty">              
               {{ product.unit }}
               <button
                 type="button"
@@ -123,12 +116,12 @@ export default {
           description: data.description,
           id: data.id,
           imageUrl: data.imageUrl,
-          origin_price: parseInt(data.origin_price,10),
-          price: parseInt(data.price,10),
+          origin_price: data.origin_price,
+          price: data.price,
           title: data.title,
           unit: data.unit,
           product_id: data.id,
-          qty: parseInt(vm.qty,10),
+          qty: vm.qty
         };
         vm.incart.push(cartContent);
         localStorage.setItem("mycart", JSON.stringify(vm.incart));
@@ -144,12 +137,12 @@ export default {
               description: data.description,
               id: data.id,
               imageUrl: data.imageUrl,
-              origin_price: parseInt(data.origin_price,10),
-              price: parseInt(data.price,10),
+              origin_price: data.origin_price,
+              price: data.price,
               title: data.title,
               unit: data.unit,
               product_id: data.id,
-              qty: parseInt(qty += vm.qty,10),
+              qty: qty += vm.qty,
             };
             vm.incart.splice(keys, 1, cache);
           }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg heightback" :class="stylechange">
+    <nav class="navbar navbar-expand-lg heightback px-5" :class="stylechange">
       <button
         class="navbar-toggler"
         type="button"
@@ -17,8 +17,11 @@
           <router-link class="nav-item nav-link" to="/" href="#"
             >品牌介紹</router-link
           >
+          <router-link class="nav-item nav-link" to="/menu" href="#"
+            >美味菜單</router-link
+          >
           <router-link class="nav-item nav-link" to="/cart" href="#"
-            >嚴選好食</router-link
+            >線上訂購</router-link
           >
           <router-link class="nav-item nav-link" to="/shop" href="#"
             >門市據點</router-link
@@ -88,32 +91,21 @@ export default {
     this.islogin();
   },
   computed: {
-    stylechange() {      
+    stylechange() {
       const vm = this;
-      console.log(vm.$route.path);
       let homePath = vm.$route.path;
       switch (homePath) {
-        case "/dashboard/products":
-          return "navbar-light bg-white p-5";
-          break;
-        case "/dashboard/orders":
-          return "navbar-light bg-white p-5";
-          break;
-        case "/dashboard/coupon":
-          return "navbar-light bg-white p-5";
-          break;
         case "/":
-          if (vm.windowTop > 30) {
-            return "navbar-dark bg-dark fixed-top p-lg-2";
+          if (vm.windowTop > 10) {
+            return "navbar-dark bg-dark fixed-top py-lg-2";
           } else {
-            return "navbar-dark bg-dark fixed-top p-lg-5";
+            return "navbar-dark bg-transparent fixed-top py-lg-5";
           }
           break;
         default:
           return "navbar-dark bg-dark p-2";
           break;
       }
-      console.log(vm.open);
     },
   },
   methods: {

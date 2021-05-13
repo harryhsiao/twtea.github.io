@@ -13,14 +13,16 @@
       </div>
     </div>
     <div class="container">
-      <!--前往購物車頁面按鈕-->      
+      <!--前往購物車頁面按鈕-->
       <router-link
         tag="button"
         to="/addcart"
         class="btn btn-outline-success btn-circle"
       >
         <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
-        <span class="badge badge-pill badge-danger" v-if="cartlong > 0 ">{{ cartlong }}</span>
+        <span class="badge badge-pill badge-danger" v-if="cartlong > 0">{{
+          cartlong
+        }}</span>
         <br />購物車
       </router-link>
       <!--前往購物車頁面按鈕-->
@@ -39,14 +41,19 @@
       <div class="row">
         <!--商品過濾選項-->
         <div class="col-sm-4">
-          <div
-            class="list-group d-none d-sm-block"
-            v-for="(item, index) in categorys"
-            :key="index"
-          >
+          <div class="list-group d-none d-sm-block">
+            <h3
+              class="list-group-item bg-maincolor text-white disabled"
+              aria-disabled="true"
+            >
+              商品分類
+            </h3>
             <a
               href="#"
-              class="list-group-item list-group-item-action my-3 chselection"
+              class="list-group-item list-group-item-action chselection"
+              v-for="(item, index) in categorys"
+              :key="index"
+              :class="{ active: optiontext === item }"
               @click.prevent="changeoption"
               >{{ item }}</a
             >
@@ -57,6 +64,21 @@
         <div class="col-sm-8">
           <div class="container">
             <div class="row">
+              <div class="col-12 mb-4">
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="輸入想要搜尋的商品"
+                    aria-label="輸入想要搜尋的商品"
+                    aria-describedby="button-addon2"
+                    v-model="productsearch"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">搜尋</span>
+                  </div>
+                </div>
+              </div>
               <div
                 class="col-sm-6 col-lg-4 mb-3"
                 v-for="item in filtersdata[currentpage]"
@@ -68,6 +90,7 @@
                       class="card-img-top"
                       :src="item.imageUrl"
                       :alt="item.category"
+                      style="height: 150px"
                     />
                   </router-link>
                   <div class="card-body">
@@ -76,26 +99,33 @@
                       <h5>{{ item.title }}</h5>
                     </router-link>
                     <div class="d-flex justify-content-between">
-                      <p>
+                      <p v-if="item.price">
                         {{ item.price | currency
                         }}<span style="letter-space: 5px; font-size: 6px"
                           >/{{ item.unit }}</span
                         >
                       </p>
-                      <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        @click="addcart(item)"
-                      >
-                        <i class="fas fa-cart-plus fa-lg"></i>
-                      </button>
+                      <p v-else>
+                        {{ item.origin_price | currency
+                        }}<span style="letter-space: 5px; font-size: 6px"
+                          >/{{ item.unit }}</span
+                        >
+                      </p>
                     </div>
                   </div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary cartbtn"
+                    @click="addcart(item)"
+                  >
+                    <i class="fas fa-cart-plus fa-lg"></i>
+                    加入購物車
+                  </button>
                 </div>
                 <!--商品-->
               </div>
               <div class="container">
-                <div class="row">
+                <div class="row justify-content-center">
                   <div class="pagination p1 pt-4 pl-4 mb-5">
                     <ul class="m-0 p-0">
                       <a href="#" @click.prevent="prev"
@@ -173,19 +203,35 @@
 }
 
 .chselection {
-  background-color: transparent;
+  background: linear-gradient(to left, transparent 50%, #add8e6 50%) right;
+  background-size: 200%;
+  transition: 0.5s ease-out;
+  outline: none;
 }
 
 .chselection:hover {
-  background-color: #3ca4e0;
-  color: #f2f2f2;
-  transition: color ease-in-out 0.4s;
-  transition: background-color ease-in-out 0.4s;
+  background-position: left;
+  color: #4c5052;
 }
 
 .active {
-  background-color: #3ca4e0;
-  color: #f2f2f2;
+  background-color: #add8e6;
+  color: #4c5052;
+  outline: 0;
+  border: none;
+}
+
+.cartbtn {
+  border-radius: 0;
+  background: linear-gradient(to bottom, transparent 50%, #add8e6 50%);
+  background-size: 100% 200%;
+  transition: 0.1s ease-out;
+  outline: none;
+}
+
+.cartbtn:hover {
+  background-position: 0 100%;
+  color: #4c5052;
 }
 
 .btn-circle {
@@ -210,11 +256,12 @@ export default {
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
       cartnum: [],
       cartid: [],
-      cartlong: "",
       categorys: ["全部商品"],
       selected: 0,
       currentpage: 0,
-      optiontext: "",
+      productsearch: "",
+      cartlong: "",
+      optiontext: "全部商品",
       searchtext: "",
       isLoading: false,
     };
@@ -365,23 +412,28 @@ export default {
     filtersdata() {
       const vm = this;
       let tempData = [];
+      let titlearray = [];
       vm.currentpage = 0;
       vm.filtersproducts = [];
       tempData = vm.custproducts.filter((item) => {
-        switch (vm.optiontext) {
-          case "":
-            return vm.custproducts;
-            break;
-          case "全部商品":
-            return vm.custproducts;
-            break;
-          case item.category:
-            return item;
-            break;
+        if (vm.productsearch === "") {
+          switch (vm.optiontext) {
+            case "":
+              return vm.custproducts;
+              break;
+            case "全部商品":
+              return vm.custproducts;
+              break;
+            case item.category:
+              return item;
+              break;
 
-          default:
-            console.log("拍謝~抓不到資料:P");
-            break;
+            default:
+              console.log("拍謝~抓不到資料:P");
+              break;
+          }
+        } else {
+          return item.title.match(vm.productsearch);
         }
       });
       // 使用 forEach 跑迴圈，i 餘 2 等於 0 時候，ex. 2 筆 / 2 = 0，就推一筆空頁面存放商品

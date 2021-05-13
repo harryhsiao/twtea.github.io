@@ -1,7 +1,9 @@
 <template>
   <div>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#/">回到主頁</a>          
+    <nav
+      class="navbar navbar-dark fixed-top bg-maincolor flex-md-nowrap p-0 shadow"
+    >
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#/">回到主頁</a>
     </nav>
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
@@ -14,16 +16,30 @@
           </a>
         </h6>
         <ul class="nav flex-column">
-          <li class="nav-item border">            
-            <router-link class="nav-link h4" to="/dashboard/products"><i class="fas fa-box-open fa-fw"></i>&nbsp;&nbsp;產品列表</router-link>
-          </li>
-          <li class="nav-item border">            
-            <router-link class="nav-link h4" to="/dashboard/orders"><i class="fas fa-clipboard-list fa-fw"></i>&nbsp;&nbsp;訂單列表</router-link>
+          <li class="nav-item border">
+            <router-link class="nav-link h4" to="/dashboard/products"
+              ><i class="fas fa-box-open fa-fw"></i
+              >&nbsp;&nbsp;產品列表</router-link
+            >
           </li>
           <li class="nav-item border">
-            <router-link class="nav-link h4" to="/dashboard/coupon"><i class="fas fa-ticket-alt fa-fw"></i>&nbsp;&nbsp;優惠券</router-link>
+            <router-link class="nav-link h4" to="/dashboard/orders"
+              ><i class="fas fa-clipboard-list fa-fw"></i
+              >&nbsp;&nbsp;訂單列表</router-link
+            >
           </li>
-        </ul>        
+          <li class="nav-item border">
+            <router-link class="nav-link h4" to="/dashboard/coupon"
+              ><i class="fas fa-ticket-alt fa-fw"></i
+              >&nbsp;&nbsp;優惠券</router-link
+            >
+          </li>
+          <li class="nav-item border">
+            <a class="nav-link h4" href="#" @click.prevent="logout()"
+              ><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;登出</a
+            >
+          </li>
+        </ul>
       </div>
     </nav>
   </div>
@@ -84,3 +100,20 @@
   text-transform: uppercase;
 }
 </style>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      let api = `${process.env.APIPATH}/logout`;
+      const vm = this;
+      this.$http.post(api).then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          vm.$router.push("/");
+        }
+      });
+    },
+  },
+};
+</script>

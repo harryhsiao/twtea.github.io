@@ -1,5 +1,7 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
+    <alert />
     <div class="container">
       <div class="row">
         <div class="col-12 px-0 mb-5">
@@ -17,6 +19,8 @@
                   >
                     訂單明細
                   </button>
+                  <span class="text-danger" v-if="!order.is_paid">未付款</span>
+                  <span class="text-success" v-else>已付款</span>
                 </h2>
               </div>
 
@@ -27,31 +31,23 @@
                 data-parent="#accordionExample"
               >
                 <div class="card-body">
-                  <table class="table" v-for="item in order" :key="item.id" >
+                  <table class="table">
                     <tbody>
                       <tr>
                         <th scope="row">訂購人</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <td v-if="order.user">{{ order.user.name }}</td>
                       </tr>
                       <tr>
                         <th scope="row">付款價格</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                        <td>{{ order.total }}</td>
                       </tr>
                       <tr>
                         <th scope="row">收貨地址</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                        <td v-if="order.user">{{ order.user.address }}</td>
                       </tr>
                       <tr>
                         <th scope="row">付款方式</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                        <td>貨到付款</td>
                       </tr>
                     </tbody>
                   </table>
@@ -70,7 +66,7 @@
             <button class="btn btn-secondary" @click="$router.push('/cart')">
               回到購物頁
             </button>
-            <button class="btn btn-primary">模擬付款</button>
+            <button class="btn btn-primary" v-if="order.is_paid === false" @click="letPay">模擬付款</button>
           </div>
         </div>
         <div class="col-12 border p-4">
@@ -85,26 +81,27 @@
         </div>
       </div>
     </div>
-    <button @click="getorder()"> 啟動 </button>
   </div>
 </template>
 
 <script>
+import alert from "../alertnote";
+
 export default {
   data() {
     return {
       order: {
-          user:{}
+        user: {},
       },
-      orderId: '',
+      orderId: "",
+      isLoading: false,
     };
   },
-  created() {
-    this.orderId = this.$route.params.order_id;
-    console.log(this.orderId);
+  component: {
+    alert,
   },
   methods: {
-    getorder() {      
+    getorder() {
       const vm = this;
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${vm.orderId}`;
       vm.isLoading = true;
@@ -115,6 +112,25 @@ export default {
         vm.isLoading = false;
       });
     },
+    letPay() {
+      const vm = this;
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/pay/${vm.orderId}`;
+      vm.isLoading = true;
+      //console.log(process.env.APIPATH)
+      vm.$http.post(api).then((resp) => {
+        console.log(resp);
+        if (resp.data.success) {
+          vm.$bus.$emit("messsage:push", "付款成功", "success");
+          vm.getorder();
+        }
+        vm.isLoading = false;
+      });
+    },
+  },
+  created() {
+    this.orderId = this.$route.params.order_id;
+    console.log(this.orderId);
+    this.getorder();
   },
 };
 </script>

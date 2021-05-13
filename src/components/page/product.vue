@@ -1,70 +1,95 @@
 <template>
-  <div class="">
+  <div>
     <loading :active.sync="isLoading"></loading>
-    <router-link
-        tag="button"
-        to="/addcart"
-        class="btn btn-outline-success btn-circle"
-      >
-        <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
-        <!--span class="badge badge-pill badge-danger" v-if="cartlong > 0">{{
-          cartlong
-        }}</span-->
-        <br />購物車
-      </router-link>
+    <!--<router-link
+      tag="button"
+      to="/addcart"
+      class="btn btn-outline-success btn-circle"
+    >
+      <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
+      <span class="badge badge-pill badge-danger" v-if="cartlong > 0">{{
+        cartlong
+      }}</span>
+      <br />購物車
+    </router-link>-->
     <div class="container minHeight py-4 pt-md-5 mb-5">
       <div class="row">
-        <div class="col-lg-5 col-md-6 col-12 mb-3">          
-          <img
-            class="img-fluid"
-            :src="product.imageUrl"
-            style="border-radius: 10px"
-          />
+        <div class="col-lg-5 col-md-6 mb-3">
+          <img class="w-100" :src="product.imageUrl" style="height: 35vh" />
         </div>
-        <div class="col-lg-7 col-md-6 col-12 product">
-          <div class="d-flex flex-column h-100">
-            <h1 class="h4 font-weight-bold my-3">{{ product.title }}</h1>
-            <h6 class="text-secondary proInfo mb-3">產品介紹</h6>
-            <p class="pl-4 mb-3">{{ product.description }}</p>
-            <p class="text-secondary text-right mb-3">
-              － {{ product.content }}
-            </p>
-            <p v-if="product.origin_price == product.price">
-              原價 {{ product.origin_price }} 元
-            </p>
-            <p
-              class="h5 text-right mb-3"
-              v-if="product.price !== product.origin_price"
-            >
-              優惠價
-              <span class="text-danger font-weight-bold">{{
-                product.price
-              }}</span>
-              元
-            </p>
-            <div class="d-flex justify-content-end mt-auto">
-              <label for="productNum" class="proInputText mb-0 text-secondary"
-                >數量：</label
-              >
-              <input type="number" value="1" min="1" :max="product.num" v-model.number="qty">              
-              {{ product.unit }}
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="addcart(product)"
-              >                
-                加入購物車
-              </button>
+        <div class="col-lg-7 col-md-6">
+          <h3 class="font-weight-bold">{{ product.title }}</h3>
+          <p class="h5 mb-3" v-if="product.price">
+            原價
+            <span class="text-danger font-weight-bold">
+              {{ product.price }}
+            </span>
+            元
+          </p>
+          <p class="h5 mb-3" v-else>
+            優惠價
+            <span class="text-danger font-weight-bold">{{
+              product.origin_price
+            }}</span>
+            元
+          </p>
+          <div class="w-50">
+            <div class="input-group my-3">
+              <div class="input-group-prepend">
+                <button
+                  @click="qty--"
+                  class="minus border-right-0 border border-dark"
+                  :disabled="qty < 2"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+              <input
+                class="text-center form-control"
+                min="1"
+                name="quantity"
+                :max="product.num"
+                v-model.number="qty"
+                type="number"
+                style="appearance: none; appearance: textfield"
+              />
+              <div class="input-group-prepend">
+                <button
+                  @click="qty++"
+                  class="plus border-left-0 border border-dark"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
             </div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-100"
+              @click="addcart(product)"
+            >
+              加入購物車
+            </button>
           </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between border border-gray p-4 mt-3">
+        <div class="description w-50 border-right">
+          <h5 class="text-maincolor font-weight-bold"><span>產品描述</span></h5>
+          <p>{{ product.content }}</p>
+        </div>
+        <div class="content w-50 pl-3">
+          <h5 class="text-maincolor font-weight-bold"><span>產品說明</span></h5>
+          <p>{{ product.description }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped>
-header, main{
-  height: calc(101vh - 136px - 180px);
+header,
+main {
+  height: 100vh;
 }
 .btn-circle {
   border-radius: 50px;
@@ -121,7 +146,7 @@ export default {
           title: data.title,
           unit: data.unit,
           product_id: data.id,
-          qty: vm.qty
+          qty: vm.qty,
         };
         vm.incart.push(cartContent);
         localStorage.setItem("mycart", JSON.stringify(vm.incart));
@@ -142,7 +167,7 @@ export default {
               title: data.title,
               unit: data.unit,
               product_id: data.id,
-              qty: qty += vm.qty,
+              qty: (qty += vm.qty),
             };
             vm.incart.splice(keys, 1, cache);
           }
@@ -151,7 +176,7 @@ export default {
         vm.isLoading = false;
       }
       vm.cartlong = vm.incart.length;
-    },    
+    },
   },
 };
 </script>

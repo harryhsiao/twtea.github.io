@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <main>
+    <main :style="`height:${windowHeight}px`">
       <div class="container">
         <!--Section: Block Content-->
         <section class="mt-5 mb-4">
@@ -10,17 +10,14 @@
             <!--Grid column-->
             <div class="col-lg-8">
               <!-- Card -->
-              <div class="card wish-list mb-4">
+              <div class="card mb-4">
                 <div class="card-body">
                   <h5 class="mb-4">
                     購物車 (共<span>{{ cartlong }}</span> 筆購物內容)
                   </h5>
-
                   <div class="row mb-4" v-for="item in incart" :key="item.id">
                     <div class="col-md-5 col-lg-3 col-xl-3">
-                      <div
-                        class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0"
-                      >
+                      <div class="mb-3 mb-md-0">
                         <a href="#!">
                           <img
                             class="img-fluid w-100"
@@ -35,32 +32,39 @@
                         <div class="d-flex justify-content-between">
                           <div>
                             <h5>{{ item.title }}</h5>
-                            <p class="mb-3 text-muted text-uppercase small">
+                            <p class="mb-3 small">
                               {{ item.category }}
                             </p>
                           </div>
                           <div>
-                            <div
-                              class="def-number-input number-input safari_only mb-0 w-100"
-                            >
-                              <button @click="minercart(item)" class="minus">
-                                <i class="fas fa-minus"></i>
-                              </button>
+                            <div class="input-group mb-0 w-100">
+                              <div class="input-group-prepend">
+                                <button
+                                  @click="minercart(item)"
+                                  class="minus border-right-0 border border-dark"
+                                  :disabled="item.qty < 2"
+                                >
+                                  <i class="fas fa-minus"></i>
+                                </button>
+                              </div>
                               <input
-                                class="quantity"
+                                class="text-center"
                                 min="1"
                                 name="quantity"
                                 :value="item.qty"
                                 type="number"
+                                style="appearance: none; appearance: textfield"
                               />
-                              <button @click="pluscart(item)" class="plus">
-                                <i class="fas fa-plus"></i>
-                              </button>
+                              <div class="input-group-prepend">
+                                <button
+                                  @click="pluscart(item)"
+                                  class="plus border-left-0 border border-dark"
+                                >
+                                  <i class="fas fa-plus"></i>
+                                </button>
+                              </div>
                             </div>
-                            <small
-                              id="passwordHelpBlock"
-                              class="form-text text-muted text-center"
-                            >
+                            <small id="passwordHelpBlock" class="text-center">
                               {{ item.unit }}
                             </small>
                           </div>
@@ -72,7 +76,7 @@
                             <a
                               href="#!"
                               type="button"
-                              class="card-link-secondary small text-uppercase mr-3 text-danger"
+                              class="small mr-3 text-danger"
                               @click.prevent="deletedcart(item.id)"
                               ><i class="fas fa-trash-alt mr-1"></i> 刪除商品
                             </a>
@@ -80,31 +84,29 @@
                           <p class="mb-0" v-if="!item.price">
                             <span
                               ><strong
-                                >價格
-                                {{ item.origin_price | currency }} 元</strong
-                              ></span
+                                >價格 {{ item.origin_price | currency }}
+                              </strong></span
                             >
                           </p>
                           <p class="mb-0" v-else>
                             <span
                               ><strong
-                                >價格 {{ item.price | currency }} 元</strong
-                              ></span
+                                >價格 {{ item.price | currency }}
+                              </strong></span
                             >
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <hr class="mb-4" />
-
-                  <div class="card wish-list mb-4">
-                    <div class="card-body">
-                      <h5 class="mb-4">其他人也買了...</h5>
-                      <div class="productcard d-flex">
-                        <div class="productcard">
-                          <h3>123456</h3>
-                        </div>
+                </div>
+                <hr class="mb-4" />
+                <div class="card-footer wish-list">
+                  <div class="card-body">
+                    <h5 class="mb-4">其他人也買了...</h5>
+                    <div class="productcard d-flex">
+                      <div class="productcard">
+                        <h3>123456</h3>
                       </div>
                     </div>
                   </div>
@@ -189,25 +191,17 @@
                         ><strong>{{ totalprice | currency }}</strong></span
                       >
                     </li>
-                  </ul>                  
+                  </ul>
 
-                  <router-link
-                    to="/checkpage/custinfo"
-                    class="btn btn-primary btn-block waves-effect waves-light"
-                    @click.native="postcart()"
-                  >
+                  <button class="btn btn-primary btn-block" @click="postcart()">
                     結帳去
-                  </router-link>
+                  </button>
 
-                   <router-link
-                    to="/cart"
-                    class="btn btn-secondary btn-block waves-effect waves-light"
-                  >
+                  <router-link to="/cart" class="btn btn-secondary btn-block">
                     繼續購物
                   </router-link>
-
                 </div>
-              </div>              
+              </div>
             </div>
           </div>
         </section>
@@ -215,6 +209,19 @@
     </main>
   </div>
 </template>
+
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+</style>
 
 <script>
 import $ from "jquery";
@@ -230,8 +237,16 @@ export default {
       isLoading: false,
       cartlong: 0,
       totalprice: 0,
+      windowHeight: window.innerHeight,
     };
   },
+
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+  },
+
   created() {
     this.getcart();
     this.getcoupon();
@@ -252,6 +267,9 @@ export default {
     },
   },
   methods: {
+    onResize() {
+      this.windowHeight = window.innerHeight;
+    },
     pricecal() {
       const vm = this;
       const pricepack = [];
@@ -261,7 +279,7 @@ export default {
         } else {
           pricepack.push(item.origin_price * item.qty);
         }
-        console.log(pricepack)
+        console.log(pricepack);
       });
       if (pricepack.length > 0) {
         vm.totalprice = pricepack.reduce((a, b) => a + b);
@@ -295,39 +313,42 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const cacheID = [];
       const vm = this;
-      vm.isLoading = true;
-      if(vm.incart.length > 0 ){
-      vm.$http
-        .get(api)
-        .then((res) => {
-          const cacheData = res.data.data.carts;
-          cacheData.forEach((item) => {
-            cacheID.push(item.id);
-          });
-        })
-        .then(() => {
-          cacheID.forEach((item) => {
-            vm.$http.delete(`${api}/${item}`).then(() => {
-              console.log("購物車已經清空");
+      if (vm.incart.length > 0) {
+        vm.isLoading = true;
+        vm.$http
+          .get(api)
+          .then((res) => {
+            const cacheData = res.data.data.carts;
+            cacheData.forEach((item) => {
+              cacheID.push(item.id);
+            });
+          })
+          .then(() => {
+            cacheID.forEach((item) => {
+              vm.$http.delete(`${api}/${item}`).then(() => {
+                console.log("購物車已經清空");
+              });
+            });
+          })
+          .then(() => {
+            vm.incart.forEach((item) => {
+              const cache = {
+                product_id: item.product_id,
+                qty: item.qty,
+              };
+              vm.$http.post(api, { data: cache }).then(() => {
+                vm.incart = [];
+                localStorage.removeItem("mycart");
+                vm.isLoading = false;
+                vm.getcart();
+                vm.pricecal();
+              });
             });
           });
-        })
-        .then(() => {
-          vm.incart.forEach((item) => {
-            const cache = {
-              product_id: item.product_id,
-              qty: item.qty,
-            };
-            vm.$http.post(api, { data: cache }).then(() => {
-              vm.incart = [];
-              localStorage.removeItem("mycart");
-              vm.isLoading = false;
-              vm.getcart();
-              vm.pricecal();
-            });
-          });
-        });
-      }else{}
+        this.$router.push("/checkpage/custinfo");
+      } else {
+        alert("購物車是空的噢");
+      }
     },
     pluscart(data) {
       const vm = this;
@@ -402,14 +423,17 @@ export default {
       let cache = {};
       const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
       const couponid = [];
-      vm.coupons.forEach((item)=>{
-        couponid.push(item.code)
-      })
+      vm.coupons.forEach((item) => {
+        couponid.push(item.code);
+      });
       vm.incart.forEach((item) => {
         cacheCarID.push(item.product_id);
       });
       vm.incart.forEach((item, keys) => {
-        if (item.product_id === data.id && vm.couponid.indexOf(vm.couponcode) === 1) {
+        if (
+          item.product_id === data.id &&
+          vm.couponid.indexOf(vm.couponcode) === 1
+        ) {
           cache = {
             category: data.category,
             content: data.content,

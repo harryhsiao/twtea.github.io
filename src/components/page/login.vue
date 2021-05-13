@@ -1,36 +1,40 @@
 <template>
   <div class="">
     <navbar />
-    <div class="text-center mt-5">
-      <form class="form-signin" @submit.prevent="login">
-        <h1 class="h3 mb-3 font-weight-normal">登入</h1>
-        <label for="inputEmail" class="sr-only">電子郵件</label>
-        <input
-          type="email"
-          id="inputEmail"
-          class="form-control"
-          placeholder="Email address"
-          v-model="user.username"
-          required
-          autofocus
-        />
-        <label for="inputPassword" class="sr-only">密碼</label>
-        <input
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          placeholder="Password"
-          v-model="user.password"
-          required
-        />
-        <div class="checkbox mb-3 text-right">
-          <label> <input type="checkbox" value="remember-me" /> 記住我 </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-          登入
-        </button>
-        <p class="mt-5 mb-3 text-muted">&copy; 僅供練習用,無商業服務</p>
-      </form>
+    <div class="card text-center mt-5 w-20 form-signin">
+      <div class="card-body">
+        <form @submit.prevent="login">
+          <h1 class="h3 mb-3 font-weight-normal">登入</h1>
+          <label for="inputEmail" class="sr-only">電子郵件</label>
+          <input
+            type="email"
+            id="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+            v-model="user.username"
+            required
+            autofocus
+          />
+          <label for="inputPassword" class="sr-only">密碼</label>
+          <input
+            type="password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            v-model="user.password"
+            required
+          />
+          <div class="checkbox mb-3 text-right">
+            <label>
+              <input type="checkbox" value="remember-me" /> 記住我
+            </label>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">
+            登入
+          </button>
+          <p class="mt-5 mb-3 text-muted">&copy; 僅供練習用,無商業服務</p>
+        </form>
+      </div>
     </div>
   </div>
 </template>

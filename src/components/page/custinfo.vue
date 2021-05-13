@@ -22,7 +22,7 @@
                   查看訂單明細 <i class="fas fa-caret-down"></i>
                 </a>
 
-                <p class="ml-auto mb-0 mr-3">
+                <p class="ml-auto mb-0 mr-3" v-if="total_price + shipping">
                   <span class="text-primary h2">{{
                     (total_price + shipping) | currency
                   }}</span>
@@ -289,6 +289,7 @@ export default {
   created() {
     this.getcart();
   },
+  computed: {},
   components: {
     alert,
   },
@@ -318,8 +319,7 @@ export default {
       vm.isLoading = true;
       //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
-        console.log(resp.data);
-        vm.isLoading = false;
+        console.log(resp.data);        
         vm.custcart = resp.data.data.carts;
         if (resp.data.data.final_total !== resp.data.data.total) {
           vm.total_price = resp.data.data.final_total;
@@ -327,6 +327,7 @@ export default {
           vm.total_price = resp.data.data.total;
         }
         vm.ShippingFee();
+        vm.isLoading = false;
       });
     },
     getcountory() {

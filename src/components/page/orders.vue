@@ -11,53 +11,21 @@
           <th scope="col">訂單資訊</th>
           <th scope="col">收件地址</th>
           <th scope="col">買家備註</th>
-          <th></th>
+          <th scope="col">付款狀態</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in orders" :key="item.id">
           <td>{{ item.num }}</td>
-          <!--td>{{ item.user.name }}</td>
-          <td>
+          <td v-if="item.user">{{ item.user.name }}</td>
+          <td v-if="item.user">
             <p>電子郵件: {{ item.user.email }}</p>
             <p>連絡電話: {{ item.user.tel }}</p>
-          </td-->
-          <td>
-            <p>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-toggle="collapse"
-                data-target="#multiCollapseExample2"
-                aria-expanded="false"
-                aria-controls="multiCollapseExample2"
-              >
-                查看更多
-              </button>
-            </p>
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                {{ item.products }}
-              </div>
-            </div>
-          </td>
+          </td>          
+          <td v-if="item.user">{{ item.user.address }}</td>
           <td>{{ item.message }}</td>
-          <td>
-            <span
-              ><button
-                class="btn btn-outline-coffemilk btn-sm mb-2"
-                @click="openmodel(false, item)"
-              >
-                編輯
-              </button>
-              <button
-                class="btn btn-outline-danger btn-sm"
-                @click="openremovemodel(item)"
-              >
-                刪除
-              </button>
-            </span>
-          </td>
+          <td class="text-success" v-if="item.is_paid">已付款</td>
+          <td class="text-danger" v-else>尚未付款</td>          
         </tr>
       </tbody>
     </table>

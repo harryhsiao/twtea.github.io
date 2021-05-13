@@ -8,6 +8,7 @@ import products from '@/components/page/products'
 import product from '@/components/page/product'
 import orders from '@/components/page/orders'
 import coupon from '@/components/page/coupon'
+import menu from '@/components/page/menu'
 import shop from '@/components/page/shop'
 import cart from '@/components/page/cart'
 import addcart from '@/components/page/addcart'
@@ -45,6 +46,11 @@ export default new Router({
           component: addcart
         },
         {
+          path: 'menu',
+          name: 'menu',
+          component: menu
+        },
+        {
           path: 'shop',
           name: 'shop',
           component: shop
@@ -54,8 +60,8 @@ export default new Router({
           name: 'product',
           component: product,
         },
-      ],      
-    },    
+      ],
+    },
     {
       path: '/login',
       name: 'login',
@@ -65,13 +71,13 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard,
-      meta: { requiresAuth: true },      
-      children:[
+      meta: { requiresAuth: true },
+      children: [
         {
           path: 'products',
           name: 'products',
-          component: products,          
-        },        
+          component: products,
+        },
         {
           path: 'orders',
           name: 'orders',

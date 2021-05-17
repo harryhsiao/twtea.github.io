@@ -236,9 +236,10 @@
                   <label for="content">說明內容</label>
                   <textarea
                     type="text"
-                    class="form-control"
+                    class="form-control text-box"
                     id="content"
-                    v-model="tempProduct.content"
+                    @keyup="value = value.replace(/\n/g,'<br/>')"
+                    v-model="tempProduct.content"                    
                     placeholder="請輸入產品說明內容"
                   ></textarea>
                 </div>
@@ -432,15 +433,22 @@ export default {
       }
       $("#productsModal").modal("show");
     },
+    /*textblock() {
+      const textvalue = document.querySelector('.text-box');
+      let textvaluein = textvalue.value;
+      let textvalueout=textvaluein.replace(/  /g, '  ');
+      textvalueout = textvalueout.replace(/\n/g,'<br/>');
+    },*/
     updateproduct() {
       let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`;
       let httpmethod = "post";
       const vm = this;
-
+      //vm.textblock();
       if (!vm.newdatas) {
         api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
         httpmethod = "put";
       }
+      
       //console.log(process.env.APIPATH)
       this.$http[httpmethod](api, { data: vm.tempProduct }).then((response) => {
         console.log(response.data);

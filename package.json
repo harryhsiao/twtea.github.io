@@ -20,6 +20,7 @@
     "firebase": "^8.2.3",
     "fullpage.js": "^3.1.0",
     "jquery": "^3.5.1",
+    "mkdirp": "^1.0.4",
     "popper.js": "^1.16.1",
     "vee-validate": "^2.0.0",
     "vue": "^2.5.2",

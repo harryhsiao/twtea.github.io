@@ -1,6 +1,8 @@
 @import '~bootstrap/scss/functions';
 @import './helper/_variables';
-@import './_dashboard';
+@import './helper/_stylesheet';
 @import './helper/_login';
+@import './helper/_homepage';
+@import './_dashboard';
 @import '~bootstrap/scss/bootstrap';
 

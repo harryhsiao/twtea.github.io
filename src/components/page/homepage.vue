@@ -1,19 +1,8 @@
 <template>
   <div>
-    <!--div class="sectionsmenu">
-      <span
-        class="menupoint"
-        v-bind:class="{ active: activeSection == index }"
-        v-on:click="scrollToSection(index)"
-        v-for="(offset, index) in offsets"
-        v-bind:key="index"
-      >
-      </span>
-    </div-->
-    <section class="section">
+    <section class="section">      
       <div
-        class="titlebg bgimage btitle"
-        style="height: 55vh; background-attachment: fixed"
+        class="titlebg btitle hptitle bgimage d-flex justify-content-center text-center align-items-center"
       >
         <img
           class="img-fluid mb-2"
@@ -21,6 +10,7 @@
           alt="logo"
           style="height: 90px"
         />
+
         <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
       </div>
       <h2 class="text-center py-5">飄香一甲子，傳承好味道</h2>
@@ -100,7 +90,7 @@
           <div class="col-12 mt-4 mx-auto">
             <router-link
               to="/cart"
-              class="btn btn-outline-info goto-Cart-Btn mt-sm-4"
+              class="btn btn-outline-info rounded-0 mt-sm-4"
             >
               了解更多
             </router-link>
@@ -137,7 +127,7 @@
           <div class="col-12 mt-4 text-center mx-auto">
             <router-link
               to="/menu"
-              class="btn btn-outline-info goto-Cart-Btn mt-sm-4"
+              class="btn btn-outline-info rounded-0 mt-sm-4"
             >
               了解更多
             </router-link>
@@ -152,7 +142,7 @@
         <div class="mt-4 text-center mx-auto">
           <router-link
             to="/shop"
-            class="btn btn-outline-info goto-Cart-Btn mt-sm-4"
+            class="btn btn-outline-info rounded-0 mt-sm-4"
           >
             了解更多
           </router-link>
@@ -162,67 +152,6 @@
   </div>
 </template>
 
-<style scoped>
-body {
-  font-family: Montserrat;
-}
-
-.section {
-  min-height: 100vh;
-}
-
-.sectionsmenu {
-  position: fixed;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.sectionsmenu .menupoint {
-  width: 10px;
-  height: 10px;
-  background-color: rgb(54, 240, 184);
-  display: block;
-  margin: 1rem 0;
-  opacity: 0.6;
-  transition: 0.4s ease all;
-  cursor: pointer;
-}
-
-.sectionsmenu .menupoint.active {
-  opacity: 1;
-  transform: scale(1.5);
-}
-
-.goto-Cart-Btn {
-  border-radius: 0px;
-}
-
-.btitle {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.bgimage {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-.titlebg {
-  background-color: #f2f2f2;
-  /*background-image: url("https://images.unsplash.com/photo-1552993873-0dd1110e025f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80");*/
-  background-image: url("https://images.unsplash.com/photo-1551851300-1fd39219a668?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
-}
-.fricephoto {
-  background-image: url("https://images.unsplash.com/photo-1464500542410-1396074bf230?ixlib=rb-1.2.1");
-}
-.oldmapbg {
-  background-image: url("http://www.openluck.net/wp-content/gallery/tainanstory/thumbs/thumbs_tainan001.jpg");
-}
-</style>
 
 <script>
 //這個fullpage scroll的方法為: 每一次都先判斷code裡有多少個<section>,並擷取各自的offsetTop (第203 204 206~209 行)

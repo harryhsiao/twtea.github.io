@@ -1,21 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '@/components/page/login'
+
+
 import HelloWorld from '@/components/HelloWorld'
-import checkpage from '@/components/checkpage'
-import dashboard from '@/components/page/dashboard'
-import products from '@/components/page/products'
-import product from '@/components/page/product'
-import orders from '@/components/page/orders'
-import coupon from '@/components/page/coupon'
+import homepage from '@/components/page/homepage'
 import menu from '@/components/page/menu'
 import shop from '@/components/page/shop'
-import cart from '@/components/page/cart'
-import addcart from '@/components/page/addcart'
-import homepage from '@/components/page/homepage'
-import custinfo from '@/components/page/custinfo'
-import custcheckout from '@/components/page/custcheckout'
-import checkcomp from '@/components/page/checkcomp'
+
+import login from '@/components/page/login'
+
+import dashboard from '@/components/page/back_end/dashboard'
+import products from '@/components/page/back_end/products'
+import orders from '@/components/page/back_end/orders'
+import coupon from '@/components/page/back_end/coupon'
+
+import cart from '@/components/page/shopping/cart'
+import product from '@/components/page/shopping/product'
+
+import checkpage from '@/components/page/settle_accounts/checkpage'
+import addcart from '@/components/page/settle_accounts/addcart'
+import custinfo from '@/components/page/settle_accounts/custinfo'
+import custcheckout from '@/components/page/settle_accounts/custcheckout'
+import checkcomp from '@/components/page/settle_accounts/checkcomp'
 
 Vue.use(Router)
 
@@ -38,6 +44,11 @@ export default new Router({
         {
           path: 'cart',
           name: 'cart',
+          meta: {
+            breadcrumb: [{
+              name: '商品首頁'
+            }]
+          },
           component: cart
         },
         {
@@ -58,6 +69,17 @@ export default new Router({
         {
           path: 'product/:productId',
           name: 'product',
+          meta: {
+            breadcrumb: [
+              {
+                name: '商品首頁',
+                link: '/cart'
+              },
+              {
+                name: '商品細節'
+              },
+            ]
+          },
           component: product,
         },
       ],

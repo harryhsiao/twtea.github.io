@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg heightback px-5" :class="stylechange">
       <button
-        class="navbar-toggler"
+        class="navbar-toggler ml-auto"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNavAltMarkup"
@@ -37,7 +37,7 @@
             <button
               id="btnGroupDrop1"
               type="button"
-              class="btn btn-secondary btn-circle ml-4 mr-5"
+              class="btn btn-secondary rounded-circle ml-4 mr-5"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -63,9 +63,6 @@
 </template>
 
 <style scoped>
-.btn-circle {
-  border-radius: 50px;
-}
 
 .heightback {
   transition: padding ease-in-out 0.5s;
@@ -73,6 +70,7 @@
 </style>
 
 <script>
+
 export default {
   data() {
     return {

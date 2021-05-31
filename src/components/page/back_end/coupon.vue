@@ -96,9 +96,10 @@
               <label for="due_date">到期日</label>
               <input
                 type="date"
+                name="bday"
                 class="form-control"
                 id="due_date"
-                v-model="due_date"
+                v-model="tempcoupon.due_date"
               />
             </div>
             <div class="form-group">
@@ -199,7 +200,6 @@ export default {
       coupons: [],
       pagination: {},
       tempcoupon: {},
-      due_date: new Date(),
       isNew: false,
       isadd: false,
       isLoading: false,
@@ -230,7 +230,7 @@ export default {
         vm.isLoading = false;
         vm.coupons = response.data.coupons;
         vm.pagination = response.data.pagination;
-        if(vm.due_date <= today){
+        if (vm.due_date <= today) {
           item.is_enabled === 0;
         }
       });
@@ -243,10 +243,6 @@ export default {
         vm.tempcoupon = {};
       } else {
         vm.tempcoupon = Object.assign({}, item);
-        const dateAndTime = new Date(vm.tempcoupon.due_date * 1000)
-          .toISOString()
-          .split("T");
-        vm.due_date = dateAndTime[0];
       }
     },
     updateCoupon() {
@@ -268,7 +264,7 @@ export default {
         });
       }
     },
-     openremovemodel(item) {
+    openremovemodel(item) {
       this.tempcoupon = Object.assign({}, item);
       $("#delProductModal").modal("show");
       console.log(item);

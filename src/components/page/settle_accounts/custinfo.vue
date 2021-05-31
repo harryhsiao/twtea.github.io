@@ -115,6 +115,7 @@
                       v-model="couponcode"
                     />
                     <div class="input-group-append">
+                      <p class="text-danger">輸入 freeship123 以獲取 4 折優惠</p>
                       <button
                         class="btn btn-outline-secondary"
                         type="button"
@@ -131,100 +132,115 @@
           </div>
 
           <h5 class="mt-5 text-center py-3 mb-2 bg-light">訂購人資訊</h5>
-
-          <form class="needs-validation" @submit.prevent="subOrder">
-            <div class="form-row">
-              <div class="form-group col-md-4 mb-3">
-                <label for="username">姓名</label>
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  id="username"
-                  placeholder="姓名"
-                  v-model="form.user.name"
-                  :class="{ 'is-invalid': errors.has('name') }"
-                  v-validate="'required'"
-                />
-                <span class="text-danger" v-if="errors.has('name')"
-                  >*必填項目</span
+          <validation-observer v-slot="{ invalid }">
+            <form class="needs-validation" @submit.prevent="subOrder">
+              <div class="form-row">
+                <validation-provider
+                  class="col-md-4 mb-3"
+                  rules="required|zhtw_name"
+                  v-slot="{ errors, classes }"
                 >
-              </div>
-              <div class="form-group col-md-4 mb-3">
-                <label for="usertel">電話</label>
-                <input
-                  type="text"
-                  name="tel"
-                  class="form-control"
-                  id="usertel"
-                  placeholder="電話"
-                  v-model="form.user.tel"
-                  :class="{ 'is-invalid': errors.has('tel') }"
-                  v-validate="'required'"
-                />
-                <span class="text-danger" v-if="errors.has('tel')"
-                  >*必填項目</span
+                  <div class="form-group">
+                    <!-- 輸入框 -->
+                    <label for="username">姓名</label>
+                    <input
+                      type="text"
+                      name="姓名"
+                      :class="classes"
+                      class="form-control"
+                      id="username"
+                      placeholder="姓名"
+                      v-model="form.user.name"
+                    />
+                    <!-- 錯誤訊息 -->
+                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                  </div>
+                </validation-provider>
+                <validation-provider
+                  class="col-md-4 mb-3"
+                  rules="required|numeric"
+                  v-slot="{ errors, classes }"
                 >
+                  <div class="form-group">
+                    <label for="usertel">電話</label>
+                    <input
+                      type="text"
+                      name="電話"
+                      class="form-control"
+                      :class="classes"
+                      id="usertel"
+                      placeholder="電話"
+                      v-model="form.user.tel"
+                    />
+                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                  </div>
+                </validation-provider>
+                <validation-provider
+                  class="col-md-4 mb-3"
+                  rules="required|email"
+                  v-slot="{ errors, classes }"
+                >
+                  <div class="form-group">
+                    <label for="usermail">Email</label>
+                    <input
+                      type="text"
+                      name="email"
+                      class="form-control"
+                      :class="classes"
+                      id="usermail"
+                      placeholder="example@email.com"
+                      v-model="form.user.email"
+                    />
+                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                  </div>
+                </validation-provider>
+                <div class="form-group col-md-4">
+                  <label for="inputState">居住城市</label>
+                  <select id="inputState" name="country" class="form-control">
+                    <option v-for="(item, index) in countorys" :key="index">
+                      {{ item }}
+                    </option>
+                  </select>
+                </div>
+                <validation-provider
+                  class="col-md-8 mb-3"
+                  rules="required"
+                  v-slot="{ errors, classes }"
+                >
+                  <div class="form-group">
+                    <label for="useraddress">收貨地址</label>
+                    <input
+                      type="text"
+                      name="地址"
+                      class="form-control"
+                      :class="classes"
+                      id="useraddress"
+                      placeholder="輸入您的住址"
+                      v-model="form.user.address"
+                    />
+                    <span class="invalid-feedback">{{ errors[0] }}</span>
+                  </div>
+                </validation-provider>
+                <div class="col-md-12 mb-3">
+                  <label for="validationTextarea">給賣家的話</label>
+                  <textarea
+                    class="form-control"
+                    id="validationTextarea"
+                    placeholder="(非必填)"
+                    v-model="form.message"
+                    style="resize: none"
+                  ></textarea>
+                </div>
               </div>
-
-              <div class="form-group col-md-4 mb-3">
-                <label for="usermail">Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  class="form-control"
-                  id="usermail"
-                  placeholder="example@email.com"
-                  v-model="form.user.email"
-                  :class="{ 'is-invalid': errors.has('email') }"
-                  v-validate="'required|email'"
-                />
-                <span class="text-danger" v-if="errors.has('email')">{{
-                  errors.first("email")
-                }}</span>
-              </div>
-
-              <div class="form-group col-md-4">
-                <label for="inputState">居住城市</label>
-                <select id="inputState" name="country" class="form-control">
-                  <option v-for="(item, index) in countorys" :key="index">
-                    {{ item }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="col-md-8 mb-3">
-                <label for="useraddress">收貨地址</label>
-                <input
-                  type="text"
-                  name="address"
-                  class="form-control"
-                  id="useraddress"
-                  placeholder="詩入您的住址"
-                  v-model="form.user.address"
-                  :class="{ 'is-invalid': errors.has('address') }"
-                  v-validate="'required'"
-                />
-                <span class="text-danger" v-if="errors.has('address')">{{
-                  errors.first("address")
-                }}</span>
-              </div>
-              <div class="col-md-12 mb-3">
-                <label for="validationTextarea">給賣家的話</label>
-                <textarea
-                  class="form-control"
-                  id="validationTextarea"
-                  placeholder="Required example textarea"
-                  v-model="form.message"
-                  style="resize: none"
-                ></textarea>
-              </div>
-            </div>
-
-            <div class="text-right">              
-              <button class="btn btn-primary" type="submit">下一步</button>
-            </div>
-          </form>
+              <button
+                class="btn btn-primary float-right"
+                type="submit"
+                :disabled="invalid"
+              >
+                下一步
+              </button>
+            </form>
+          </validation-observer>
         </div>
       </div>
     </div>
@@ -270,9 +286,10 @@ export default {
           tel: "",
           address: "",
         },
-        message: "",
+        message: "",        
       },
       custdata: JSON.parse(localStorage.getItem("custinfo")) || [],
+      coupons: [],
       couponcode: "",
       isLoading: false,
       total_price: 0,
@@ -281,12 +298,24 @@ export default {
   },
   created() {
     this.getcart();
+    this.getcoupons();
   },
   computed: {},
   components: {
     alert,
   },
   methods: {
+    getcoupons(page = 1) {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupons?page=${page}`;
+      const vm = this;
+      vm.isLoading = true;
+      //console.log(process.env.APIPATH)
+      this.$http.get(api).then((response) => {
+        console.log(response.data);
+        vm.isLoading = false;
+        vm.coupons = response.data.coupons;
+      });
+    },
     addcoupon() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;
       const vm = this;
@@ -312,7 +341,7 @@ export default {
       vm.isLoading = true;
       //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
-        console.log(resp.data);        
+        console.log(resp.data);
         vm.custcart = resp.data.data.carts;
         if (resp.data.data.final_total !== resp.data.data.total) {
           vm.total_price = resp.data.data.final_total;
@@ -354,19 +383,11 @@ export default {
     subOrder() {
       const vm = this;
       vm.isLoading = true;
-      this.$validator.validate().then((result) => {
-        if (result) {
-          vm.custdata.splice(0, 1);          
-          vm.custdata.push(vm.form);
-          localStorage.setItem("custinfo", JSON.stringify(vm.custdata));
-          vm.$router.push("/checkpage/custcheckout");
-          vm.isLoading = false;
-        } else {
-          vm.$bus.$emit("messsage:push", "欄位不完整");
-          console.log("欄位不完整");
-          vm.isLoading = false;
-        }        
-      });
+      vm.custdata.splice(0, 1);
+      vm.custdata.push(vm.form);
+      localStorage.setItem("custinfo", JSON.stringify(vm.custdata));
+      vm.$router.push("/checkpage/custcheckout");
+      vm.isLoading = false;
     },
   },
 };

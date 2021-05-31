@@ -8,7 +8,6 @@
           <th scope="col">流水號</th>
           <th scope="col">買家名稱</th>
           <th scope="col">買家資訊</th>
-          <th scope="col">訂單資訊</th>
           <th scope="col">收件地址</th>
           <th scope="col">買家備註</th>
           <th scope="col">付款狀態</th>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <main :style="`height:${windowHeight}px`">
+    <main>
       <div class="container">
         <!--Section: Block Content-->
         <section class="mt-5 mb-4">
@@ -10,21 +10,24 @@
             <!--Grid column-->
             <div class="col-lg-8">
               <!-- Card -->
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="mb-4">
+              <div class="card mb-4" style="height: 75vh">
+                <div class="card-header">
+                  <h5 class="p-3">
                     購物車 (共<span>{{ cartlong }}</span> 筆購物內容)
                   </h5>
+                </div>
+                <div class="card-body overflow-auto">
+                  <p class="text-center mt-9" v-show="isnone">
+                    購物車是空的...
+                  </p>
                   <div class="row mb-4" v-for="item in incart" :key="item.id">
                     <div class="col-md-5 col-lg-3 col-xl-3">
                       <div class="mb-3 mb-md-0">
-                        <a href="#!">
-                          <img
-                            class="img-fluid w-100"
-                            :src="item.imageUrl"
-                            :alt="item.category"
-                          />
-                        </a>
+                        <img
+                          class="img-fluid w-100"
+                          :src="item.imageUrl"
+                          :alt="item.category"
+                        />
                       </div>
                     </div>
                     <div class="col-md-7 col-lg-9 col-xl-9">
@@ -63,10 +66,10 @@
                                   <i class="fas fa-plus"></i>
                                 </button>
                               </div>
+                              <small class="text-center ml-2">
+                                {{ item.unit }}
+                              </small>
                             </div>
-                            <small id="passwordHelpBlock" class="text-center">
-                              {{ item.unit }}
-                            </small>
                           </div>
                         </div>
                         <div
@@ -99,34 +102,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                
-              </div>
-              <!-- Card -->
-
-              <!-- Card -->
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="mb-4">我們接受以下付款方式</h5>
-
-                  <img
-                    class="mr-2"
-                    width="45px"
-                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                    alt="Visa"
-                  />
-                  <img
-                    class="mr-2"
-                    width="45px"
-                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                    alt="American Express"
-                  />
-                  <img
-                    class="mr-2"
-                    width="45px"
-                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                    alt="Mastercard"
-                  />
                 </div>
               </div>
               <!-- Card -->
@@ -192,6 +167,32 @@
                   </router-link>
                 </div>
               </div>
+              <!-- Card -->
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="mb-4">我們接受以下付款方式</h5>
+
+                  <img
+                    class="mr-2"
+                    width="45px"
+                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                    alt="Visa"
+                  />
+                  <img
+                    class="mr-2"
+                    width="45px"
+                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                    alt="American Express"
+                  />
+                  <img
+                    class="mr-2"
+                    width="45px"
+                    src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                    alt="Mastercard"
+                  />
+                </div>
+              </div>
+              <!-- Card -->
             </div>
           </div>
         </section>
@@ -220,14 +221,12 @@ export default {
   data() {
     return {
       custcart: {},
-      coupons: [],
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
-      couponcode: "",
       isnext: false,
       isLoading: false,
+      isnone: true,
       cartlong: 0,
       totalprice: 0,
-      windowHeight: window.innerHeight,
     };
   },
 
@@ -239,7 +238,6 @@ export default {
 
   created() {
     this.getcart();
-    this.getcoupon();
     this.pricecal();
   },
   computed: {
@@ -257,9 +255,6 @@ export default {
     },
   },
   methods: {
-    onResize() {
-      this.windowHeight = window.innerHeight;
-    },
     pricecal() {
       const vm = this;
       const pricepack = [];
@@ -277,27 +272,22 @@ export default {
         vm.totalprice = pricepack;
       }
     },
-    getcoupon() {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupons`;
-      const vm = this;
-      this.$http.get(api).then((response) => {
-        console.log(response.data);
-        vm.coupons = response.data.coupons;
-      });
-    },
     getcart() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      let cartnum = [];
       //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
         console.log(resp.data);
         vm.isLoading = false;
         vm.custcart = resp.data.data;
-        cartnum = resp.data.data.carts;
       });
       vm.cartlong = vm.incart.length;
+      if (vm.incart.length === 0) {
+        vm.isnone = true;
+      } else {
+        vm.isnone = false;
+      }
     },
     postcart() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
@@ -407,43 +397,6 @@ export default {
       });
       localStorage.setItem("mycart", JSON.stringify(vm.incart));
       vm.pricecal();
-    },
-    usecoupon(data) {
-      const vm = this;
-      let cache = {};
-      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
-      const couponid = [];
-      vm.coupons.forEach((item) => {
-        couponid.push(item.code);
-      });
-      vm.incart.forEach((item) => {
-        cacheCarID.push(item.product_id);
-      });
-      vm.incart.forEach((item, keys) => {
-        if (
-          item.product_id === data.id &&
-          vm.couponid.indexOf(vm.couponcode) === 1
-        ) {
-          cache = {
-            category: data.category,
-            content: data.content,
-            description: data.description,
-            id: data.id,
-            imageUrl: data.imageUrl,
-            origin_price: data.origin_price,
-            price: data.price,
-            title: data.title,
-            unit: data.unit,
-            product_id: data.id,
-            qty: data.qty,
-            coupon: {
-              code: vm.couponcode,
-            },
-          };
-          vm.incart.splice(keys, 1, cache);
-        }
-      });
-      localStorage.setItem("mycart", JSON.stringify(vm.incart));
     },
   },
 };

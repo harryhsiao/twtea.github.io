@@ -26,7 +26,9 @@
           <div
             class="alert alert-rounded"
             role="alert"
-            :class="{ 'alert-primary': alertopen == `/checkpage/checkcomp/${orderId}` }"
+            :class="{
+              'alert-primary': alertopen == `/checkpage/checkcomp/${orderId}`,
+            }"
           >
             3. 完成
           </div>
@@ -51,22 +53,11 @@ export default {
       CurrentTitle: "",
     };
   },
-  created() {
-    this.orderId = this.$route.params.order_id;
-    console.log(this.orderId);
-  },
-  mounted() {
-    //動態設置內容高度 讓footer始終居底   header+footer的高度是100
-    this.Height = document.documentElement.clientHeight - 100; //監聽瀏覽器窗口變化
-    window.onresize = () => {
-      this.Height = document.documentElement.clientHeight - 100;
-    };
-  },
   computed: {
     stylechange() {
       const vm = this;
       console.log(vm.$route.path);
-      let homePath = vm.$route.path;      
+      let homePath = vm.$route.path;
       let IDaddress = `/checkpage/checkcomp/${vm.orderId}`;
       switch (homePath) {
         case "/checkpage/csutinfo":
@@ -87,6 +78,18 @@ export default {
   components: {
     navbar,
     footers,
+  },
+  created() {
+    this.orderId = this.$route.params.order_id;
+    console.log(this.orderId);
+    this.getcoupons();
+  },
+  mounted() {
+    //動態設置內容高度 讓footer始終居底   header+footer的高度是100
+    this.Height = document.documentElement.clientHeight - 100; //監聽瀏覽器窗口變化
+    window.onresize = () => {
+      this.Height = document.documentElement.clientHeight - 100;
+    };
   },
 };
 </script>

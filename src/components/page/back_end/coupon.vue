@@ -19,12 +19,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in coupons" :key="item.id">
+        <tr v-for="item in filterdate" :key="item.id">
           <td>{{ item.num }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.percent }} %</td>
           <td>{{ item.code }}</td>
-          <td>{{ item.due_date }}</td>
+          <td>{{ item.due_date | dateFilter }}</td>
           <td>
             <span v-if="item.is_enabled === 1" class="text-success">
               啟用
@@ -61,7 +61,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">新增優惠券</h5>
             <button
               type="button"
               class="close"
@@ -96,10 +96,9 @@
               <label for="due_date">到期日</label>
               <input
                 type="date"
-                name="bday"
                 class="form-control"
                 id="due_date"
-                v-model="tempcoupon.due_date"
+                v-model="due_date"
               />
             </div>
             <div class="form-group">
@@ -137,7 +136,7 @@
               Close
             </button>
             <button type="button" class="btn btn-primary" @click="updateCoupon">
-              更新優惠券
+              確認
             </button>
           </div>
         </div>
@@ -199,14 +198,37 @@ export default {
     return {
       coupons: [],
       pagination: {},
-      tempcoupon: {},
+      tempcoupon: {
+        title: "",
+        is_enabled: 0,
+        percent: 100,
+        due_date: 0,
+        code: "",
+      },
       isNew: false,
       isadd: false,
+      dateAndTime: "",
       isLoading: false,
+      due_date: new Date(),
     };
   },
   created() {
     this.getcoupons();
+    this.dateAndTime = Math.floor(new Date().getTime() / 1000);
+  },
+  computed: {
+    // 過濾到期日
+    filterdate() {
+      const vm = this;
+      return vm.coupons.filter((el) => {
+        if (el.due_date > vm.dateAndTime) {
+          el.is_enabled = 1;
+        } else {
+          el.is_enabled = 0;
+        }
+        return el;
+      });
+    },
   },
   components: {
     pages,
@@ -216,6 +238,12 @@ export default {
       const vm = this;
       const timestamp = Math.floor(new Date(vm.due_date) / 1000);
       vm.tempcoupon.due_date = timestamp;
+    },
+  },
+  filters: {
+    dateFilter: function (time) {
+      const date = new Date(time * 1000);
+      return date.toLocaleDateString();
     },
   },
   methods: {
@@ -230,9 +258,6 @@ export default {
         vm.isLoading = false;
         vm.coupons = response.data.coupons;
         vm.pagination = response.data.pagination;
-        if (vm.due_date <= today) {
-          item.is_enabled === 0;
-        }
       });
     },
     openCouponmodal(isNew, item) {
@@ -243,6 +268,10 @@ export default {
         vm.tempcoupon = {};
       } else {
         vm.tempcoupon = Object.assign({}, item);
+        const dateAndTime = new Date(vm.tempCoupon.due_date * 1000)
+          .toISOString()
+          .split("T");
+        vm.due_date = dateAndTime[0];
       }
     },
     updateCoupon() {

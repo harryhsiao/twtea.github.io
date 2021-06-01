@@ -101,30 +101,31 @@
                 </tr>
               </tfoot>
             </table>
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                  <div class="input-group mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="請輸入優惠碼"
-                      aria-label="請輸入優惠碼"
-                      aria-describedby="button-addon2"
-                      v-model="couponcode"
-                    />
-                    <div class="input-group-append">
-                      <p class="text-danger">輸入 freeship123 以獲取 4 折優惠</p>
-                      <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        id="button-addon2"
-                        @click="addcoupon"
-                      >
-                        送出優惠碼
-                      </button>
-                    </div>
+          </div>
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col-md-6">
+                <p class="text-danger">輸入 freeship139 以獲取 5 折優惠</p>
+              </div>
+              <div class="col-md-6">                
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入優惠碼"
+                    aria-label="請輸入優惠碼"
+                    aria-describedby="button-addon2"
+                    v-model="couponcode"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="button-addon2"
+                      @click="addcoupon"
+                    >
+                      送出優惠碼
+                    </button>
                   </div>
                 </div>
               </div>
@@ -286,7 +287,7 @@ export default {
           tel: "",
           address: "",
         },
-        message: "",        
+        message: "",
       },
       custdata: JSON.parse(localStorage.getItem("custinfo")) || [],
       coupons: [],

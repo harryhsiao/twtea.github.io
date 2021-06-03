@@ -2,7 +2,9 @@
   <div class="wraper">
     <loading :active.sync="isLoading"></loading>
     <div class="jumbotron jumbotron-fluid text-white s2">
-      <div class="btitle d-flex justify-content-center text-center align-items-center">
+      <div
+        class="btitle d-flex justify-content-center text-center align-items-center"
+      >
         <img
           class="img-fluid mb-2"
           src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
@@ -13,31 +15,16 @@
       </div>
     </div>
     <div class="container">
-      <!--RWD商品過濾選項-->
-      <select
-        name=""
-        id=""
-        class="d-sm-none d-block w-100 mb-4"
-        @change="changeValue"
-      >
-        <option v-for="(item, index) in categorys" :key="index">
-          {{ item }}
-        </option>
-      </select>
-      <!--RWD商品過濾選項-->
       <div class="row">
         <!--商品過濾選項-->
         <div class="col-sm-4">
           <div class="row align-items-baseline">
-            <div class="col-6">
+            <div class="col-7">
               <breadcrumb class="h3" />
             </div>
-            <div class="col-6">
+            <div class="col-5">
               <!--前往購物車頁面按鈕-->
-              <router-link
-                to="/addcart"
-                class="text-info ml-8 d-block d-md-none"
-              >
+              <router-link to="/addcart" class="text-info float-right pr-3 d-block d-md-none">
                 <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
                 <span
                   class="badge badge-pill badge-danger"
@@ -81,6 +68,18 @@
                         <span class="input-group-text">搜尋</span>
                       </div>
                     </div>
+                    <!--RWD商品過濾選項-->
+                    <select
+                      name=""
+                      id=""
+                      class="d-sm-none d-block w-100 mb-4"
+                      @change="changeValue"
+                    >
+                      <option v-for="(item, index) in categorys" :key="index">
+                        {{ item }}
+                      </option>
+                    </select>
+                    <!--RWD商品過濾選項-->
                   </div>
                   <div class="col-md-6 text-right">
                     <!--前往購物車頁面按鈕-->
@@ -371,7 +370,7 @@ export default {
           vm.categorys.push(el.category);
         }
       });
-    },    
+    },
     changeoption(e) {
       const vm = this;
       vm.optiontext = e.target.text;

@@ -44,12 +44,14 @@ $yellow:  #ffc107 !default;
 $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
+$burlywood:    #deb887 !default;
 
 $colors: () !default;
 $colors: map-merge(
   (
     "blue":       $blue,
     "tiffany":    $tiffany,
+    "burlywood":    $burlywood,
     "indigo":     $indigo,
     "purple":     $purple,
     "pink":       $pink,
@@ -68,6 +70,7 @@ $colors: map-merge(
 
 $primary:       $blue !default;
 $maincolor:     $tiffany !default;
+$bwood:     $burlywood !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
@@ -81,6 +84,7 @@ $theme-colors: map-merge(
   (
     "primary":    $primary,
     "maincolor":  $maincolor,
+    "bwood":  $bwood,
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,

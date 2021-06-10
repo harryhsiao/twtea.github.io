@@ -1,6 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
+    <h2>優惠券管理</h2>
     <div class="text-right">
       <button class="btn btn-primary my-4" @click="openmodel(true)">
         新增產品

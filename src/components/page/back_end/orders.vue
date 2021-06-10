@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-
+    <h2>顧客訂單管理</h2>
     <table class="table">
       <thead>
         <tr>

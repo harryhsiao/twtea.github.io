@@ -1,8 +1,9 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg heightback px-5" :class="stylechange">
+    <nav class="navbar navbar-expand-lg heightback" :class="stylechange">
       <button
-        class="navbar-toggler ml-auto"
+        @touchstart="hambtn = !hambtn"
+        class="navbar-toggler border-0 ml-auto"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNavAltMarkup"
@@ -10,22 +11,14 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <div class="animated-icon" :class="{ open: hambtn }">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="collapse navbar-collapse text-center" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <router-link class="nav-item nav-link" to="/" href="#"
-            >品牌介紹</router-link
-          >
-          <router-link class="nav-item nav-link" to="/menu" href="#"
-            >美味菜單</router-link
-          >
-          <router-link class="nav-item nav-link" to="/cart" href="#"
-            >線上訂購</router-link
-          >
-          <router-link class="nav-item nav-link" to="/shop" href="#"
-            >門市據點</router-link
-          >
           <router-link
             class="nav-item nav-link"
             to="/login"
@@ -37,7 +30,7 @@
             <button
               id="btnGroupDrop1"
               type="button"
-              class="btn btn-secondary rounded-circle ml-4 mr-5"
+              class="btn btn-light text-bwood rounded-circle mr-2"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -56,6 +49,18 @@
               >
             </div>
           </div>
+          <router-link class="nav-item nav-link" to="/" href="#"
+            >品牌介紹</router-link
+          >
+          <router-link class="nav-item nav-link" to="/menu" href="#"
+            >美味菜單</router-link
+          >
+          <router-link class="nav-item nav-link" to="/cart" href="#"
+            >線上訂購</router-link
+          >
+          <router-link class="nav-item nav-link" to="/shop" href="#"
+            >門市據點</router-link
+          >
         </div>
       </div>
     </nav>
@@ -63,20 +68,24 @@
 </template>
 
 <style scoped>
-
 .heightback {
   transition: padding ease-in-out 0.5s;
+}
+@media screen and (max-width: 600px){
+  .heightback {
+    transition: background-color ease-in-out 0.3s;
+  }
 }
 </style>
 
 <script>
-
 export default {
   data() {
     return {
       memberin: "no",
       open: true,
       windowTop: 0,
+      hambtn: false,
     };
   },
   mounted() {
@@ -95,13 +104,22 @@ export default {
       switch (homePath) {
         case "/":
           if (vm.windowTop > 10) {
-            return "navbar-dark bg-dark fixed-top py-lg-2";
+            return "navbar-light bg-bwood fixed-top py-lg-2";
           } else {
-            return "navbar-dark bg-transparent fixed-top py-lg-5";
+
+            if(vm.hambtn === true){
+
+              return "navbar-light bg-bwood fixed-top py-lg-2";
+
+            }else{
+
+              return "navbar-dark bg-transparent fixed-top py-lg-5";
+
+            }            
           }
           break;
         default:
-          return "navbar-dark bg-dark p-2";
+          return "navbar-light bg-bwood p-2";
           break;
       }
     },

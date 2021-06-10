@@ -13,7 +13,7 @@
 
         <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
       </div>
-      <h2 class="text-center py-5">飄香一甲子，傳承好味道</h2>
+      <h2 class="text-center py-5">飄香一甲子<br class="d-md-none"><span class="d-md-inline d-none">，</span>傳承好味道</h2>
       <div class="container">
         <div class="row px-lg-9">
           <div class="col-lg-6">

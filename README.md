@@ -1,21 +1,31 @@
-# shop
+# 台味台菜餐廳( Vue 電商網站 )
 
-> A Vue.js project
+> 此作品為Vuejs前端練習，其主要功能有以下:
+> 
+  * 前台:<br> 
+  商家簡介( 商品分類、單一商品介紹等 )<br>
+  購物車<br>
+  優惠卷<br>
+  結帳/下單<br>
 
-## Build Setup
+  * 後台:<br>
+    管理者登入<br>
+    控制介面<br>
+    商品管理(CRUD)<br>
+    訂單管理<br>
+    優惠卷管理<br>
+    模擬訂單功能<br>
 
-``` bash
-# install dependencies
-npm install
+## 使用技術
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+  Vue Cli 3
+  Vuex
+  VueRouter
+  VueComponents
+  API
+  RWD
+  Bootstrap4
+  JavaScript(ES6、LocalStorage等)
+  SCSS
+  Webpack
+  ESlint

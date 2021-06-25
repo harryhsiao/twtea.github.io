@@ -1,99 +1,121 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <h2>優惠券管理</h2>
-    <div class="text-right">
-      <button class="btn btn-primary my-4" @click="openmodel(true)">
-        新增產品
-      </button>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>產品管理</h2>
+      <button class="btn btn-primary" @click="openmodel(true)">新增產品</button>
     </div>
 
-    <table class="table mb-4 text-center">
+    <table class="table mb-4 rwd-table">
       <thead>
         <tr>
           <th
+            class="text-md-center"
             width="80"
-            class="click"
             @click="(isReverse = !isReverse), (rankwith = 'num')"
           >
             編號
-            <span
-              class="icon"
-              :class="{ inverse: isReverse }"
-              v-if="rankwith === 'num'"
-            >
-              <i class="fas fa-angle-up text-success"></i>
+            <span>
+              <i
+                class="fas fa-angle-up text-success"
+                :class="{ rankarrow_down: rankwith == 'num' && isReverse }"
+              ></i>
             </span>
           </th>
-          <th width="120">上架狀態</th>
-          <th width="80">預覽圖</th>
-          <th width="360">產品名稱</th>
           <th
-            class="click"
+            class="text-md-center"
+            width="80"
+            @click="(isReverse = !isReverse), (rankwith = 'is_enabled')"
+          >
+            上架狀態
+            <span>
+              <i
+                class="fas fa-angle-up text-success"
+                :class="{ rankarrow_down: rankwith == 'is_enabled' && isReverse }"
+              ></i>
+            </span>
+          </th>
+          <th class="text-md-center d-md-table-cell d-none" width="120">
+            預覽圖
+          </th>
+          <th class="text-md-center" width="120">產品名稱</th>
+          <th
+            class="text-md-center"
             width="80"
             @click="(isReverse = !isReverse), (rankwith = 'origin_price')"
           >
             原價
-            <span
-              class="icon"
-              :class="{ inverse: isReverse }"
-              v-if="rankwith === 'origin_price'"
-            >
-              <i class="fas fa-angle-up text-success"></i>
+            <span>
+              <i
+                class="fas fa-angle-up text-success"
+                :class="{
+                  rankarrow_down: rankwith == 'origin_price' && isReverse,
+                }"
+              ></i>
             </span>
           </th>
           <th
-            class="click"
+            class="text-md-center"
             width="80"
             @click="(isReverse = !isReverse), (rankwith = 'price')"
           >
             售價
-            <span
-              class="icon"
-              :class="{ inverse: isReverse }"
-              v-if="rankwith === 'price'"
-            >
-              <i class="fas fa-angle-up text-success"></i>
+            <span class="icon">
+              <i
+                class="fas fa-angle-up text-success"
+                :class="{ rankarrow_down: rankwith == 'price' && isReverse }"
+              ></i>
             </span>
           </th>
-          <th width="80">單位</th>
+          <th class="text-md-center" width="80">單位</th>
           <th width="80"></th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="item in products" :key="item.id">
-          <td>{{ item.num }}</td>
-          <td>
-            <span v-if="item.is_enabled === 1" class="text-success">啟用</span
-            ><span v-else class="text-black-50">尚未啟用</span>
+        <tr v-for="item in rankmethod" :key="item.id">
+          <td class="text-md-center" data-th="編號">{{ item.num }}</td>
+          <td class="text-md-center" data-th="上架狀態">
+            <span v-if="item.is_enabled === 1" class="text-success">
+              <i class="far fa-check-circle"></i>
+              <br class="d-md-block d-none" />
+              已上架
+            </span>
+            <span v-else class="text-danger">
+              <i class="far fa-times-circle"></i>
+              <br class="d-md-block d-none" />
+              未上架
+            </span>
           </td>
-          <td>
+          <td class="text-md-center" data-th="產品圖">
             <img
               v-bind:src="item.imageUrl"
               alt="產品圖"
               class="img-fluid w-50"
             />
           </td>
-          <td>{{ item.title }}</td>
-          <td class="text-right">{{ item.origin_price | currency }}</td>
-          <td>{{ item.price | currency }}</td>
-          <td>{{ item.unit }}</td>
-          <td>
-            <span
-              ><button
-                class="btn btn-outline-coffemilk btn-sm mb-2"
-                @click="openmodel(false, item)"
-              >
-                編輯
-              </button>
-              <button
-                class="btn btn-outline-danger btn-sm"
-                @click="openremovemodel(item)"
-              >
-                刪除
-              </button>
-            </span>
+          <td class="text-md-center" data-th="產品名稱">{{ item.title }}</td>
+          <td class="text-md-center" data-th="原價">
+            {{ item.origin_price | currency }}
+          </td>
+          <td class="text-md-center" data-th="售價">
+            {{ item.price | currency }}
+          </td>
+          <td class="text-md-center" data-th="單位">{{ item.unit }}</td>
+          <td class="text-md-center">
+            <button
+              class="btn btn-maincolor btn-sm mb-2"
+              @click="openmodel(false, item)"
+            >
+              編輯
+            </button>
+            <br/>
+            <button
+              class="btn btn-outline-danger btn-sm"
+              @click="openremovemodel(item)"
+            >
+              刪除
+            </button>
           </td>
         </tr>
       </tbody>
@@ -161,7 +183,7 @@
                 <img
                   img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
                   class="img-fluid"
-                  alt=""
+                  alt="產品預覽"
                   :src="tempProduct.imageUrl"
                 />
               </div>
@@ -276,7 +298,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-maincolor"
               @click="updateproduct"
             >
               確認
@@ -337,24 +359,6 @@
   </div>
 </template>
 
-<style scoped>
-.table th.click {
-  cursor: pointer;
-}
-
-.table th.click {
-  cursor: pointer;
-}
-
-.icon {
-  display: inline-block;
-}
-.icon.inverse {
-  transform: rotate(180deg);
-}
-</style>
-
-
 <script>
 import $ from "jquery";
 import pages from "@/components/kit/pagination";
@@ -388,6 +392,17 @@ export default {
           return b[vm.rankwith] - a[vm.rankwith];
         }
       });
+    },
+    rankarrow_direction() {
+      const vm = this;
+      switch (vm.isReverse) {
+        case 0:
+          return "rankarrow_down";
+          break;
+        case 1:
+          return "rankarrow_up";
+          break;
+      }
     },
   },
   methods: {

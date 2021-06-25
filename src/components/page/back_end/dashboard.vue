@@ -1,10 +1,10 @@
 <template>
-  <div class="">  
+  <div class="">
     <alert />
     <div class="container-fluid">
       <div class="row">
         <sidebar />
-        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 pt-7">
           <router-view></router-view>
         </main>
       </div>
@@ -16,7 +16,6 @@
 <script>
 import sidebar from "@/components/template/sidebar";
 import alert from "@/components/kit/alertnote";
-
 
 export default {
   data() {

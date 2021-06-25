@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <div class="container minheight py-4 pt-md-5 mb-5">
+    <div class="container minheight py-4 pt-md-5 my-5">
       <nav class="d-flex justify-content-between" aria-label="breadcrumb">
         <breadcrumb />
         <router-link to="/addcart" class="text-info">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section">
-      <div class="container">
+      <div class="container mt-6">
         <h2 class="text-center mx-auto my-4">實體店面<br />FIND US</h2>
         <div class="oldmapbg bgimage my-4" style="height: 10vh"></div>
         <div class="row">
@@ -137,13 +137,5 @@
 .mymap {
   width: 100%;
   border: none;
-}
-.bgimage {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-.oldmapbg {
-  background-image: url("http://www.openluck.net/wp-content/gallery/tainanstory/thumbs/thumbs_tainan001.jpg");
 }
 </style>

@@ -1,14 +1,19 @@
 <template>
-  <div class="wraper">
-    <loading :active.sync="isLoading"></loading>
-    <div class="jumbotron jumbotron-fluid text-white s2">
+  <div>
+    <div class="jumbotron jumbotron-fluid text-white titlebg s2 mt-4">
       <div
-        class="btitle d-flex justify-content-center text-center align-items-center"
+        class="
+          titlelogo
+          d-flex
+          justify-content-center
+          text-center
+          align-items-center
+        "
       >
         <img
           class="img-fluid mb-2"
           src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
-          alt=""
+          alt="logo"
           style="height: 100px"
         />
         <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
@@ -24,7 +29,10 @@
             </div>
             <div class="col-5">
               <!--前往購物車頁面按鈕-->
-              <router-link to="/addcart" class="text-info float-right pr-3 d-block d-md-none">
+              <router-link
+                to="/addcart"
+                class="text-info float-right pr-3 d-block d-md-none"
+              >
                 <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
                 <span
                   class="badge badge-pill badge-danger"
@@ -38,7 +46,12 @@
           <div class="list-group d-none d-sm-block">
             <a
               href="#"
-              class="list-group-item list-group-item-action chselection"
+              class="
+                list-group-item list-group-item-action
+                border-0
+                h3
+                chselection
+              "
               v-for="(item, index) in categorys"
               :key="index"
               :class="{ active: optiontext === item }"
@@ -102,7 +115,19 @@
                 </div>
               </div>
               <div
-                class="col-sm-6 col-lg-4 mb-3"
+                class="col-md-4 mb-3"
+                :class="{ 'd-none': !isLoading }"
+                v-for="index in 10"
+                :key="index"
+              >
+                <div class="cards w-100">
+                  <div class="limage card-img-top" style="height: 200px"></div>
+                  <p class="isload p-3 mt-2"></p>
+                </div>
+              </div>
+              <div
+                class="col-md-6 col-lg-4 mb-3"
+                :class="{ 'd-none': isLoading }"
                 v-for="item in filtersdata[currentpage]"
                 :key="item.id"
               >
@@ -122,25 +147,25 @@
                     </router-link>
                     <div class="d-flex justify-content-between">
                       <p v-if="item.price">
-                        {{ item.price | currency
-                        }}<span style="letter-space: 5px; font-size: 6px"
-                          >/{{ item.unit }}</span
-                        >
+                        {{ item.price | currency }}
+                        <span style="letter-space: 5px; font-size: 6px">
+                          /{{ item.unit }}
+                        </span>
                       </p>
                       <p v-else>
-                        {{ item.origin_price | currency
-                        }}<span style="letter-space: 5px; font-size: 6px"
-                          >/{{ item.unit }}</span
-                        >
+                        {{ item.origin_price | currency }}
+                        <span style="letter-space: 5px; font-size: 6px">
+                          /{{ item.unit }}
+                        </span>
                       </p>
                     </div>
                   </div>
                   <button
                     type="button"
-                    class="btn btn-outline-secondary cartbtn"
+                    class="btn btn-outline-secondary rounded-0 cartbtn"
                     @click="addcart(item)"
                   >
-                    <i class="fas fa-cart-plus fa-lg"></i>
+                    <i class="fas fa-tag"></i>
                     加入購物車
                   </button>
                 </div>
@@ -177,65 +202,8 @@
 </template>
 
 <style scoped>
-.wraper {
-  position: relative;
-}
-
-.text-info {
-  position: relative;
-}
-
-.text-info span {
-  position: absolute;
-  top: 20px;
-}
-
-.btitle {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.thumbnail:hover {
-  transition: box-shadow ease-in-out 0.3s;
-  box-shadow: 0 1rem 1rem rgb(0 0 0 / 8%);
-}
-
-.pagination ul {
-  list-style-type: none;
-}
-
-.pagination a {
-  display: inline-block;
-  padding: 10px 18px;
-  color: #222;
-}
-
-.p1 a {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  padding: 0;
-  text-align: center;
-}
-
-.p1 a.is_active {
-  background-color: #2ecc71;
-  border-radius: 100%;
-  color: #fff;
-}
-.s2 {
-  background-color: #f2f2f2;
-  background-size: cover;
-  background-position: center center;
-  background-image: url("https://images.pexels.com/photos/3123792/pexels-photo-3123792.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-  background-repeat: no-repeat;
-}
-
 .chselection {
-  background: linear-gradient(to left, transparent 50%, #add8e6 50%) right;
+  background: linear-gradient(to left, transparent 50%, #42b983 50%) right;
   background-size: 200%;
   transition: 0.5s ease-out;
   outline: none;
@@ -243,12 +211,11 @@
 
 .chselection:hover {
   background-position: left;
-  color: #4c5052;
+  color: #edf9ff;
 }
 
 .active {
-  background-color: #add8e6;
-  color: #4c5052;
+  color: #42b983;
   outline: 0;
   border: none;
 }
@@ -296,7 +263,9 @@ export default {
       vm.isLoading = true;
       this.$http.get(api).then((resp) => {
         console.log(resp.data);
-        vm.isLoading = false;
+        setTimeout(() => {
+          vm.isLoading = false;
+        }, 5000);
         vm.custproducts = resp.data.products;
         vm.getoption(vm.custproducts);
       });
@@ -425,7 +394,6 @@ export default {
     filtersdata() {
       const vm = this;
       let tempData = [];
-      let titlearray = [];
       vm.currentpage = 0;
       vm.filtersproducts = [];
       tempData = vm.custproducts.filter((item) => {

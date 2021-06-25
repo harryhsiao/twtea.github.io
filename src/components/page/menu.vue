@@ -1,33 +1,10 @@
 <template>
   <div>
-    <loading :active.sync="isLoading" class="bg-bwood w-100 fullpg-bgcover loadopacity">
-      <img
-        class="img-fluid mx-auto d-block"
-        src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
-        alt="logo"
-        style="height: 90px"
-      />
-      <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
-    </loading>
-    <section class="py-4 fricephoto bgimage">
+    <!--section class="py-4 mt-5 fricephoto bgimage">
       <div class="container p-2 p-md-5 border border-maincolor">
         <div class="card p-3 border border-maincolor">
           <div class="card-body">
-            <img
-              class="img-fluid mx-auto d-block"
-              src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
-              alt="logo"
-              style="height: 90px"
-            />
-            <ul
-              class="
-                price-style
-                menu-content
-                mx-auto
-                d-lg-block d-none
-                text-primary
-              "
-            >
+            <ul class="price-style menu-content d-lg-block d-none text-primary">
               <li class="mx-4">牛肉炒芥藍&nbsp; <span>350</span>元</li>
               <li class="mx-4">三層炒蒜苗&nbsp; <span>100</span>元</li>
               <li class="mx-4">金莎嫩豆腐&nbsp; <span>250</span>元</li>
@@ -67,19 +44,57 @@
           </div>
         </div>
       </div>
-    </section>
-    <section>
-      <div class="menu-title-box sticky-top text-center pt-4 pb-5 bg-white">
+    </section-->
+    <section class="section">
+      <div class="progress mt-5" :class="{ 'd-none': isLoading === false }">
+        <div
+          class="
+            progress-bar progress-bar-striped progress-bar-animated
+            bg-maincolor
+          "
+          role="progressbar"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+      <div
+        class="menu-title-box sticky-top text-center pt-4 bg-white"
+        style="top: 44px"
+      >
+        <img
+          class="img-fluid mx-auto d-block"
+          src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
+          alt="logo"
+          style="height: 90px"
+        />
         <h2>本店菜單<br />Menu</h2>
       </div>
       <div class="container">
         <div class="row">
           <div
-            class="col-md-4 mb-5 thumbnail"
+            class="col-md-4 my-5 pt-5"
+            :class="{ 'd-none': !isLoading }"
+            v-for="index in 3"
+            :key="index"
+          >
+            <div class="cards m-5">
+              <div class="limage card-img-top" style="height: 300px"></div>
+              <div class="card-body content px-3 py-4">
+                <h2 class="text-center isload p-3"></h2>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-4 my-5 pt-5 thumbnail"
             v-for="item in custproducts"
             :key="item.id"
           >
-            <router-link :to="{ path: `/product/${item.id}` }">
+            <router-link
+              :to="{ path: `/product/${item.id}` }"
+              data-aos="fade-in"
+              data-offset="10"
+            >
               <img
                 class="card-img-top"
                 :src="item.imageUrl"
@@ -96,45 +111,46 @@
 </template>
 
 <style scoped>
-
-.loadopacity {
-  transition: opacity ease-in-out 0.3s;
+.progress-bar {
+  width: 0%;
+  animation: progres 4s linear;
+  animation-fill-mode: forwards;
 }
 
-.menu-content {
-  writing-mode: vertical-rl;
-  font-size: 2rem;
-}
-
-.thumbnail:hover {
-  transition: box-shadow ease-in-out 0.3s;
-  box-shadow: 0 1rem 1rem rgb(0 0 0 / 8%);
-}
-
-.fullpg-bgcover {
-  transition: background-color ease-in-out 0.3s;
-}
-
-.price-style {
-  list-style: none;
-}
-
-.price-style li span {
-  writing-mode: horizontal-tb;
-  color: tomato;
-}
+@keyframes progres {
+  0% {
+    width: 0%;
+  }
+  25% {
+    width: 50%;
+  }
+  50% {
+    width: 75%;
+  }
+  75% {
+    width: 85%;
+  }
+  100% {
+    width: 100%;
+  }
+} ;
 </style>
+
 
 <script>
 export default {
   data() {
     return {
       custproducts: [],
-      isLoading: false,
       status: {
+        barValue: 0,
+        isLoading: false,
         fileuploading: false,
       },
     };
+  },
+  mounted() {
+    this.progressbar();
   },
   created() {
     this.getproducts();
@@ -144,13 +160,13 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then((resp) => {
-        console.log(resp.data);
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 3000);
-        vm.custproducts = resp.data.products;
-      });
+      setTimeout(() => {
+        this.$http.get(api).then((resp) => {
+          console.log(resp.data);
+          vm.isLoading = false;
+          vm.custproducts = resp.data.products;
+        });
+      }, 4000);
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg heightback" :class="stylechange">
+    <nav class="navbar navbar-expand-lg fixed-top heightback" :class="stylechange">
       <button
         @touchstart="hambtn = !hambtn"
         class="navbar-toggler border-0 ml-auto"
@@ -11,14 +11,14 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <div class="animated-icon" :class="{ open: hambtn }">
+        <div class="animated-icon" :class="{ 'open': hambtn }">
           <span></span>
           <span></span>
           <span></span>
         </div>
       </button>
-      <div class="collapse navbar-collapse text-center" id="navbarNavAltMarkup">
-        <div class="navbar-nav ml-auto">
+      <div class="collapse navbar-collapse text-center" @touchstart="hambtn = !hambtn" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto navtext">
           <router-link
             class="nav-item nav-link"
             to="/login"
@@ -49,16 +49,16 @@
               >
             </div>
           </div>
-          <router-link class="nav-item nav-link" to="/" href="#"
+          <router-link class="nav-item nav-link" to="/" href="#" data-toggle="collapse" data-target=".navbar-collapse.show"
             >品牌介紹</router-link
           >
-          <router-link class="nav-item nav-link" to="/menu" href="#"
+          <router-link class="nav-item nav-link" to="/menu" href="#" data-toggle="collapse" data-target=".navbar-collapse.show"
             >美味菜單</router-link
           >
-          <router-link class="nav-item nav-link" to="/cart" href="#"
+          <router-link class="nav-item nav-link" to="/cart" href="#" data-toggle="collapse" data-target=".navbar-collapse.show"
             >線上訂購</router-link
           >
-          <router-link class="nav-item nav-link" to="/shop" href="#"
+          <router-link class="nav-item nav-link" to="/shop" href="#" data-toggle="collapse" data-target=".navbar-collapse.show"
             >門市據點</router-link
           >
         </div>
@@ -67,23 +67,11 @@
   </div>
 </template>
 
-<style scoped>
-.heightback {
-  transition: padding ease-in-out 0.5s;
-}
-@media screen and (max-width: 600px){
-  .heightback {
-    transition: background-color ease-in-out 0.3s;
-  }
-}
-</style>
-
 <script>
 export default {
   data() {
     return {
       memberin: "no",
-      open: true,
       windowTop: 0,
       hambtn: false,
     };
@@ -104,16 +92,16 @@ export default {
       switch (homePath) {
         case "/":
           if (vm.windowTop > 10) {
-            return "navbar-light bg-bwood fixed-top py-lg-2";
+            return "navbar-light bg-bwood py-lg-2";
           } else {
 
             if(vm.hambtn === true){
 
-              return "navbar-light bg-bwood fixed-top py-lg-2";
+              return "navbar-light bg-bwood py-lg-2";
 
             }else{
 
-              return "navbar-dark bg-transparent fixed-top py-lg-5";
+              return "navbar-dark bg-transparent py-lg-5";
 
             }            
           }
@@ -131,6 +119,7 @@ export default {
       this.$http.post(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
+          vm.memberin = "no";
           vm.$router.push("/");
         }
       });

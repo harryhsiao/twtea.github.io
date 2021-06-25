@@ -1,38 +1,38 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <h2>優惠券管理</h2>
-    <div class="text-right">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>優惠券管理</h2>
       <button class="btn btn-primary my-4" @click="openCouponmodal(true)">
         新增優惠券
       </button>
     </div>
-    <table class="table">
+    <table class="table rwd-table">
       <thead>
         <tr>
-          <th scope="col">流水號</th>
-          <th scope="col">名稱</th>
-          <th scope="col">折扣量</th>
-          <th scope="col">代碼</th>
-          <th scope="col">到期日</th>
-          <th scope="col">是否啟用</th>
+          <th class="text-md-center" scope="col">流水號</th>
+          <th class="text-md-center" scope="col">名稱</th>
+          <th class="text-md-center" scope="col">折扣數</th>
+          <th class="text-md-center" scope="col">折扣碼</th>
+          <th class="text-md-center" scope="col">到期日</th>
+          <th class="text-md-center" scope="col">票券狀態</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in filterdate" :key="item.id">
-          <td>{{ item.num }}</td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.percent }} %</td>
-          <td>{{ item.code }}</td>
-          <td>{{ item.due_date | dateFilter }}</td>
-          <td>
+          <td class="text-md-center" data-th="流水號">{{ item.num }}</td>
+          <td class="text-md-center" data-th="名稱">{{ item.title }}</td>
+          <td class="text-md-center" data-th="折扣數">{{ item.percent }} %</td>
+          <td class="text-md-center" data-th="折扣碼">{{ item.code }}</td>
+          <td class="text-md-center" data-th="到期日">{{ item.due_date | dateFilter }}</td>
+          <td class="text-md-center" data-th="票券狀態">
             <span v-if="item.is_enabled === 1" class="text-success">
               啟用
             </span>
             <span v-else class="text-black-50">尚未啟用</span>
           </td>
-          <td>
+          <td class="text-md-center">
             <span
               ><button
                 class="btn btn-outline-coffemilk btn-sm mb-2"

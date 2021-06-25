@@ -10,16 +10,26 @@
         shadow
       "
     >
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#/">回到主頁</a>
-      <button
-        class="navbar-brand col-sm-3 col-md-2 mr-0 d-inline d-md-none"
-        @click="onsider"
-      >
-        管理員項目
-        <i class="fas fa-bars"></i>
-      </button>
+      <div class="navbar-brand col-sm-3 col-md-2 mr-0">
+        <a class="text-white" href="#/">回到主頁</a>
+        <button
+          class="
+            d-inline d-md-none
+            bg-transparent
+            border-0
+            text-white
+            float-right
+          "
+          @click="onsider"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
     </nav>
-    <nav class="col-md-2 bg-light sidebar" :class="{ showSidebar: tran,hideSidebar: !tran }">
+    <nav
+      class="col-md-2 bg-light sidebar"
+      :class="{ showSidebar: !tran, hideSidebar: tran }"
+    >
       <div class="sidebar-sticky">
         <h6
           class="
@@ -38,7 +48,7 @@
             <span data-feather="plus-circle"></span>
           </a>
         </h6>
-        <ul class="nav flex-column">
+        <ul class="nav flex-column d-md-block d-none">
           <li class="nav-item border py-4">
             <router-link class="nav-link h4" to="/dashboard/products"
               ><i class="fas fa-box-open fa-fw"></i
@@ -52,6 +62,31 @@
             >
           </li>
           <li class="nav-item border py-4">
+            <router-link class="nav-link h4" to="/dashboard/coupon"
+              ><i class="fas fa-ticket-alt fa-fw"></i
+              >&nbsp;&nbsp;優惠券</router-link
+            >
+          </li>
+          <li class="nav-item border py-4">
+            <a class="nav-link h4" href="#" @click.prevent="logout()"
+              ><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;登出</a
+            >
+          </li>
+        </ul>
+        <ul class="nav flex-column d-md-none d-block">
+          <li class="nav-item border py-4" @click="onsider">
+            <router-link class="nav-link h4" to="/dashboard/products"
+              ><i class="fas fa-box-open fa-fw"></i
+              >&nbsp;&nbsp;產品列表</router-link
+            >
+          </li>
+          <li class="nav-item border py-4" @click="onsider">
+            <router-link class="nav-link h4" to="/dashboard/orders"
+              ><i class="fas fa-clipboard-list fa-fw"></i
+              >&nbsp;&nbsp;訂單列表</router-link
+            >
+          </li>
+          <li class="nav-item border py-4" @click="onsider">
             <router-link class="nav-link h4" to="/dashboard/coupon"
               ><i class="fas fa-ticket-alt fa-fw"></i
               >&nbsp;&nbsp;優惠券</router-link

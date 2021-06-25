@@ -22,6 +22,10 @@ import './bus';
 import currencyFilter from './filters/currency';
 import VueI18n from 'vue-i18n';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init();
+
 Vue.use(VueI18n)
 
 Object.keys(rules).forEach((rule) => {

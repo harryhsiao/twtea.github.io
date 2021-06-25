@@ -1,0 +1,15 @@
+.navtext:hover{
+    transition: color cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+}
+
+.heightback {
+  transition: padding ease-in-out 0.5s;
+}
+.navtext a:hover{  
+  transition: color ease-in-out 0.1s;
+}
+@media screen and (max-width: 600px){
+  .heightback {
+    transition: background-color ease-in-out 0.3s;
+  }
+}

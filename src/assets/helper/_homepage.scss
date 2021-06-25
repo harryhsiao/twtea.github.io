@@ -2,28 +2,16 @@
   min-height: 100vh;
 }
 
+.section-footer {
+  min-height: 88vh;
+}
+
 .hptitle { 
   height: 55vh;
   background-attachment: fixed;
 }
 
+//改善logo title 無法完美置中
 .btitle{  
   flex-direction: column;
-}
-
-.bgimage {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.titlebg {
-  /*background-image: url("https://images.unsplash.com/photo-1552993873-0dd1110e025f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80");*/
-  background-image: url("https://images.unsplash.com/photo-1551851300-1fd39219a668?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
-}
-.fricephoto {
-  background-image: url("https://images.unsplash.com/photo-1464500542410-1396074bf230?ixlib=rb-1.2.1");
-}
-.oldmapbg {
-  background-image: url("http://www.openluck.net/wp-content/gallery/tainanstory/thumbs/thumbs_tainan001.jpg");
 }

@@ -1,3 +1,29 @@
+router-view {
+  height: 100%; /*外層高度100%*/
+  margin: 0;
+}
+//主要廣告圖
+
+.titlebg {  
+  background-image: url("https://images.unsplash.com/photo-1551851300-1fd39219a668?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
+} //小籠包圖
+
+.fricephoto {
+  background-image: url("https://images.unsplash.com/photo-1464500542410-1396074bf230?ixlib=rb-1.2.1");
+} //炒鍋圖
+
+.oldmapbg {
+  background-image: url("http://www.openluck.net/wp-content/gallery/tainanstory/thumbs/thumbs_tainan001.jpg");
+} //老地圖
+
+//背景圖滿版
+
+.bgimage {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
 //opacity
 .opacity-0 {
   opacity:0!important;
@@ -76,4 +102,21 @@ left: -60px;
 .open span:nth-child(3) {
 top: 11px;
 transform: rotate(-135deg);
+}
+
+//product card loading animation
+
+.isload,
+.limage {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
 }

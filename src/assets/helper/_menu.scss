@@ -1,0 +1,29 @@
+.menu-content {
+  writing-mode: vertical-rl;
+  font-size: 2rem;
+}
+
+.thumbnail:hover {
+  transition: box-shadow ease-in-out 0.3s;
+  box-shadow: 0 1rem 1rem;
+}
+
+.price-style {
+  list-style: none;
+}
+
+.price-style li span {
+  writing-mode: horizontal-tb;
+  color: tomato;
+}
+
+.price-style li:hover{
+  color: tomato;
+  transform: scale(1.2);
+  transition: color cubic-bezier(0.075, 0.82, 0.165, 1) .4s;
+  transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) .4s;
+}
+
+.minimenu {
+  animation: minicontant 4s infinite;
+}

@@ -1,0 +1,73 @@
+@import './helper/_opacity';
+@import './helper/_custpagination';
+@import './helper/_productcard';
+@import './helper/_heightnwidth';
+
+
+/* 圖片(image) */
+
+.main-image {  
+  background-image: url("https://images.unsplash.com/photo-1551851300-1fd39219a668?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
+}
+
+.menu-image {
+  background-image: url("https://images.unsplash.com/photo-1464500542410-1396074bf230?ixlib=rb-1.2.1");
+}
+
+.shop-image {
+  background-image: url("http://www.openluck.net/wp-content/gallery/tainanstory/thumbs/thumbs_tainan001.jpg");
+}
+
+//圖片樣式控制
+
+.image-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.bg-attachment { 
+  background-attachment: fixed;
+}
+
+// 文字圖片組合 垂直置中
+.image-text-combo{
+  flex-direction: column;
+}
+
+
+
+/* html tag 滿版尺寸 */
+
+.section {
+  min-height: 100vh;
+}
+
+.section-footer {
+  min-height: 88vh;
+}
+
+
+
+/* position direction ( top bottom ... etc) */
+
+$direction: 10px;
+$directions:  ();
+$directions: map-merge(
+  (
+    0: 0,
+    1: $direction,
+    2: ($direction * 2),
+    3: ($direction * 3),
+    4: ($direction * 4),
+    5: ($direction * 5),
+  ),
+  $directions
+);
+
+// ex. direction-1 , direction-2 , ...
+@each $prop, $abbrev in ( top: t ,left: l , bottom: b, right: r ) {
+  @each $direction, $length in $directions {
+    .#{$abbrev}-#{$direction} { #{$prop}: $length !important; }
+  }
+}

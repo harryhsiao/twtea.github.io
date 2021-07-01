@@ -23,7 +23,7 @@
             class="nav-item nav-link"
             to="/login"
             href="#"
-            v-if="memberin == 'no'"
+            v-if="memberin==false"
             >登入</router-link
           >
           <div class="dropdown" v-else>
@@ -70,9 +70,9 @@
 <script>
 export default {
   data() {
-    return {
-      memberin: "no",
+    return {      
       windowTop: 0,
+      memberin: false,
       hambtn: false,
     };
   },
@@ -119,7 +119,7 @@ export default {
       this.$http.post(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
-          vm.memberin = "no";
+          vm.memberin = false;
           vm.$router.push("/");
         }
       });
@@ -135,9 +135,9 @@ export default {
       this.$http.post(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
-          vm.memberin = "yes";
+          vm.memberin = true;
         } else {
-          vm.memberin = "no";
+          vm.memberin = false;
         }
       });
     },

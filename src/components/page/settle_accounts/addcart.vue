@@ -4,15 +4,36 @@
     <main class="container mt-6 section-footer">
       <div class="row">
         <div class="col-lg-8">
-          <div class="card mb-4" style="height: 75vh">
-            <div class="card-header">
+          <div class="card mb-4">
+            <div
+              class="
+                card-header
+                d-md-flex
+                justify-content-between
+                align-items-center
+              "
+            >
               <h5 class="p-3">
-                購物車 (共<span>{{ cartlong }}</span> 筆購物內容)
+                購物車 (共<span class="text-maincolor p-3 h2">{{
+                  cartlong
+                }}</span>
+                筆購物內容)
               </h5>
+              <a
+                class="float-md-none float-right"
+                href="#"
+                @click.prevent="killall()"
+                v-show="!isnone"
+                ><i class="fas fa-snowplow p-2"></i>清空購物車</a
+              >
             </div>
-            <div class="card-body overflow-auto">
+            <div class="card-body overflow-auto hvh-8">
               <p class="text-center mt-9" v-show="isnone">購物車是空的...</p>
-              <div class="row mb-4 border-bottom" v-for="item in incart" :key="item.id">
+              <div
+                class="row mb-4 border-bottom"
+                v-for="item in incart"
+                :key="item.id"
+              >
                 <div class="col-md-5 col-lg-3">
                   <div class="mb-3 mb-md-0">
                     <img
@@ -60,7 +81,12 @@
                     </div>
                   </div>
                   <div
-                    class="d-flex justify-content-between align-items-center my-5"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      my-5
+                    "
                   >
                     <a
                       href="#!"
@@ -197,32 +223,18 @@
   </div>
 </template>
 
-<style scoped>
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-</style>
-
 <script>
 import $ from "jquery";
 
 export default {
   data() {
     return {
-      custcart: {},
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
       isnext: false,
       isLoading: false,
       isnone: true,
       cartlong: 0,
-      totalprice: 0,
+      mytotalprice: 0,
     };
   },
 
@@ -233,8 +245,8 @@ export default {
   },
 
   created() {
-    this.getcart();
     this.pricecal();
+    this.incartnum();
   },
   computed: {
     changestyle() {
@@ -255,7 +267,7 @@ export default {
       const vm = this;
       const pricepack = [];
       vm.incart.forEach((item) => {
-        if (item.price > 0 || item.price !== "") {
+        if (item.price !== null) {
           pricepack.push(item.price * item.qty);
         } else {
           pricepack.push(item.origin_price * item.qty);
@@ -268,18 +280,10 @@ export default {
         vm.totalprice = pricepack;
       }
     },
-    getcart() {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+    incartnum() {
       const vm = this;
-      vm.isLoading = true;
-      //console.log(process.env.APIPATH)
-      this.$http.get(api).then((resp) => {
-        console.log(resp.data);
-        vm.isLoading = false;
-        vm.custcart = resp.data.data;
-      });
       vm.cartlong = vm.incart.length;
-      if (vm.incart.length === 0) {
+      if (vm.cartlong === 0) {
         vm.isnone = true;
       } else {
         vm.isnone = false;
@@ -393,6 +397,14 @@ export default {
       });
       localStorage.setItem("mycart", JSON.stringify(vm.incart));
       vm.pricecal();
+      vm.incartnum();
+    },
+    killall() {
+      const vm = this;
+      vm.incart = [];
+      vm.cartlong = 0;
+      localStorage.removeItem("mycart");
+      vm.isnone = true;
     },
   },
 };

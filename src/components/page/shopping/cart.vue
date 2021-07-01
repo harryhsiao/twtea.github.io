@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div class="jumbotron jumbotron-fluid text-white titlebg s2 mt-4">
+    <div class="jumbotron jumbotron-fluid text-white main-image image-cover mt-4">
       <div
         class="
-          titlelogo
           d-flex
           justify-content-center
+          image-text-combo
           text-center
           align-items-center
         "
       >
         <img
-          class="img-fluid mb-2"
+          class="img-fluid mb-2 hpx-10"
           src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
           alt="logo"
-          style="height: 100px"
         />
         <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
       </div>
@@ -31,11 +30,11 @@
               <!--前往購物車頁面按鈕-->
               <router-link
                 to="/addcart"
-                class="text-info float-right pr-3 d-block d-md-none"
+                class="position-relative text-info float-right pr-3 d-block d-md-none"
               >
                 <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
                 <span
-                  class="badge badge-pill badge-danger"
+                  class="badge badge-pill position-absolute t-20 badge-danger"
                   v-if="cartlong > 0"
                   >{{ cartlong }}</span
                 >
@@ -98,7 +97,7 @@
                     <!--前往購物車頁面按鈕-->
                     <router-link
                       to="/addcart"
-                      class="text-info d-none d-md-block"
+                      class="badge-pop-up text-info d-none d-md-block"
                     >
                       <i
                         class="fas fa-shopping-cart fa-2x"
@@ -121,7 +120,7 @@
                 :key="index"
               >
                 <div class="cards w-100">
-                  <div class="limage card-img-top" style="height: 200px"></div>
+                  <div class="limage card-img-top hpx-20"></div>
                   <p class="isload p-3 mt-2"></p>
                 </div>
               </div>
@@ -134,10 +133,9 @@
                 <div class="card thumbnail">
                   <router-link :to="{ path: `/product/${item.id}` }">
                     <img
-                      class="card-img-top"
+                      class="card-img-top hpx-15"
                       :src="item.imageUrl"
                       :alt="item.category"
-                      style="height: 150px"
                     />
                   </router-link>
                   <div class="card-body">
@@ -148,13 +146,13 @@
                     <div class="d-flex justify-content-between">
                       <p v-if="item.price">
                         {{ item.price | currency }}
-                        <span style="letter-space: 5px; font-size: 6px">
+                        <span class="price-unit">
                           /{{ item.unit }}
                         </span>
                       </p>
                       <p v-else>
                         {{ item.origin_price | currency }}
-                        <span style="letter-space: 5px; font-size: 6px">
+                        <span class="price-unit">
                           /{{ item.unit }}
                         </span>
                       </p>
@@ -173,7 +171,7 @@
               </div>
               <div class="container">
                 <div class="row justify-content-center">
-                  <div class="pagination p1 pt-4 pl-4 mb-5">
+                  <div class="pagination pg-num pt-4 pl-4 mb-5">
                     <ul class="m-0 p-0">
                       <a href="#" @click.prevent="prev"
                         ><li><i class="fas fa-chevron-left"></i></li

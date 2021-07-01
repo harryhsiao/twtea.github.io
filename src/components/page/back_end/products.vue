@@ -355,7 +355,7 @@
         </div>
       </div>
     </div>
-    <pages :pgnum="pagination" @getpgnum="getproducts" />
+    <pages class="d-flex justify-content-center" :pgnum="pagination" @getpgnum="getproducts" />
   </div>
 </template>
 

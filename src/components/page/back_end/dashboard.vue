@@ -14,7 +14,7 @@
 
 
 <script>
-import sidebar from "@/components/template/sidebar";
+import sidebar from "./sidebar";
 import alert from "@/components/kit/alertnote";
 
 export default {

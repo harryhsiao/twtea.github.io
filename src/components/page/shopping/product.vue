@@ -13,7 +13,7 @@
       </nav>
       <div class="row d-flex my-4">
         <div class="col-lg-5 col-md-6">
-          <img class="w-100" :src="product.imageUrl" style="height: 35vh" />
+          <img class="w-100 hvh-3" :src="product.imageUrl" />
         </div>
         <div class="col-lg-7 col-md-6">
           <h3 class="font-weight-bold">{{ product.title }}</h3>
@@ -31,7 +31,7 @@
             }}</span>
             元
           </p>
-          <div class="cartbtn" style="width: 18rem;">
+          <div class="cartbtn wrem-20">
             <div class="input-group my-3">
               <div class="input-group-prepend">
                 <button
@@ -49,7 +49,6 @@
                 :max="product.num"
                 v-model.number="qty"
                 type="number"
-                style="appearance: none; appearance: textfield"
               />
               <div class="input-group-prepend">
                 <button

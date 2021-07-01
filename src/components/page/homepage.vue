@@ -3,10 +3,11 @@
     <section class="section">
       <div
         class="
-          titlebg
-          btitle
-          hptitle
-          bgimage
+          main-image
+          half-image
+          image-text-combo
+          bg-attachment
+          image-cover
           d-flex
           justify-content-center
           text-center
@@ -14,10 +15,9 @@
         "
       >
         <img
-          class="img-fluid mb-2"
+          class="img-fluid mb-2 hrem-9"
           src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
           alt="logo"
-          style="height: 90px"
         />
 
         <h3 class="text-white border-top pt-4">台灣特色料理餐廳</h3>
@@ -114,9 +114,9 @@
     <section class="section py-4">
       <h2 class="text-center mb-3" data-aos="fade-in" data-aos-delay="50" data-aos-offset="100">菜單<br />MENU</h2>
       <div class="container">
-        <div class="fricephoto bgimage mb-3 my-auto" style="height: 40vh" data-aos="fade-in" data-aos-delay="50" data-aos-offset="110"></div>
-        <div class="row px-5">
-          <div class="col-lg-6 my-4">
+        <div class="menu-image hvh-4 image-cover mb-3 my-auto" data-aos="fade-in" data-aos-delay="50" data-aos-offset="110"></div>
+        <div class="row px-md-5">
+          <div class="col-md-6 my-4">
             <p class="text-left" data-aos="fade-in" data-aos-delay="50" data-aos-offset="305">
               更說太夫制務過了；問多前眼中年一，
               料許況為一頭火出著友阿歷住不家大感才品傳示山士廠過是四。
@@ -151,7 +151,7 @@
     <section class="section-footer pt-4">
       <h2 class="text-center mb-3" data-aos="fade-in" data-aos-delay="50" data-aos-offset="50">相關店鋪<br />FIND US</h2>
       <div class="container">
-        <div class="oldmapbg bgimage mb-3" style="height: 30vh" data-aos="fade-in" data-aos-delay="50" data-aos-offset="110"></div>
+        <div class="shop-image hvh-3 image-cover mb-3" data-aos="fade-in" data-aos-delay="50" data-aos-offset="110"></div>
         <div class="mt-4 text-center mx-auto" data-aos="fade-in" data-aos-delay="50" data-aos-offset="200">
           <router-link
             to="/shop"
@@ -164,89 +164,3 @@
     </section>
   </div>
 </template>
-
-<script>
-//這個fullpage scroll的方法為: 每一次都先判斷code裡有多少個<section>,並擷取各自的offsetTop (第203 204 206~209 行)
-/*export default {
-  data() {
-    return {
-      offsets: [],
-      scrollSection: [],
-      activeSection: 0,
-      touchStartY: 0,
-      inMove: false,
-    };
-  },
-  methods: {
-    calculateSectionOffsets() {
-      let sections = document.querySelectorAll(".section");
-      let length = sections.length;
-      const vm = this;
-      vm.offsets = [];
-      for (let i = 0; i < length; i++) {
-        let sectionOffset = sections[i].offsetTop; // 儲存每一個 <section> 距離網頁頂部的數值
-        vm.offsets.push(sectionOffset);
-      }
-    },
-    handleMouseWheel(e) {
-      //判斷滑鼠滾輪式往上還是往下滾
-      const vm = this;
-      if (e.wheelDelta > 30 && !vm.inMove) {
-        vm.moveUp();
-      } else if (e.wheelDelta < 30 && !vm.inMove) {
-        vm.moveDown();
-      }
-      e.preventDefault();
-      return false;
-    },
-    scrollToSection(id, force = false) {
-      //整頁滾動時的轉場特效建立
-      const vm = this;
-      if (vm.inMove && !force) {
-        return false;
-      }
-      vm.activeSection = id;
-      vm.inMove = true;
-      let sectiontag = document.querySelectorAll(".section");
-      vm.calculateSectionOffsets();
-      if (vm.offsets.length > 0) {
-        sectiontag[id].scrollIntoView({ behavior: "smooth" });
-        setTimeout(() => {
-          vm.inMove = false;
-        }, 400);
-      } else if (vm.activeSection >= vm.offsets.length) {
-        console.log("hi");
-      }
-    },
-    moveDown() {
-      const vm = this;
-      vm.inMove = true;
-      vm.activeSection++;
-      if (vm.activeSection > vm.offsets.length - 1) {
-        vm.activeSection = 0;
-      }
-      vm.scrollToSection(vm.activeSection, true);
-    },
-    moveUp() {
-      const vm = this;
-      vm.inMove = true;
-      vm.activeSection--;
-      if (vm.activeSection < 0) {
-        vm.activeSection = vm.offsets.length - 1;
-      }
-      vm.scrollToSection(vm.activeSection, true);
-    },
-  },
-  created() {
-    this.calculateSectionOffsets();
-    window.addEventListener("mousewheel", this.handleMouseWheel, {
-      passive: false,
-    });
-  },
-  beforeDestroy() {
-    window.removeEventListener("mousewheel", this.handleMouseWheel, {
-      passive: false,
-    });
-  },
-};*/
-</script>

@@ -3,7 +3,7 @@
     <section class="section">
       <div class="container mt-6">
         <h2 class="text-center mx-auto my-4">實體店面<br />FIND US</h2>
-        <div class="oldmapbg bgimage my-4" style="height: 10vh"></div>
+        <div class="shop-image image-cover my-4 hvh-1"></div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <h5 class="text-center font-weight-bold">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="photobox w-50">
                   <iframe
-                    class="mymap"
+                    class="w-100 border-0"
                     src="https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=台南市東區前鋒路210號&z=16&output=embed&t="
                   ></iframe>
                 </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="photobox w-50">
                   <iframe
-                    class="mymap"
+                    class="w-100 border-0"
                     src="https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=新北市泰山區泰林路二段240號&z=16&output=embed&t="
                   ></iframe>
                 </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="photobox w-50">
                   <iframe
-                    class="mymap"
+                    class="w-100 border-0"
                     src="https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=台北市信義區仁愛路四段240號&z=16&output=embed&t="
                   ></iframe>
                 </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="photobox w-50">
                   <iframe
-                    class="mymap"
+                    class="w-100 border-0"
                     src="https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=宜蘭縣羅東鎮傳藝路二段20號&z=16&output=embed&t="
                   ></iframe>
                 </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="photobox w-50">
                   <iframe
-                    class="mymap"
+                    class="w-100 border-0"
                     src="https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=高雄市前鎮區擴建路109號&z=16&output=embed&t="
                   ></iframe>
                 </div>
@@ -132,10 +132,3 @@
     </section>
   </div>
 </template>
-
-<style scoped>
-.mymap {
-  width: 100%;
-  border: none;
-}
-</style>

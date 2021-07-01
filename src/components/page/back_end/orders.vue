@@ -79,7 +79,7 @@
         </div>
       </div>
     </div>
-    <pages :pgnum="pagination" @getpgnum="getorders" />
+    <pages class="d-flex justify-content-center" :pgnum="pagination" @getpgnum="getorders" />
   </div>
 </template>
 

@@ -134,10 +134,10 @@
               class="btn btn-secondary"
               data-dismiss="modal"
             >
-              Close
+              取消
             </button>
             <button type="button" class="btn btn-primary" @click="updateCoupon">
-              確認
+              新增
             </button>
           </div>
         </div>
@@ -186,7 +186,7 @@
         </div>
       </div>
     </div>
-    <pages :pgnum="pagination" @getpgnum="getcoupons" />
+    <pages class="d-flex justify-content-center" :pgnum="pagination" @getpgnum="getcoupons" />
   </div>
 </template>
 

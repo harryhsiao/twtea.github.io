@@ -1,10 +1,10 @@
 <template>
   <div>
     <navbar />
-    <div class="card text-center mt-6 w-20 form-signin">
+    <div class="card text-center w-20 form-signin mt-6">
       <div class="card-body">
         <form @submit.prevent="login">
-          <h1 class="h3 mb-3 font-weight-normal">登入</h1>
+          <h3 class="mb-3 font-weight-normal">登入</h3>
           <label for="inputEmail" class="sr-only">電子郵件</label>
           <input
             type="email"
@@ -31,9 +31,18 @@
           </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">
             登入
-          </button>
-          <p class="mt-5 mb-3 text-muted">&copy; 僅供練習用,無商業服務</p>
+          </button>          
         </form>
+        <div class="text-center align-items-center mt-4">
+          <img
+            class="img-fluid mb-2 hrem-3"
+            src="https://upload.cc/i1/2021/03/17/DuLmv7.png"
+            alt="logo"
+          />
+          <h3 class="font-weight-normal">台味</h3>
+          <p>後臺管理系統</p>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; 僅供練習用,無商業服務</p>
       </div>
     </div>
   </div>

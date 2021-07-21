@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import Vuex from 'vuex'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
@@ -26,7 +27,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 AOS.init();
 
-Vue.use(VueI18n)
+Vue.use(Vuex);
+Vue.use(VueI18n);
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);

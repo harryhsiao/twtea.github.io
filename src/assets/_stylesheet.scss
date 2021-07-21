@@ -1,7 +1,9 @@
 @import './helper/_opacity';
+@import './helper/_articalgrid';
 @import './helper/_custpagination';
 @import './helper/_productcard';
 @import './helper/_heightnwidth';
+
 
 
 /* 圖片(image) */
@@ -35,7 +37,19 @@
   flex-direction: column;
 }
 
+.furittext{
+    list-style: none;
+    top: 230px;    
+    left: 0;
+    transition: top cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+  }  
 
+.img-hover-text:hover{
+  .furittext{
+    top: 0;    
+    left: 0;    
+  }  
+}
 
 /* html tag 滿版尺寸 */
 
@@ -70,4 +84,10 @@ $directions: map-merge(
   @each $direction, $length in $directions {
     .#{$abbrev}-#{$direction} { #{$prop}: $length !important; }
   }
+}
+
+.tooltip-hover:hover{
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(101, 190, 160);
 }

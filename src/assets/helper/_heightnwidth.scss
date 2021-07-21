@@ -1,3 +1,5 @@
+// wrem 以及 hrem 的起始直接為 1rem , 其餘單位皆以 10 為基準( 10vh , 10px)(因為 rem 的變化比較大)
+
 /* 高度 ( height ) */
 
 // 單位(unit): px 
@@ -149,6 +151,7 @@ $wrems: map-merge(
     .#{$abbrev}-#{$wrem} { #{$prop}: $length !important; }
   }
 }
+
 
 // 單位(unit): vh
 $wvh: 10vh;

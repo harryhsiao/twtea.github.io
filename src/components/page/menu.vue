@@ -102,9 +102,6 @@ export default {
       },
     };
   },
-  mounted() {
-    this.progressbar();
-  },
   created() {
     this.getproducts();
   },

@@ -31,7 +31,9 @@
             <span>
               <i
                 class="fas fa-angle-up text-success"
-                :class="{ rankarrow_down: rankwith == 'is_enabled' && isReverse }"
+                :class="{
+                  rankarrow_down: rankwith == 'is_enabled' && isReverse,
+                }"
               ></i>
             </span>
           </th>
@@ -109,7 +111,7 @@
             >
               編輯
             </button>
-            <br/>
+            <br />
             <button
               class="btn btn-outline-danger btn-sm"
               @click="openremovemodel(item)"
@@ -154,38 +156,145 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="image">輸入圖片網址</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="image"
-                    v-model="tempProduct.imageUrl"
-                    placeholder="請輸入圖片連結"
+                <div class="border-bottom pb-3">
+                  <div class="form-group">
+                    <label for="image">輸入圖片網址</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="image"
+                      v-model="tempProduct.imageUrl"
+                      placeholder="請輸入圖片連結"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="customFile"
+                      >或 上傳圖片
+                      <i
+                        class="fas fa-spinner fa-spin"
+                        v-if="status.uploading"
+                      ></i>
+                    </label>
+                    <input
+                      type="file"
+                      id="customFile"
+                      class="form-control"
+                      ref="files"
+                      @change="uploadfile"
+                    />
+                  </div>
+                  <img
+                    img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
+                    class="img-fluid"
+                    alt="產品預覽"
+                    :src="tempProduct.imageUrl"
                   />
                 </div>
-                <div class="form-group">
-                  <label for="customFile"
-                    >或 上傳圖片
-                    <i
-                      class="fas fa-spinner fa-spin"
-                      v-if="status.uploading"
-                    ></i>
-                  </label>
-                  <input
-                    type="file"
-                    id="customFile"
-                    class="form-control"
-                    ref="files"
-                    @change="uploadfile"
+
+                <div class="border-bottom py-3">
+                  <div class="form-group">
+                    <label for="image">輸入圖片網址</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="image"
+                      v-model="tempProduct.image2"
+                      placeholder="請輸入圖片連結"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="customFile"
+                      >或 上傳圖片
+                      <i
+                        class="fas fa-spinner fa-spin"
+                        v-if="status.uploading"
+                      ></i>
+                    </label>
+                    <input
+                      type="file"
+                      id="customFile"
+                      class="form-control"
+                      ref="files"
+                      @change="uploadfile"
+                    />
+                  </div>
+                  <img
+                    img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
+                    class="img-fluid"
+                    alt="產品預覽"
+                    :src="tempProduct.image2"
                   />
                 </div>
-                <img
-                  img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
-                  class="img-fluid"
-                  alt="產品預覽"
-                  :src="tempProduct.imageUrl"
-                />
+
+                <div class="border-bottom py-3">
+                  <div class="form-group">
+                    <label for="image">輸入圖片網址</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="image"
+                      v-model="tempProduct.image3"
+                      placeholder="請輸入圖片連結"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="customFile"
+                      >或 上傳圖片
+                      <i
+                        class="fas fa-spinner fa-spin"
+                        v-if="status.uploading"
+                      ></i>
+                    </label>
+                    <input
+                      type="file"
+                      id="customFile"
+                      class="form-control"
+                      ref="files"
+                      @change="uploadfile"
+                    />
+                  </div>
+                  <img
+                    img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
+                    class="img-fluid"
+                    alt="產品預覽"
+                    :src="tempProduct.image3"
+                  />
+                </div>
+
+                <div class="border-bottom py-3">
+                  <div class="form-group">
+                    <label for="image">輸入圖片網址</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="image"
+                      v-model="tempProduct.image4"
+                      placeholder="請輸入圖片連結"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="customFile"
+                      >或 上傳圖片
+                      <i
+                        class="fas fa-spinner fa-spin"
+                        v-if="status.uploading"
+                      ></i>
+                    </label>
+                    <input
+                      type="file"
+                      id="customFile"
+                      class="form-control"
+                      ref="files"
+                      @change="uploadfile"
+                    />
+                  </div>
+                  <img
+                    img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
+                    class="img-fluid"
+                    alt="產品預覽"
+                    :src="tempProduct.image4"
+                  />
+                </div>
               </div>
               <div class="col-sm-8">
                 <div class="form-group">
@@ -249,20 +358,22 @@
                 <hr />
 
                 <div class="form-group">
-                  <label for="description">產品描述</label>
+                  <label for="description">產品說明</label>
                   <textarea
                     type="text"
+                    row="30"
                     class="form-control"
                     id="description"
                     v-model="tempProduct.description"
-                    placeholder="請輸入產品描述"
+                    placeholder="請輸入產品說明"
                   ></textarea>
                 </div>
 
                 <div class="form-group">
-                  <label for="content">說明內容</label>
+                  <label for="content">產品內容</label>
                   <textarea
                     type="text"
+                    row="30"
                     class="form-control text-box"
                     id="content"
                     v-model="tempProduct.content"
@@ -355,9 +466,19 @@
         </div>
       </div>
     </div>
-    <pages class="d-flex justify-content-center" :pgnum="pagination" @getpgnum="getproducts" />
+    <pages
+      class="d-flex justify-content-center"
+      :pgnum="pagination"
+      @getpgnum="getproducts"
+    />
   </div>
 </template>
+
+<style scoped>
+textarea {
+  white-space: pre;
+}
+</style>
 
 <script>
 import $ from "jquery";
@@ -367,7 +488,12 @@ export default {
   data() {
     return {
       products: [],
-      tempProduct: {},
+      tempProduct: {
+        image2: "",
+        image3: "",
+        image4: "",
+        is_enabled: 0
+      },
       pagination: {},
       newdatas: false,
       isLoading: false,
@@ -442,9 +568,86 @@ export default {
           }
         });
     },
+    uploadfile2() {
+      const uploadedfile2 = this.$refs.files2.files[0];
+      const vm = this;
+      const formdata = new FormData();
+      formdata.append("file-to-upload", uploadedfile2);
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
+      vm.status.uploading = true;
+
+      this.$http
+        .post(url, formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((resp) => {
+          console.log(resp.data);
+
+          vm.status.uploading = false;
+
+          if (resp.data.success) {
+            vm.$set(vm.tempProduct, "imageUrl", resp.data.imageUrl);
+          } else {
+            this.$bus.$emit("messsage:push", resp.data.message, "danger");
+          }
+        });
+    },
+    uploadfile3() {
+      const uploadedfile3 = this.$refs.files3.files[0];
+      const vm = this;
+      const formdata = new FormData();
+      formdata.append("file-to-upload", uploadedfile3);
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
+      vm.status.uploading = true;
+
+      this.$http
+        .post(url, formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((resp) => {
+          console.log(resp.data);
+
+          vm.status.uploading = false;
+
+          if (resp.data.success) {
+            vm.$set(vm.tempProduct, "imageUrl", resp.data.imageUrl);
+          } else {
+            this.$bus.$emit("messsage:push", resp.data.message, "danger");
+          }
+        });
+    },
+    uploadfile4() {
+      const uploadedfile4 = this.$refs.files4.files[0];
+      const vm = this;
+      const formdata = new FormData();
+      formdata.append("file-to-upload", uploadedfile4);
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
+      vm.status.uploading = true;
+
+      this.$http
+        .post(url, formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((resp) => {
+          console.log(resp.data);
+
+          vm.status.uploading = false;
+
+          if (resp.data.success) {
+            vm.$set(vm.tempProduct, "imageUrl", resp.data.imageUrl);
+          } else {
+            this.$bus.$emit("messsage:push", resp.data.message, "danger");
+          }
+        });
+    },
     openmodel(newdatas, item) {
       if (newdatas) {
-        this.tempProduct = {};
+        this.tempProduct = {
+          image2: "",
+          image3: "",
+          image4: "",
+          is_enabled: 0
+        };
         this.newdatas = true;
       } else {
         this.tempProduct = Object.assign({}, item);
@@ -460,7 +663,6 @@ export default {
         api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
         httpmethod = "put";
       }
-
       //console.log(process.env.APIPATH)
       this.$http[httpmethod](api, { data: vm.tempProduct }).then((response) => {
         console.log(response.data);

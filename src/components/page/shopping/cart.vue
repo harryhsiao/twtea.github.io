@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="jumbotron jumbotron-fluid text-white main-image image-cover mt-4">
+    <div
+      class="jumbotron jumbotron-fluid text-white main-image image-cover mt-4"
+    >
       <div
         class="
           d-flex
@@ -30,7 +32,13 @@
               <!--前往購物車頁面按鈕-->
               <router-link
                 to="/addcart"
-                class="position-relative text-info float-right pr-3 d-block d-md-none"
+                class="
+                  position-relative
+                  text-info
+                  float-right
+                  pr-3
+                  d-block d-md-none
+                "
               >
                 <i class="fas fa-shopping-cart fa-2x" aria-hidden="true"></i>
                 <span
@@ -130,7 +138,7 @@
                 v-for="item in filtersdata[currentpage]"
                 :key="item.id"
               >
-                <div class="card thumbnail">
+                <div class="card thumbnail" :class="{'d-none':item.is_enabled === 0}">
                   <router-link :to="{ path: `/product/${item.id}` }">
                     <img
                       class="card-img-top hpx-15"
@@ -146,15 +154,11 @@
                     <div class="d-flex justify-content-between">
                       <p v-if="item.price">
                         {{ item.price | currency }}
-                        <span class="price-unit">
-                          /{{ item.unit }}
-                        </span>
+                        <span class="price-unit"> /{{ item.unit }} </span>
                       </p>
                       <p v-else>
                         {{ item.origin_price | currency }}
-                        <span class="price-unit">
-                          /{{ item.unit }}
-                        </span>
+                        <span class="price-unit"> /{{ item.unit }} </span>
                       </p>
                     </div>
                   </div>
@@ -255,19 +259,6 @@ export default {
     breadcrumb,
   },
   methods: {
-    getproducts() {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
-      const vm = this;
-      vm.isLoading = true;
-      this.$http.get(api).then((resp) => {
-        console.log(resp.data);
-        setTimeout(() => {
-          vm.isLoading = false;
-        }, 5000);
-        vm.custproducts = resp.data.products;
-        vm.getoption(vm.custproducts);
-      });
-    },
     getcart() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
@@ -279,6 +270,19 @@ export default {
         vm.cartnum.forEach((item) => {
           vm.cartid.push(item.product_id);
         });
+      });
+    },
+    getproducts() {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
+      const vm = this;
+      vm.isLoading = true;
+      this.$http.get(api).then((resp) => {
+        console.log(resp.data);
+        setTimeout(() => {
+          vm.isLoading = false;
+        }, 5000);
+        vm.custproducts = resp.data.products;
+        vm.getoption(vm.custproducts);
       });
     },
     addcart(data) {

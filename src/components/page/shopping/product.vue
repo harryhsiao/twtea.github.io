@@ -14,55 +14,103 @@
         </nav>
         <div class="row my-4">
           <div class="col-lg-5 col-md-6 mb-3 mb-md-0">
-            <div class="w-100 position-relative">
+            <swiper
+              class="swiper gallery-top"
+              :options="swiperOptionTop"
+              ref="swiperTop"
+            >
+              <swiper-slide
+                ><img class="w-100 hvh-3" :src="product.imageUrl" alt=""
+              /></swiper-slide>
+              <swiper-slide
+                ><img class="w-100 hvh-3" :src="product.image2" alt=""
+              /></swiper-slide>
+              <swiper-slide
+                ><img class="w-100 hvh-3" :src="product.image3" alt=""
+              /></swiper-slide>
+              <swiper-slide
+                ><img class="w-100 hvh-3" :src="product.image4" alt=""
+              /></swiper-slide>
+            </swiper>
+            <swiper
+              class="row mt-3 swiper gallery-thumbs"
+              :options="swiperOptionThumbs"
+              ref="swiperThumbs"
+            >
+              <swiper-slide class="col-3" v-if="product.imageUrl"
+                ><img
+                  class="img-fluid w-100 hpx-6"
+                  :src="product.imageUrl"
+                  alt=""
+              /></swiper-slide>
+              <swiper-slide class="col-3" v-if="product.image2"
+                ><img
+                  class="img-fluid w-100 hpx-6"
+                  :src="product.image2"
+                  alt=""
+              /></swiper-slide>
+              <swiper-slide class="col-3" v-if="product.image3"
+                ><img
+                  class="img-fluid w-100 hpx-6"
+                  :src="product.image3"
+                  alt=""
+              /></swiper-slide>
+              <swiper-slide class="col-3" v-if="product.image4"
+                ><img
+                  class="img-fluid w-100 hpx-6"
+                  :src="product.image4"
+                  alt=""
+              /></swiper-slide>
+            </swiper>
+
+            <!--div class="w-100 position-relative">
               <img
                 class="w-100 hvh-3 mySlides position-absolute"
                 :src="product.imageUrl"
-                @swiperight="slideright(0)"
               />
               <img
                 class="w-100 hvh-3 mySlides position-absolute"
                 :src="product.image2"
-                @swiperight="slideright(1)"
               />
               <img
                 class="w-100 hvh-3 mySlides position-absolute"
                 :src="product.image3"
-                @swiperight="slideright(2)"
               />
               <img class="w-100 hvh-3 mySlides" :src="product.image4" v-if="product.image4 !== ''"/>
             </div>
+
             <p class="small">圖片僅供參考，商品樣式依實際為準</p>
+            
             <div class="row">
               <div class="col-3 pr-1">
                 <img
-                  class="img-fluid demo w-100 hpx-6"
+                  class="img-fluid demo w-100 hpx-6 activee"
                   :src="product.imageUrl"
                   @click="currentSlide(0)"
                 />
               </div>
-              <div class="col-3 pr-1">
+              <div class="col-3 pr-1" v-if="product.image2">
                 <img
                   class="img-fluid demo w-100 hpx-6"
                   :src="product.image2"
                   @click="currentSlide(1)"
                 />
               </div>
-              <div class="col-3 pr-1">
+              <div class="col-3 pr-1" v-if="product.image3">
                 <img
                   class="img-fluid demo w-100 hpx-6"
                   :src="product.image3"
                   @click="currentSlide(2)"
                 />
               </div>
-              <div class="col-3">
+              <div class="col-3" v-if="product.image4">
                 <img
                   class="img-fluid demo w-100 hpx-6"
                   :src="product.image4"
                   @click="currentSlide(3)"
                 />
               </div>
-            </div>
+            </div-->
           </div>
 
           <div class="col-lg-7 col-md-6">
@@ -553,6 +601,24 @@ export default {
         content: "",
         description: "",
       },
+      swiperOptionTop: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      },
+      swiperOptionThumbs: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        touchRatio: 0.2,
+        slideToClickedSlide: true,
+      },
       custproducts: [],
       imagepack: [],
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
@@ -560,9 +626,18 @@ export default {
       qablock: "q1",
       cartlong: 0,
       qty: 1,
+      thumbsSwiper: null,
       slideindex: 1,
       isLoading: false,
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.$swiper;
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper;
+      swiperTop.controller.control = swiperThumbs;
+      swiperThumbs.controller.control = swiperTop;
+    });
   },
   created() {
     this.getproduct(this.$route.params.productId);
@@ -581,6 +656,9 @@ export default {
     breadcrumb,
   },
   methods: {
+    onThumbnailChange(val) {
+      this.$refs.swiperTop.$swiper.slideTo(val.activeIndex);
+    },
     getproducts() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;
       const vm = this;
@@ -597,8 +675,14 @@ export default {
         console.log(response.data);
         vm.isLoading = false;
         vm.product = response.data.product;
-        vm.product.description = response.data.product.description.replace(/\n/g,'<br/>');
-        vm.product.content = response.data.product.content.replace(/\n/g,'<br/>');
+        vm.product.description = response.data.product.description.replace(
+          /\n/g,
+          "<br/>"
+        );
+        vm.product.content = response.data.product.content.replace(
+          /\n/g,
+          "<br/>"
+        );
       });
     },
     addcart(data) {
@@ -652,26 +736,6 @@ export default {
       }
       vm.cartlong = vm.incart.length;
     },
-    /*showSlides(n) {
-      const vm = this;
-      let i;
-      let slides = document.querySelectorAll(".mySlides");
-      let dots = document.querySelectorAll(".demo");
-      if (n > slides.length) {
-        vm.slideindex = 1;
-      }
-      if (n < 1) {
-        vm.slideindex = slides.length;
-      }
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" activee", "");
-      }
-      slides[vm.slideindex - 1].style.display = "block";
-      dots[vm.slideindex - 1].className += " active";
-    },*/
     currentSlide(n) {
       let slides = document.querySelectorAll(".mySlides");
       let dots = document.querySelectorAll(".demo");
@@ -683,7 +747,6 @@ export default {
       }
       slides[n].style.opacity = "1";
       dots[n].className += " activee";
-      //vm.showSlides((vm.slideIndex = n));
     },
   },
 };

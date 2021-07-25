@@ -138,7 +138,7 @@
                 v-for="item in filtersdata[currentpage]"
                 :key="item.id"
               >
-                <div class="card thumbnail" :class="{'d-none':item.is_enabled === 0}">
+                <div class="card thumbnail">
                   <router-link :to="{ path: `/product/${item.id}` }">
                     <img
                       class="card-img-top hpx-15"
@@ -402,13 +402,19 @@ export default {
         if (vm.productsearch === "") {
           switch (vm.optiontext) {
             case "":
-              return vm.custproducts;
+              if (item.is_enabled === 1) {
+                return vm.custproducts;
+              }
               break;
             case "全部商品":
-              return vm.custproducts;
+              if (item.is_enabled === 1) {
+                return vm.custproducts;
+              }
               break;
             case item.category:
-              return item;
+              if (item.is_enabled === 1) {
+                return item;
+              }
               break;
 
             default:
@@ -416,7 +422,9 @@ export default {
               break;
           }
         } else {
-          return item.title.match(vm.productsearch);
+          if (item.is_enabled === 1) {
+            return item.title.match(vm.productsearch);
+          }
         }
       });
       // 使用 forEach 跑迴圈，i 餘 2 等於 0 時候，ex. 2 筆 / 2 = 0，就推一筆空頁面存放商品

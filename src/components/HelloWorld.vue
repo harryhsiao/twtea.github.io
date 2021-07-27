@@ -1,9 +1,9 @@
 <template>
-  <div>      
+  <div>
     <navbar />
-    <backtop />        
+    <backtop />
     <router-view />
-    <footers/>
+    <footers />
   </div>
 </template>
 
@@ -13,11 +13,11 @@
 import backtop from "@/components/kit/back2top";
 import navbar from "./navbar";
 import footers from "./footer";
-export default {
+export default {  
   components: {
     navbar,
     footers,
     backtop,
-  }, 
+  },
 };
 </script>

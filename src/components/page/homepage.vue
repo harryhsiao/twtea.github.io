@@ -239,7 +239,8 @@
                 title="'health', 'economy', 'agriculture', 'social culture' and 'regional environment'"
               >
                 <span class="text-danger">*</span>sustainable</span
-              > diet. Choosing local ingredients can reduce the time of
+              >
+              diet. Choosing local ingredients can reduce the time of
               transportation. I also hope to contribute to the development of
               local agriculture by supporting agricultural products with local
               characteristics. Food cultivation can also be more diversified,
@@ -337,7 +338,8 @@
           data-aos="fade-in"
           data-aos-delay="50"
           data-aos-offset="305"
-        ></div>
+        ></div>        
+
         <div
           class="mt-4 text-center mx-auto"
           data-aos="fade-in"
@@ -363,6 +365,24 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 export default {
+  data() {
+    return {
+      swiperOption: {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        loop: true,
+      },
+    };
+  },
   methods: {
     goto() {
       let ingred = document.getElementById("ingred");

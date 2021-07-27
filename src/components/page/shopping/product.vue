@@ -19,17 +19,17 @@
               :options="swiperOptionTop"
               ref="swiperTop"
             >
-              <swiper-slide
-                ><img class="w-100 hvh-3" :src="product.imageUrl" alt=""
+              <swiper-slide v-if="product.imageUrl">
+                <img class="w-100 hvh-3" :src="product.imageUrl" alt=""
               /></swiper-slide>
-              <swiper-slide
-                ><img class="w-100 hvh-3" :src="product.image2" alt=""
+              <swiper-slide v-if="product.image2">
+                <img class="w-100 hvh-3" :src="product.image2" alt=""
               /></swiper-slide>
-              <swiper-slide
-                ><img class="w-100 hvh-3" :src="product.image3" alt=""
+              <swiper-slide v-if="product.image3">
+                <img class="w-100 hvh-3" :src="product.image3" alt=""
               /></swiper-slide>
-              <swiper-slide
-                ><img class="w-100 hvh-3" :src="product.image4" alt=""
+              <swiper-slide v-if="product.image4">
+                <img class="w-100 hvh-3" :src="product.image4" alt=""
               /></swiper-slide>
             </swiper>
             <swiper
@@ -37,25 +37,25 @@
               :options="swiperOptionThumbs"
               ref="swiperThumbs"
             >
-              <swiper-slide class="col-3" v-if="product.imageUrl"
+              <swiper-slide class="w-25" v-if="product.imageUrl"
                 ><img
                   class="img-fluid w-100 hpx-6"
                   :src="product.imageUrl"
                   alt=""
               /></swiper-slide>
-              <swiper-slide class="col-3" v-if="product.image2"
+              <swiper-slide class="w-25" v-if="product.image2"
                 ><img
                   class="img-fluid w-100 hpx-6"
                   :src="product.image2"
                   alt=""
               /></swiper-slide>
-              <swiper-slide class="col-3" v-if="product.image3"
+              <swiper-slide class="w-25" v-if="product.image3"
                 ><img
                   class="img-fluid w-100 hpx-6"
                   :src="product.image3"
                   alt=""
               /></swiper-slide>
-              <swiper-slide class="col-3" v-if="product.image4"
+              <swiper-slide class="w-25" v-if="product.image4"
                 ><img
                   class="img-fluid w-100 hpx-6"
                   :src="product.image4"
@@ -502,6 +502,7 @@
               class="card thumbnail wpx-20 mr-4"
               v-for="item in getsameproduct"
               :key="item.id"
+              @click="sameproductClick"
             >
               <router-link :to="{ path: `/product/${item.id}` }">
                 <img
@@ -552,6 +553,10 @@
   opacity: 1;
 }
 
+.gallery-thumbs .swiper-slide-active {
+  opacity: 1;
+}
+
 .minheight {
   min-height: 100vh;
 }
@@ -595,6 +600,10 @@ $(".card-header").on("show.bs.collapse", function () {
 });
 
 export default {
+  components: {
+    breadcrumb,
+  },
+  inject: ["reload"],
   data() {
     return {
       product: {
@@ -602,17 +611,11 @@ export default {
         description: "",
       },
       swiperOptionTop: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
+        loop: false,
         spaceBetween: 10,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
       },
       swiperOptionThumbs: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
+        loop: false,
         spaceBetween: 10,
         centeredSlides: true,
         slidesPerView: "auto",
@@ -652,12 +655,10 @@ export default {
       );
     },
   },
-  components: {
-    breadcrumb,
-  },
   methods: {
-    onThumbnailChange(val) {
-      this.$refs.swiperTop.$swiper.slideTo(val.activeIndex);
+    sameproductClick() {
+      const vm = this;
+      vm.reload();
     },
     getproducts() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`;

@@ -5,6 +5,12 @@ import Vuex from 'vuex'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+
+// import style (>= Swiper 6.x)
+import 'swiper/swiper-bundle.css';
+Vue.use(VueAwesomeSwiper);
+
 import 'bootstrap';
 //import { library } from '@fortawesome/fontawesome-svg-core'
 //import { faUserSecret } from '@fortawesome/free-solid-svg-icons'

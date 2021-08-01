@@ -66,11 +66,9 @@ export default {
       let api = `${process.env.APIPATH}/admin/signin`;
       const vm = this;
       vm.$http.post(api, vm.user).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           const token = response.data.token;
           const expired = response.data.expired;
-          console.log(token, expired);
           document.cookie = `custToken=${token};expires=${new Date(expired)};`;
           vm.$router.push("/dashboard/products");
         }

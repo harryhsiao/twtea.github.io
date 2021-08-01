@@ -113,7 +113,6 @@ export default {
       vm.isLoading = true;
       setTimeout(() => {
         this.$http.get(api).then((resp) => {
-          console.log(resp.data);
           vm.isLoading = false;
           vm.custproducts = resp.data.products;
         }).then(()=>{

@@ -64,7 +64,7 @@
           >
             <div class="img-hover-text position-relative overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
+                src="https://upload.cc/i1/2021/08/01/ipq25Q.jpg"
                 class="img-fluid"
                 alt="蔬果"
               />
@@ -83,7 +83,7 @@
                 <li class="d-flex align-items-center mt-3">
                   <img
                     class="rounded-circle hrem-2"
-                    src="https://greenbox.tw/upload/News_3032/201511130859331.jpg"
+                    src="https://upload.cc/i1/2021/08/01/aep649.jpg"
                     alt="優良"
                   />
                   <p class="pl-3 mb-0">CAS台灣優良農產品</p>
@@ -91,7 +91,7 @@
                 <li class="d-flex align-items-center mt-3">
                   <img
                     class="rounded-circle hrem-2"
-                    src="https://greenbox.tw/upload/News_3032/201511130900091.jpg"
+                    src="https://upload.cc/i1/2021/08/01/F3jpCE.jpg"
                     alt="有機"
                   />
                   <p class="pl-3 mb-0">CAS台灣有機農產品</p>
@@ -99,7 +99,7 @@
                 <li class="d-flex align-items-center mt-3">
                   <img
                     class="rounded-circle hrem-2"
-                    src="https://greenbox.tw/upload/News_3032/201511130900441.jpg"
+                    src="https://upload.cc/i1/2021/08/01/Cf18c9.jpg"
                     alt="產銷履歷"
                   />
                   <p class="pl-3 mb-0">符合產銷履歷</p>
@@ -116,7 +116,7 @@
           >
             <div class="img-hover-text position-relative overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1585545337182-05139d58f21a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
+                src="https://upload.cc/i1/2021/08/01/tkUBCb.jpg"
                 class="img-fluid"
                 alt="海產"
               />
@@ -127,7 +127,7 @@
                 <li class="d-flex align-items-center">
                   <img
                     class="rounded-circle hrem-2"
-                    src="https://www.toff.org.tw/timthumb.php?src=/up_photo/moon-system/images/20210322144905_8372.jpg&w=250&h=250&q=100"
+                    src="https://upload.cc/i1/2021/08/01/zdCsxK.jpg"
                     alt="海洋之心"
                   />
                   <p class="pl-3 mb-0">海洋之心金級</p>
@@ -160,7 +160,7 @@
           >
             <div class="img-hover-text position-relative overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1592686092916-672fa9e86866?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
+                src="https://upload.cc/i1/2021/08/01/QyxrEl.jpg"
                 class="img-fluid"
                 alt="肉品"
               />
@@ -179,7 +179,7 @@
                 <li class="d-flex align-items-center mt-3">
                   <img
                     class="rounded-circle hrem-2"
-                    src="https://greenbox.tw/upload/News_3032/201511130859331.jpg"
+                    src="https://upload.cc/i1/2021/08/01/aep649.jpg"
                     alt="優良"
                   />
                   <p class="pl-3 mb-0">CAS台灣優良農產品</p>
@@ -190,7 +190,7 @@
                     src="https://upload.cc/i1/2021/07/10/PZFJRQ.jpg"
                     alt="合格肉品"
                   />
-                  <p class="pl-3 mb-0">CAS台灣有機農產品</p>
+                  <p class="pl-3 mb-0">合格肉場</p>
                 </li>
                 <li class="d-flex align-items-center mt-3">
                   <img

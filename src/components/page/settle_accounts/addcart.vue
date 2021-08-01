@@ -129,7 +129,7 @@
                   "
                 >
                   金額
-                  <span>{{ totalprice | currency }}</span>
+                  <span>{{ mytotalprice | currency }}</span>
                 </li>
                 <li
                   class="
@@ -139,7 +139,7 @@
                     align-items-center
                     px-0
                   "
-                  v-if="totalprice < 3000 && totalprice > 0"
+                  v-if="mytotalprice < 3000 && mytotalprice > 0"
                 >
                   運費
                   <span>{{ 60 | currency }}</span>
@@ -175,11 +175,13 @@
                       <p class="mb-0">(含稅)</p>
                     </strong>
                   </div>
-                  <span class="h2" v-if="totalprice < 5000 && totalprice > 0"
-                    ><strong>{{ (totalprice + 60) | currency }}</strong></span
+                  <span
+                    class="h2"
+                    v-if="mytotalprice < 5000 && mytotalprice > 0"
+                    ><strong>{{ (mytotalprice + 60) | currency }}</strong></span
                   >
                   <span class="h2" v-else
-                    ><strong>{{ totalprice | currency }}</strong></span
+                    ><strong>{{ mytotalprice | currency }}</strong></span
                   >
                 </li>
               </ul>
@@ -224,9 +226,8 @@
 </template>
 
 <script>
-import $ from "jquery";
-
 export default {
+  inject: ["reload"],
   data() {
     return {
       incart: JSON.parse(localStorage.getItem("mycart")) || [],
@@ -267,18 +268,18 @@ export default {
       const vm = this;
       const pricepack = [];
       vm.incart.forEach((item) => {
-        if (item.price !== null) {
+        if (item.price !== "" || item.price > 0) {
           pricepack.push(item.price * item.qty);
         } else {
           pricepack.push(item.origin_price * item.qty);
         }
-        console.log(pricepack);
       });
-      if (pricepack.length > 0) {
-        vm.totalprice = pricepack.reduce((a, b) => a + b);
+      vm.mytotalprice = pricepack.reduce((a, b) => a + b);
+      /*if (pricepack.length > 0) {
+        vm.mytotalprice = pricepack.reduce((a, b) => a + b);
       } else {
-        vm.totalprice = pricepack;
-      }
+        vm.mytotalprice = pricepack;
+      }*/
     },
     incartnum() {
       const vm = this;
@@ -305,9 +306,7 @@ export default {
           })
           .then(() => {
             cacheID.forEach((item) => {
-              vm.$http.delete(`${api}/${item}`).then(() => {
-                console.log("購物車已經清空");
-              });
+              vm.$http.delete(`${api}/${item}`);
             });
           })
           .then(() => {
@@ -332,10 +331,6 @@ export default {
     },
     pluscart(data) {
       const vm = this;
-      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
-      vm.incart.forEach((item) => {
-        cacheCarID.push(item.product_id);
-      });
       let cache = {};
       vm.incart.forEach((item, keys) => {
         if (item.product_id === data.id) {
@@ -358,13 +353,10 @@ export default {
       });
       localStorage.setItem("mycart", JSON.stringify(vm.incart));
       vm.pricecal();
+      vm.reload();
     },
     minercart(data) {
       const vm = this;
-      const cacheCarID = []; //為達成利用id來判斷資料是否存在,先抓取舊有資料內的id
-      vm.incart.forEach((item) => {
-        cacheCarID.push(item.product_id);
-      });
       let cache = {};
       vm.incart.forEach((item, keys) => {
         if (item.product_id === data.id && data.qty > 1) {
@@ -387,6 +379,7 @@ export default {
       });
       localStorage.setItem("mycart", JSON.stringify(vm.incart));
       vm.pricecal();
+      vm.reload();
     },
     deletedcart(id) {
       const vm = this;
@@ -395,7 +388,16 @@ export default {
           vm.incart.splice(keys, 1);
         }
       });
-      localStorage.setItem("mycart", JSON.stringify(vm.incart));
+      switch (vm.incart.length) {
+        case 0:
+          localStorage.removeItem("mycart");
+          break;
+
+        default:
+          localStorage.setItem("mycart", JSON.stringify(vm.incart));
+          break;
+      }
+
       vm.pricecal();
       vm.incartnum();
     },
@@ -405,6 +407,7 @@ export default {
       vm.cartlong = 0;
       localStorage.removeItem("mycart");
       vm.isnone = true;
+      vm.mytotalprice = 0;
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section">
-      <div class="sticky-top t-5">
+      <div class="sticky-top t-4">
         <div class="progress mt-5" :class="{ 'd-none': isLoading === false }">
           <div
             class="
@@ -40,7 +40,7 @@
           </div>
           <div
             class="col-md-4 my-6 pt-5"
-            v-for="item in custproducts"
+            v-for="item in menuproducts"
             :key="item.id"
           >
             <router-link
@@ -95,6 +95,7 @@ export default {
   data() {
     return {
       custproducts: [],
+      menuproducts: [],
       status: {
         barValue: 0,
         isLoading: false,
@@ -115,8 +116,18 @@ export default {
           console.log(resp.data);
           vm.isLoading = false;
           vm.custproducts = resp.data.products;
-        });
+        }).then(()=>{
+          vm.isSwitchOn();
+        });        
       }, 4000);
+    },
+    isSwitchOn() {
+      const vm = this;
+      vm.custproducts.forEach((item) => {
+        if (item.is_enabled === 1) {
+          vm.menuproducts.push(item);
+        }
+      });
     },
   },
 };

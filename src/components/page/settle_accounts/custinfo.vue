@@ -21,11 +21,11 @@
                 >
                   查看訂單明細 <i class="fas fa-caret-down"></i>
                 </a>
-
-                <p class="ml-auto mb-0 mr-3" v-if="total_price + shipping">
-                  <span class="text-primary h2">{{
-                    (total_price + shipping) | currency
-                  }}</span>
+                <p
+                  class="ml-auto mb-0 mr-3 h2"
+                  :class="{ 'text-maincolor': Discount !== 100,'text-primary': Discount == 100 }"
+                >
+                  {{ ((total_price + shipping) * (Discount / 100)) | currency }}
                 </p>
               </div>
             </div>
@@ -37,77 +37,67 @@
             aria-labelledby="headingOne"
             data-parent="#accordionExample"
           >
-            <table class="table bg-transparent">
+            <table class="table bg-transparent text-center rwd-table">
               <thead>
                 <tr>
-                  <th width="100"></th>
-                  <th width="100"></th>
+                  <th width="100">預覽圖</th>
                   <th width="100" colspan="5">商品名稱</th>
                   <th width="100">數量</th>
-                  <th width="80">小計</th>
+                  <th width="100">單價</th>
+                  <th width="80" colspan="9">小計</th>
                 </tr>
               </thead>
               <tbody v-for="item in custcart" :key="item.id">
                 <tr>
-                  <td class="align-middle text-center">
-                    <a
-                      class="btn text-danger"
-                      data-toggle="modal"
-                      data-target="#deletecargo"
-                      @click.prevent="deletedcart(item.id)"
-                    >
-                      <i class="far fa-trash-alt" aria-hidden="true"></i>
-                    </a>
-                  </td>
-                  <td class="align-middle">
+                  <td class="align-middle" data-th="預覽圖">
                     <img
                       :src="item.product.imageUrl"
                       alt="suit"
                       class="img-thumbnail"
                     />
                   </td>
-                  <td class="align-middle" colspan="5">
+                  <td class="align-middle" colspan="5" data-th="商品名稱">
                     {{ item.product.title }}
                   </td>
-                  <td class="align-middle">{{ item.qty }}</td>
+                  <td class="align-middle" data-th="數量">{{ item.qty }}</td>
                   <td
-                    class="align-middle text-right"
+                    class="align-middle"
                     v-if="!item.product.price"
+                    data-th="單價"
+                  >
+                    {{ item.product.origin_price }}
+                  </td>
+                  <td class="align-middle" data-th="單價" v-else>
+                    {{ item.product.price }}
+                  </td>
+                  <td
+                    class="align-middle"
+                    colspan="5"
+                    v-if="!item.product.price"
+                    data-th="小計"
                   >
                     {{ item.product.origin_price * item.qty }}
                   </td>
-                  <td class="align-middle text-right" v-else>
+                  <td class="align-middle" colspan="5" data-th="小計" v-else>
                     {{ item.product.price * item.qty }}
                   </td>
                 </tr>
               </tbody>
-
-              <tfoot class="text-right">
-                <tr>
-                  <td width="100"></td>
-                  <td width="100"></td>
-                  <td width="100"></td>
-                  <td colspan="5">運費</td>
-                  <td>{{ shipping }}</td>
-                </tr>
-                <tr>
-                  <td width="100"></td>
-                  <td width="100"></td>
-                  <td width="100"></td>
-                  <td colspan="5">合計</td>
-                  <td class="pl-0">
-                    {{ (total_price + shipping) | currency }}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
+            <div class="text-right">
+              <p>合計&nbsp;&nbsp;{{ total_price |currency }}&nbsp;&nbsp;</p>
+              <p>運費&nbsp;&nbsp;{{ shipping |currency }}&nbsp;&nbsp;</p>
+              <h3 :class="{ 'text-maincolor': Discount !== 100 }">
+                總價&nbsp;&nbsp;{{ ((total_price + shipping) * (Discount / 100)) | currency }}
+              </h3>
+            </div>
           </div>
           <div class="container mt-3">
             <div class="row">
               <div class="col-md-6">
-                <p class="text-danger">輸入 freeship139 以獲取 5 折優惠</p>
+                <p class="text-danger">輸入 goodfood9999 以獲取 7 折優惠</p>
               </div>
-              <div class="col-md-6">                
+              <div class="col-md-6">
                 <div class="input-group mb-3">
                   <input
                     type="text"
@@ -290,33 +280,22 @@ export default {
         message: "",
       },
       custdata: JSON.parse(localStorage.getItem("custinfo")) || [],
-      coupons: [],
+      totalPricePack: [],
       couponcode: "",
       isLoading: false,
+      Discount: 100,
       total_price: 0,
       shipping: 0,
     };
   },
   created() {
     this.getcart();
-    this.getcoupons();
   },
   computed: {},
   components: {
     alert,
   },
   methods: {
-    getcoupons(page = 1) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupons?page=${page}`;
-      const vm = this;
-      vm.isLoading = true;
-      //console.log(process.env.APIPATH)
-      this.$http.get(api).then((response) => {
-        console.log(response.data);
-        vm.isLoading = false;
-        vm.coupons = response.data.coupons;
-      });
-    },
     addcoupon() {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;
       const vm = this;
@@ -324,13 +303,11 @@ export default {
         code: vm.couponcode,
       };
       this.$http.post(api, { data: coupon }).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
+          vm.coupOnonUse();
           vm.$bus.$emit("messsage:push", "已套用優惠券", "success");
-          console.log("已套用優惠券");
         } else {
           vm.$bus.$emit("messsage:push", "無效的優惠券", "danger");
-          console.log("無效的優惠券");
         }
         vm.getcart();
         vm.couponcode = "";
@@ -340,38 +317,36 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
-      this.$http.get(api).then((resp) => {
-        console.log(resp.data);
-        vm.custcart = resp.data.data.carts;
-        if (resp.data.data.final_total !== resp.data.data.total) {
-          vm.total_price = resp.data.data.final_total;
-        } else {
-          vm.total_price = resp.data.data.total;
-        }
-        vm.ShippingFee();
-        vm.isLoading = false;
-      });
+      this.$http
+        .get(api)
+        .then((resp) => {
+          vm.custcart = resp.data.data.carts;
+          vm.totalPricecal();
+          vm.ShippingFee();
+          vm.isLoading = false;
+        })
+        .then(() => {
+          vm.coupOnonUse();
+        });
     },
     getcountory() {
       const api = `https://api.opencube.tw/twzipcode/get-citys`;
       const vm = this;
       this.axios.get(api).then((response) => {
-        console.log(response.data);
         vm.countorys.push(response.data);
       });
     },
-    deletedcart(id) {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;
+    totalPricecal() {
       const vm = this;
-      vm.isLoading = true;
-      //console.log(process.env.APIPATH)
-      this.$http.delete(api).then((resp) => {
-        console.log(resp.data);
-        vm.isLoading = false;
-        vm.getcart();
-        vm.ShippingFee();
+      vm.totalPricePack = [];
+      vm.custcart.forEach((item) => {
+        if (item.product.price > 0 || item.product.price !== "") {
+          vm.totalPricePack.push(item.product.price * item.qty);
+        } else {
+          vm.totalPricePack.push(item.product.origin_price * item.qty);
+        }
       });
+      vm.total_price = vm.totalPricePack.reduce((a, b) => a + b);
     },
     ShippingFee() {
       const vm = this;
@@ -380,6 +355,12 @@ export default {
       } else {
         vm.shipping = 0;
       }
+    },
+    coupOnonUse() {
+      const vm = this;
+      vm.custcart.forEach((item) => {
+        vm.Discount = item.coupon.percent;
+      });
     },
     subOrder() {
       const vm = this;

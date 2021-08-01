@@ -15,102 +15,57 @@
         <div class="row my-4">
           <div class="col-lg-5 col-md-6 mb-3 mb-md-0">
             <swiper
-              class="swiper gallery-top"
+              class="swiper gallery-top w-100 h-50"
               :options="swiperOptionTop"
               ref="swiperTop"
             >
-              <swiper-slide v-if="product.imageUrl">
-                <img class="w-100 hvh-3" :src="product.imageUrl" alt=""
-              /></swiper-slide>
-              <swiper-slide v-if="product.image2">
-                <img class="w-100 hvh-3" :src="product.image2" alt=""
-              /></swiper-slide>
-              <swiper-slide v-if="product.image3">
-                <img class="w-100 hvh-3" :src="product.image3" alt=""
-              /></swiper-slide>
-              <swiper-slide v-if="product.image4">
-                <img class="w-100 hvh-3" :src="product.image4" alt=""
-              /></swiper-slide>
+              <swiper-slide
+                class="image-cover"
+                :style="`background-image:url(${product.imageUrl})`"
+                v-if="product.imageUrl"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover"
+                :style="`background-image:url(${product.image2})`"
+                v-if="product.image2"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover"
+                :style="`background-image:url(${product.image3})`"
+                v-if="product.image3"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover"
+                :style="`background-image:url(${product.image4})`"
+                v-if="product.image4"
+              ></swiper-slide>
             </swiper>
             <swiper
-              class="row mt-3 swiper gallery-thumbs"
+              class="row mt-3 swiper gallery-thumbs h-20 p-0"
               :options="swiperOptionThumbs"
               ref="swiperThumbs"
             >
-              <swiper-slide class="w-25" v-if="product.imageUrl"
-                ><img
-                  class="img-fluid w-100 hpx-6"
-                  :src="product.imageUrl"
-                  alt=""
-              /></swiper-slide>
-              <swiper-slide class="w-25" v-if="product.image2"
-                ><img
-                  class="img-fluid w-100 hpx-6"
-                  :src="product.image2"
-                  alt=""
-              /></swiper-slide>
-              <swiper-slide class="w-25" v-if="product.image3"
-                ><img
-                  class="img-fluid w-100 hpx-6"
-                  :src="product.image3"
-                  alt=""
-              /></swiper-slide>
-              <swiper-slide class="w-25" v-if="product.image4"
-                ><img
-                  class="img-fluid w-100 hpx-6"
-                  :src="product.image4"
-                  alt=""
-              /></swiper-slide>
+              <swiper-slide
+                class="image-cover w-25 h-100"
+                :style="`background-image:url(${product.imageUrl})`"
+                v-if="product.imageUrl"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover w-25 h-100"
+                :style="`background-image:url(${product.image2})`"
+                v-if="product.image2"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover w-25 h-100"
+                :style="`background-image:url(${product.image3})`"
+                v-if="product.image3"
+              ></swiper-slide>
+              <swiper-slide
+                class="image-cover w-25 h-100"
+                :style="`background-image:url(${product.image4})`"
+                v-if="product.image4"
+              ></swiper-slide>
             </swiper>
-
-            <!--div class="w-100 position-relative">
-              <img
-                class="w-100 hvh-3 mySlides position-absolute"
-                :src="product.imageUrl"
-              />
-              <img
-                class="w-100 hvh-3 mySlides position-absolute"
-                :src="product.image2"
-              />
-              <img
-                class="w-100 hvh-3 mySlides position-absolute"
-                :src="product.image3"
-              />
-              <img class="w-100 hvh-3 mySlides" :src="product.image4" v-if="product.image4 !== ''"/>
-            </div>
-
-            <p class="small">圖片僅供參考，商品樣式依實際為準</p>
-            
-            <div class="row">
-              <div class="col-3 pr-1">
-                <img
-                  class="img-fluid demo w-100 hpx-6 activee"
-                  :src="product.imageUrl"
-                  @click="currentSlide(0)"
-                />
-              </div>
-              <div class="col-3 pr-1" v-if="product.image2">
-                <img
-                  class="img-fluid demo w-100 hpx-6"
-                  :src="product.image2"
-                  @click="currentSlide(1)"
-                />
-              </div>
-              <div class="col-3 pr-1" v-if="product.image3">
-                <img
-                  class="img-fluid demo w-100 hpx-6"
-                  :src="product.image3"
-                  @click="currentSlide(2)"
-                />
-              </div>
-              <div class="col-3" v-if="product.image4">
-                <img
-                  class="img-fluid demo w-100 hpx-6"
-                  :src="product.image4"
-                  @click="currentSlide(3)"
-                />
-              </div>
-            </div-->
           </div>
 
           <div class="col-lg-7 col-md-6">
@@ -208,11 +163,11 @@
               <p>優惠活動:</p>
               <p class="small">
                 <span class="badge badge-warning mr-2">活動</span>
-                開心過暑價<br class="d-md-none d-inlineblock" />
+                食慾之秋<br class="d-md-none d-inlineblock" />
                 輸入折扣碼<span
                   class="mx-md-2 mx-1 text-maincolor font-weight-bold h5"
-                  >freeship123</span
-                >享半價優惠
+                  >goodfood999</span
+                >享七折優惠
               </p>
             </div>
             <p class="mb-2 mt-3">付款方式:</p>
@@ -544,18 +499,6 @@
 </template>
 
 <style scoped>
-.demo {
-  opacity: 0.6;
-}
-
-.activee,
-.demo:hover {
-  opacity: 1;
-}
-
-.gallery-thumbs .swiper-slide-active {
-  opacity: 1;
-}
 
 .minheight {
   min-height: 100vh;
@@ -612,10 +555,12 @@ export default {
       },
       swiperOptionTop: {
         loop: false,
+        loopedSlides: 5,
         spaceBetween: 10,
       },
       swiperOptionThumbs: {
         loop: false,
+        loopedSlides: 5,
         spaceBetween: 10,
         centeredSlides: true,
         slidesPerView: "auto",
@@ -629,15 +574,13 @@ export default {
       qablock: "q1",
       cartlong: 0,
       qty: 1,
-      thumbsSwiper: null,
-      slideindex: 1,
       isLoading: false,
     };
   },
   mounted() {
     this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.$swiper;
-      const swiperThumbs = this.$refs.swiperThumbs.$swiper;
+      const swiperTop = this.$refs.swiperTop.swiper;
+      const swiperThumbs = this.$refs.swiperThumbs.swiper;
       swiperTop.controller.control = swiperThumbs;
       swiperThumbs.controller.control = swiperTop;
     });
@@ -673,7 +616,6 @@ export default {
       vm.isLoading = true;
       vm.cartlong = vm.incart.length;
       this.$http.get(api).then((response) => {
-        console.log(response.data);
         vm.isLoading = false;
         vm.product = response.data.product;
         vm.product.description = response.data.product.description.replace(

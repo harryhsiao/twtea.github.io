@@ -536,9 +536,7 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products?page=${page}`;
       const vm = this;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((response) => {
-        console.log(response.data);
         vm.isLoading = false;
         vm.products = response.data.products;
         vm.pagination = response.data.pagination;
@@ -557,7 +555,6 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((resp) => {
-          console.log(resp.data);
 
           vm.status.uploading = false;
 
@@ -581,7 +578,6 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((resp) => {
-          console.log(resp.data);
 
           vm.status.uploading = false;
 
@@ -605,7 +601,6 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((resp) => {
-          console.log(resp.data);
 
           vm.status.uploading = false;
 
@@ -629,7 +624,6 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((resp) => {
-          console.log(resp.data);
 
           vm.status.uploading = false;
 
@@ -663,10 +657,7 @@ export default {
         api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
         httpmethod = "put";
       }
-      //console.log(process.env.APIPATH)
       this.$http[httpmethod](api, { data: vm.tempProduct }).then((response) => {
-        console.log(response.data);
-        //vm.products = response.data.products;
         if (response.data.success) {
           $("#productsModal").modal("hide");
           vm.getproducts();
@@ -679,21 +670,17 @@ export default {
     openremovemodel(item) {
       this.tempProduct = Object.assign({}, item);
       $("#delProductModal").modal("show");
-      console.log(item);
     },
     removedata() {
       const vm = this;
       let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
-      console.log(api);
       this.$http.delete(api, { data: vm.tempProduct.id }).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           $("#delProductModal").modal("hide");
           vm.getproducts();
         } else {
           $("#delProductModal").modal("hide");
           vm.getproducts();
-          console.log("刪除失敗");
         }
       });
     },

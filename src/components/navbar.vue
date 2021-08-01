@@ -117,7 +117,6 @@ export default {
       let api = `${process.env.APIPATH}/logout`;
       const vm = this;
       this.$http.post(api).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           vm.memberin = false;
           vm.$router.push("/");
@@ -133,7 +132,6 @@ export default {
       let api = `${process.env.APIPATH}/api/user/check`;
       let vm = this;
       this.$http.post(api).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           vm.memberin = true;
         } else {

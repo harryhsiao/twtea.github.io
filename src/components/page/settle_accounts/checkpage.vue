@@ -1,8 +1,9 @@
 <template>
   <div>
     <navbar />
-    <div id="v-content" class="container" :style="{ minHeight: Height + 'px' }">
-      <h2 class="text-center my-4">{{ CurrentTitle }}</h2>
+    <div id="v-content" class="container mt-9" :style="{ minHeight: Height + 'px' }">      
+      <h2 class="text-center my-4" v-if="!CurrentTitle">購物成功</h2>
+      <h2 class="text-center my-4" v-else>{{ CurrentTitle }}</h2>
       <section class="form-row text-center">
         <div class="col-12 col-sm-4">
           <div
@@ -56,7 +57,6 @@ export default {
   computed: {
     stylechange() {
       const vm = this;
-      console.log(vm.$route.path);
       let homePath = vm.$route.path;
       let IDaddress = `/checkpage/checkcomp/${vm.orderId}`;
       switch (homePath) {
@@ -81,8 +81,6 @@ export default {
   },
   created() {
     this.orderId = this.$route.params.order_id;
-    console.log(this.orderId);
-    this.getcoupons();
   },
   mounted() {
     //動態設置內容高度 讓footer始終居底   header+footer的高度是100

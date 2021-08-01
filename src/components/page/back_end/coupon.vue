@@ -253,9 +253,7 @@ export default {
       const vm = this;
       let today = new Date();
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((response) => {
-        console.log(response.data);
         vm.isLoading = false;
         vm.coupons = response.data.coupons;
         vm.pagination = response.data.pagination;
@@ -280,7 +278,6 @@ export default {
       if (vm.isNew) {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon`;
         this.$http.post(url, { data: vm.tempcoupon }).then((response) => {
-          console.log(response, vm.tempcoupon);
           $("#couponModal").modal("hide");
           this.getcoupons();
         });
@@ -288,7 +285,6 @@ export default {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.tempcoupon.id}`;
         vm.due_date = new Date(vm.tempcoupon.due_date * 1000);
         this.$http.put(url, { data: vm.tempcoupon }).then((response) => {
-          console.log(response);
           $("#couponModal").modal("hide");
           this.getcoupons();
         });
@@ -297,21 +293,17 @@ export default {
     openremovemodel(item) {
       this.tempcoupon = Object.assign({}, item);
       $("#delProductModal").modal("show");
-      console.log(item);
     },
     removedata() {
       const vm = this;
       let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.tempcoupon.id}`;
-      console.log(api);
       this.$http.delete(api, { data: vm.tempcoupon.id }).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           $("#delProductModal").modal("hide");
           vm.getcoupons();
         } else {
           $("#delProductModal").modal("hide");
           vm.getcoupons();
-          console.log("刪除失敗");
         }
       });
     },

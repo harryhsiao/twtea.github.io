@@ -2,7 +2,7 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <alert />
-    <div class="container">
+    <div class="container mb-5">
       <div class="row">
         <div class="col-12 px-0 mb-5">
           <div class="accordion" id="accordionExample">
@@ -105,9 +105,7 @@ export default {
       const vm = this;
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${vm.orderId}`;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       vm.$http.get(api).then((resp) => {
-        console.log(resp);
         vm.order = resp.data.order;
         vm.isLoading = false;
       });
@@ -116,9 +114,7 @@ export default {
       const vm = this;
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/pay/${vm.orderId}`;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       vm.$http.post(api).then((resp) => {
-        console.log(resp);
         if (resp.data.success) {
           vm.$bus.$emit("messsage:push", "付款成功", "success");
           vm.getorder();
@@ -129,7 +125,6 @@ export default {
   },
   created() {
     this.orderId = this.$route.params.order_id;
-    console.log(this.orderId);
     this.getorder();
   },
 };

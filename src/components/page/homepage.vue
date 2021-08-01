@@ -213,16 +213,17 @@
             <p class="text-justify p-md-5 py-3 px-5 line-height-3">
               以
               <span
-                class="font-weight-bold text-maincolor tooltip-hover"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="符合「健康」、「經濟」、「農業」、「社會文化」、「地域環境」五大項目"
+                class="font-weight-bold text-maincolor"
+                id="tooltip-target-localfood-zhTW"
               >
                 <span class="text-danger">*</span>永續飲食</span
               >為目標。我們追求食材在地化,選擇當地食材能夠減少運輸的時間,除了降低對環境的負擔,更能確保食材的新鮮度。
               也希望能透過支持具有在地特色的農產，來替地方農業的發展盡一份微薄的心力。
               食物栽種上也能比較多樣化，保持了農地的生產力。
             </p>
+            <b-tooltip target="tooltip-target-localfood-zhTW" triggers="hover">
+              符合「健康」、「經濟」、「農業」、「社會文化」、「地域環境」五大項目
+            </b-tooltip>
           </div>
           <div
             class="col-md-6"
@@ -233,10 +234,8 @@
             <p class="text-justify p-md-5 py-3 px-5 line-height-3">
               We are pursuing localized ingredients and aiming at
               <span
-                class="font-weight-bold text-maincolor tooltip-hover"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="'health', 'economy', 'agriculture', 'social culture' and 'regional environment'"
+                class="font-weight-bold text-maincolor"
+                id="tooltip-target-localfood-en"
               >
                 <span class="text-danger">*</span>sustainable</span
               >
@@ -246,6 +245,9 @@
               characteristics. Food cultivation can also be more diversified,
               maintaining the productivity of farmland.
             </p>
+            <b-tooltip target="tooltip-target-localfood-en" triggers="hover">
+              'health', 'economy', 'agriculture', 'social culture' and 'regional environment'
+            </b-tooltip>
           </div>
           <div
             class="col-12 text-center mx-auto"
@@ -338,7 +340,7 @@
           data-aos="fade-in"
           data-aos-delay="50"
           data-aos-offset="305"
-        ></div>        
+        ></div>
 
         <div
           class="mt-4 text-center mx-auto"
@@ -359,30 +361,8 @@
 </template>
 
 <script>
-import $ from "jquery";
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
 export default {
-  data() {
-    return {
-      swiperOption: {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: "auto",
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        },
-        loop: true,
-      },
-    };
-  },
   methods: {
     goto() {
       let ingred = document.getElementById("ingred");

@@ -248,6 +248,7 @@ export default {
   created() {
     this.getproducts();
     this.getcart();
+    this.cartnums();
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
@@ -264,7 +265,6 @@ export default {
       const vm = this;
       vm.isLoading = true;
       this.$http.get(api).then((resp) => {
-        console.log(resp.data);
         vm.isLoading = false;
         vm.cartnum = resp.data.data.carts;
         vm.cartnum.forEach((item) => {
@@ -277,13 +277,16 @@ export default {
       const vm = this;
       vm.isLoading = true;
       this.$http.get(api).then((resp) => {
-        console.log(resp.data);
         setTimeout(() => {
           vm.isLoading = false;
         }, 5000);
         vm.custproducts = resp.data.products;
         vm.getoption(vm.custproducts);
       });
+    },
+    cartnums() {
+      const vm = this;
+      vm.cartlong = vm.incart.length;
     },
     addcart(data) {
       const vm = this;
@@ -345,12 +348,10 @@ export default {
     changeoption(e) {
       const vm = this;
       vm.optiontext = e.target.text;
-      console.log(e.target.text);
     },
     changeValue(e) {
       const vm = this;
       vm.optiontext = e.target.value;
-      console.log(e.target.value);
     },
     onScroll(e) {
       const vm = this;
@@ -418,7 +419,7 @@ export default {
               break;
 
             default:
-              console.log("拍謝~抓不到資料:P");
+              return "拍謝~抓不到資料:P";
               break;
           }
         } else {

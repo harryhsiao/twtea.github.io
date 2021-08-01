@@ -5,6 +5,11 @@ import Vuex from 'vuex'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 
 // import style (>= Swiper 6.x)
@@ -12,9 +17,6 @@ import 'swiper/swiper-bundle.css';
 Vue.use(VueAwesomeSwiper);
 
 import 'bootstrap';
-//import { library } from '@fortawesome/fontawesome-svg-core'
-//import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
-//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ValidationObserver, ValidationProvider, extend, localize, configure } from 'vee-validate';
 import TW from 'vee-validate/dist/locale/zh_TW.json'
 import * as rules from 'vee-validate/dist/rules';

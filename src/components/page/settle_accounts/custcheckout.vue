@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 
 export default {
   data() {
@@ -156,7 +155,6 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;
       const vm = this;
       this.$http.post(api, { data: vm.custdata[0] }).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           vm.custdata.splice(0, 1);
           this.$router.push(`/checkpage/checkcomp/${response.data.orderId}`);
@@ -167,9 +165,7 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((resp) => {
-        console.log(resp.data);
         vm.isLoading = false;
         vm.custcart = resp.data.data.carts;
 

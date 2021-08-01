@@ -90,6 +90,33 @@ $hvhs: map-merge(
   }
 }
 
+// 單位(unit): %
+$hpercent: 10%;
+$hpercents:  ();
+$hpercents: map-merge(
+  (
+    0: 0,
+    10: $hpercent,
+    20: ($hpercent * 2),
+    30: ($hpercent * 3),
+    40: ($hpercent * 4),
+    50: ($hpercent * 5),
+    60: ($hpercent * 6),
+    70: ($hpercent * 7),
+    80: ($hpercent * 8),
+    90: ($hpercent * 9),
+    100: ($hpercent * 10),
+  ),
+  $hpercents
+);
+
+// ex. h-1 , h-2 , ...
+@each $prop, $abbrev in (height: h) {
+  @each $hpercent, $length in $hpercents {
+    .#{$abbrev}-#{$hpercent} { #{$prop}: $length !important; }
+  }
+}
+
 /* 寬度 ( width ) */
 
 // 單位(unit): px 

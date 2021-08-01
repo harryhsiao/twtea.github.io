@@ -108,9 +108,7 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/orders?page=${page}`;
       const vm = this;
       vm.isLoading = true;
-      //console.log(process.env.APIPATH)
       this.$http.get(api).then((response) => {
-        console.log(response.data);
         vm.isLoading = false;
         vm.orders = response.data.orders;
         vm.pagination = response.data.pagination;
@@ -119,21 +117,17 @@ export default {
     openremovemodel(item) {
       this.orders = Object.assign({}, item);
       $("#delProductModal").modal("show");
-      console.log(item);
     },
     removedata() {
       const vm = this;
       let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${vm.orders.id}`;
-      console.log(api);
       this.$http.delete(api, { data: vm.orders.id }).then((response) => {
-        console.log(response.data);
         if (response.data.success) {
           $("#delProductModal").modal("hide");
           vm.getorders();
         } else {
           $("#delProductModal").modal("hide");
           vm.getorders();
-          console.log("刪除失敗");
         }
       });
     },

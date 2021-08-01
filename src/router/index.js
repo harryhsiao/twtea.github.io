@@ -26,6 +26,9 @@ import checkcomp from '@/components/page/settle_accounts/checkcomp'
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       path: '*',

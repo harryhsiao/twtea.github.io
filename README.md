@@ -5,7 +5,7 @@
   * 前台:<br/> 
   商家簡介( 商品分類、單一商品介紹等 )<br/>
   購物車<br/>
-  優惠卷<br/>
+  優惠券<br/>
   結帳/下單<br/>
 
   * 後台:<br/>
@@ -25,14 +25,15 @@
   API<br/>
   RWD<br/>
   Bootstrap4<br/>
-  JavaScript(ES6、LocalStorage等)<br/>
+  JavaScript<br/>
   SCSS<br/>
   Webpack<br/>
-  ESlint<br/>
 
 ## 使用套件
 
   [AOS](https://github.com/michalsnik/aos#animations)
+  [Swiper 4](https://github.com/surmon-china/vue-awesome-swiper/tree/v3.1.3)
+
 
 ## 備註
 

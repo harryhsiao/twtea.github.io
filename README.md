@@ -31,7 +31,7 @@
 
 ## 使用套件
 
-  [AOS](https://github.com/michalsnik/aos#animations)
+  [AOS](https://github.com/michalsnik/aos#animations)<br/>
   [Swiper 4](https://github.com/surmon-china/vue-awesome-swiper/tree/v3.1.3)
 
 
